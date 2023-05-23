@@ -14,6 +14,7 @@ const GamePage = () => {
   const [showText, setShowText] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [savingRound, setSavingRound] = useState(false);
+  const [moreThanMinRun, setMoreThanMinRound] = useState(true);
   const [isDone, setIsDone] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRun, setSelectedRun] = useState(null);
@@ -61,6 +62,10 @@ const GamePage = () => {
 
   const finishRun = async () => {
     audioRef.current.play();
+    setFinished(true);
+    clearInterval(intervalRef.current);
+    clearInterval(keystrokeIntervalRef.current);
+    if (time < 180) return setMoreThanMinRound(false);
     setLoadingLeaderboard(true);
     fetch('/api/runs')
       .then(res => res.json())
@@ -72,13 +77,11 @@ const GamePage = () => {
     setEndTime(Date.now());
     setIsActive(false);
     setIsDone(true);
-    setFinished(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
-    clearInterval(intervalRef.current);
-    clearInterval(keystrokeIntervalRef.current);
   };
 
   const startNewRun = () => {
+    audioRef.current.pause();
     setTime(0);
     setText('');
     setSavingRound(false);
@@ -194,118 +197,136 @@ const GamePage = () => {
       <div className='w-3/4 md:w-1/2 lg:w-1/3'>
         {finished ? (
           <>
-            {loadingLeaderboard ? (
-              <p>Loading...</p>
-            ) : (
+            {moreThanMinRun ? (
               <>
-                <div>
-                  <p>You are done. Your score is {time}</p>
+                {' '}
+                {loadingLeaderboard ? (
+                  <p>Loading...</p>
+                ) : (
+                  <>
+                    <div>
+                      <p>You are done. Your score is {time}</p>
 
-                  <div>
-                    {leaderboard && (
                       <div>
-                        <h2
-                          className={`${righteous.className} text-3xl font-bold mb-2 text-left`}
-                        >
-                          Leaderboard
-                        </h2>
-                        <table className='table-auto w-full'>
-                          <thead className='bg-thegreen border-thewhite text-theblack'>
-                            <tr>
-                              <th className='border border-thewhite px-4 py-1'>
-                                Username
-                              </th>
-                              <th className='border border-thewhite px-4 py-1'>
-                                Time spent
-                              </th>
-                              <th className='border border-thewhite px-4 py-1'>
-                                Word count
-                              </th>
-                              <th className='border border-thewhite px-4 py-1'>
-                                Actions
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className='border-thewhite'>
-                            {leaderboard.map((run, index) => (
-                              <tr
-                                key={index}
-                                className={
-                                  index % 2 === 0
-                                    ? 'bg-thered bg-opacity-70'
-                                    : 'bg-thered bg-opacity-40'
-                                }
-                              >
-                                <td className='border px-4 py-1'>
-                                  @{run.twitterUser}
-                                </td>
-                                <td className='border px-4 py-1'>
-                                  {run.timeSpent}
-                                </td>
-                                <td className='border px-4 py-1'>
-                                  {run.wordCount}
-                                </td>
-                                <td className='border px-4 py-1'>
-                                  <button
-                                    onClick={() => {
-                                      setSelectedRun(run.content);
-                                      setModalOpen(true);
-                                    }}
-                                    className='text-thegreen hover:text-black transition-colors duration-300'
+                        {leaderboard && (
+                          <div>
+                            <h2
+                              className={`${righteous.className} text-3xl font-bold mb-2 text-left`}
+                            >
+                              Leaderboard
+                            </h2>
+                            <table className='table-auto w-full'>
+                              <thead className='bg-thegreen border-thewhite text-theblack'>
+                                <tr>
+                                  <th className='border border-thewhite px-4 py-1'>
+                                    Username
+                                  </th>
+                                  <th className='border border-thewhite px-4 py-1'>
+                                    Time spent
+                                  </th>
+                                  <th className='border border-thewhite px-4 py-1'>
+                                    Word count
+                                  </th>
+                                  <th className='border border-thewhite px-4 py-1'>
+                                    Actions
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody className='border-thewhite'>
+                                {leaderboard.map((run, index) => (
+                                  <tr
+                                    key={index}
+                                    className={
+                                      index % 2 === 0
+                                        ? 'bg-thered bg-opacity-70'
+                                        : 'bg-thered bg-opacity-40'
+                                    }
                                   >
-                                    Read
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                                    <td className='border px-4 py-1'>
+                                      @{run.twitterUser}
+                                    </td>
+                                    <td className='border px-4 py-1'>
+                                      {run.timeSpent}
+                                    </td>
+                                    <td className='border px-4 py-1'>
+                                      {run.wordCount}
+                                    </td>
+                                    <td className='border px-4 py-1'>
+                                      <button
+                                        onClick={() => {
+                                          setSelectedRun(run.content);
+                                          setModalOpen(true);
+                                        }}
+                                        className='text-thegreen hover:text-black transition-colors duration-300'
+                                      >
+                                        Read
+                                      </button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  {!savedToDb && (
-                    <>
-                      <p>
-                        You can add your score to the system if you want, it
-                        will be associated with the twitter username you
-                        provide. If you lie, it&apos;s up to you.
-                      </p>
-                      <label>
-                        Twitter username:
-                        <input
-                          type='text'
-                          className='px-2 py-1 mx-2 rounded text-theblack'
-                          required
-                          placeholder='elonmusk'
-                          value={twitterUsername}
-                          onChange={e => setTwitterUsername(e.target.value)}
-                        />
-                      </label>
-                    </>
-                  )}
+                      {!savedToDb && (
+                        <>
+                          <p>
+                            You can add your score to the system if you want, it
+                            will be associated with the twitter username you
+                            provide. If you lie, it&apos;s up to you.
+                          </p>
+                          <label>
+                            Twitter username:
+                            <input
+                              type='text'
+                              className='px-2 py-1 mx-2 rounded text-theblack'
+                              required
+                              placeholder='elonmusk'
+                              value={twitterUsername}
+                              onChange={e => setTwitterUsername(e.target.value)}
+                            />
+                          </label>
+                        </>
+                      )}
 
-                  <div className='mt-3 flex space-x-2'>
-                    <Button
-                      buttonText={copyText}
-                      buttonAction={pasteText}
-                      buttonColor='bg-thegreen'
-                    />
-                    {!savedToDb && (
-                      <Button
-                        buttonText={savingRound ? 'Adding Run...' : 'Save Run'}
-                        buttonColor='bg-thegreenbtn'
-                        buttonAction={saveRunToDb}
-                      />
-                    )}
-                  </div>
-                  <div className='mt-4'>
-                    <Button
-                      buttonText='Try again.'
-                      buttonAction={startNewRun}
-                    />
-                  </div>
-                </div>
+                      <div className='mt-3 flex space-x-2'>
+                        <Button
+                          buttonText={copyText}
+                          buttonAction={pasteText}
+                          buttonColor='bg-thegreen'
+                        />
+                        {!savedToDb && (
+                          <Button
+                            buttonText={
+                              savingRound ? 'Adding Run...' : 'Save Run'
+                            }
+                            buttonColor='bg-thegreenbtn'
+                            buttonAction={saveRunToDb}
+                          />
+                        )}
+                      </div>
+                      <div className='mt-4'>
+                        <Button
+                          buttonText='Try again.'
+                          buttonAction={startNewRun}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
               </>
+            ) : (
+              <div className=''>
+                <p>
+                  You are done. Your score is {time}. You need to try harder
+                  next time.
+                </p>
+                <p>Min score to qualify is 180 (3 minutes).</p>
+                <div className='mt-4'>
+                  <Button buttonText='Try again.' buttonAction={startNewRun} />
+                </div>
+              </div>
             )}
           </>
         ) : (
