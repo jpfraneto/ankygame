@@ -25,7 +25,7 @@ const GamePage = () => {
   const [finished, setFinished] = useState(false);
   const [ankyImageUrl, setAnkyImageUrl] = useState('/images/anky.png');
   const [failureMessage, setFailureMessage] = useState('');
-  const [copyText, setCopyText] = useState('Copy what I wrote');
+  const [copyText, setCopyText] = useState('Copy my writing');
   const [imageLoaded, setImageLoaded] = useState(false);
   const [twitterUsername, setTwitterUsername] = useState('');
   const [startTime, setStartTime] = useState(null);
@@ -82,6 +82,7 @@ const GamePage = () => {
 
   const startNewRun = () => {
     audioRef.current.pause();
+    setCopyText('Copy my writing');
     setTime(0);
     setText('');
     setSavingRound(false);
@@ -178,7 +179,7 @@ const GamePage = () => {
   };
   const pasteText = async () => {
     await navigator.clipboard.writeText(text);
-    setCopyText('Your text is in your clipboard');
+    setCopyText('Your writing is in your clipboard');
   };
 
   return (
@@ -322,8 +323,18 @@ const GamePage = () => {
                   next time.
                 </p>
                 <p>Min score to qualify is 180 (3 minutes).</p>
-                <div className='mt-4'>
-                  <Button buttonText='Try again.' buttonAction={startNewRun} />
+                <div className='flex justify-center space-x-2'>
+                  <Button
+                    buttonText={copyText}
+                    buttonAction={pasteText}
+                    buttonColor='bg-thegreen'
+                  />
+                  <div className=''>
+                    <Button
+                      buttonText='Try again.'
+                      buttonAction={startNewRun}
+                    />
+                  </div>
                 </div>
               </div>
             )}
