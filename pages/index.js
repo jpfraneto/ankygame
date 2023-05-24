@@ -14,7 +14,7 @@ const GamePage = () => {
   const [showText, setShowText] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [savingRound, setSavingRound] = useState(false);
-  const [moreThanMinRun, setMoreThanMinRound] = useState(true);
+  const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [isDone, setIsDone] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRun, setSelectedRun] = useState(null);
@@ -69,6 +69,7 @@ const GamePage = () => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     if (time < 180) return setMoreThanMinRound(false);
+    setMoreThanMinRound(true);
     setLoadingLeaderboard(true);
     fetch('/api/runs')
       .then(res => res.json())
