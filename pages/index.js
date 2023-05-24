@@ -116,7 +116,7 @@ const GamePage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          twitterUser: usernameToAdd,
+          twitterUser,
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
