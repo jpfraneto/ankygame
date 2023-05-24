@@ -63,6 +63,9 @@ const GamePage = () => {
   const finishRun = async () => {
     audioRef.current.play();
     setFinished(true);
+    setEndTime(Date.now());
+    setIsDone(true);
+    setIsActive(false);
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     if (time < 180) return setMoreThanMinRound(false);
@@ -74,9 +77,6 @@ const GamePage = () => {
         setLoadingLeaderboard(false);
       })
       .catch(err => console.error(err));
-    setEndTime(Date.now());
-    setIsActive(false);
-    setIsDone(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
 
