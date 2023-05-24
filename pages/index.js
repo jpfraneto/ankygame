@@ -116,7 +116,7 @@ const GamePage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          twitterUser,
+          twitterUser: twitterUsername,
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
@@ -199,7 +199,6 @@ const GamePage = () => {
           <>
             {moreThanMinRun ? (
               <>
-                {' '}
                 {loadingLeaderboard ? (
                   <p>Loading...</p>
                 ) : (
@@ -339,11 +338,6 @@ const GamePage = () => {
             <p className='text-base text-gray-600 my-1'>
               My world will only open to those who prove themselves.
             </p>
-            {/* <Button
-              buttonText='Delete All Runs'
-              buttonAction={deleteAllRuns}
-              buttonColor='bg-red-500'
-            /> */}
 
             <p>If you stop writing for 1 second, you will fail.</p>
             <p>For how long will you write?</p>
@@ -353,7 +347,7 @@ const GamePage = () => {
             </p>
             <textarea
               ref={textareaRef}
-              className='w-full h-64 p-4 text-theblack border border-gray-300 rounded-md mb-4'
+              className='w-full h-64 p-4 text-thewhite border border-gray-300 rounded-md mb-4 bg-opacity-50 bg-theblack'
               value={text}
               onChange={handleTextChange}
             ></textarea>
