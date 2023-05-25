@@ -13,6 +13,7 @@ export default async function handler(req, res) {
     });
     res.json(newRun);
   } else if (req.method === 'GET') {
+    console.log('this is the get route');
     const topRuns = await prisma.run.findMany({
       take: 10,
       orderBy: {

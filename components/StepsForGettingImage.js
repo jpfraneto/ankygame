@@ -1,24 +1,38 @@
 import React, { useState } from 'react';
 import Button from '@component/components/Button';
 import axios from 'axios';
+import Image from 'next/image';
 
 const StepsForGettingImage = ({ text }) => {
   const [step, setStep] = useState(1);
   const [copyText, setCopyText] = useState('');
   const [ouch, setOuch] = useState(false);
+  const [startingAnkyState, setStartingAnkyState] = useState(true);
+  const [ankyResponse, setAnkyResponse] = useState('');
+  const [ankyThinking, setAnkyThinking] = useState(false);
+  const [promptForMidjourneyReady, setPromptForMidjourneyReady] =
+    useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [tookToMidjourney, setTookToMidjourney] = useState(false);
+
+  const [promptForMidjourneyText, setPromptForMidjourneyText] = useState('');
   const [mintOptions, setMintOptions] = useState(false);
 
-  const createPromptFromText = async () => {
-    const basicText = `You are in charge of crafting a prompt for midjourney...`;
-    const prompt = basicText + '   ' + `"${text}"`;
-    pasteTextOnClipboard(prompt);
+  const askChatGTPforImagePrompt = async () => {
     setOuch(true);
+    setAnkyThinking(true);
+    const response = await fetch('/api/ankybot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text }),
+    });
+    const data = await response.json();
+    setAnkyResponse(data.imagePromptForMidjourney);
   };
 
   const pasteTextOnClipboard = async promptText => {
     await navigator.clipboard.writeText(promptText);
-    setCopyText('The prompt was copied on your clipboard');
-    setStep(2);
   };
 
   const nextStep = () => {
@@ -33,51 +47,174 @@ const StepsForGettingImage = ({ text }) => {
     }
   };
 
+  const handleImageUpload = event => {
+    const file = event.target.files[0];
+    setUploadedImage(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const mintNFT = async () => {
+    alert(
+      'Thanks for believing in my work. I will mint this NFT on the ethereum network, and send it to you as a present. Welcome to my world, this is just the beginning.'
+    );
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const signer = provider.getSigner();
+    // const contract = new ethers.Contract(contractAddress, contractABI, signer);
+
+    // const transaction = await contract.mintNFT(uploadedImage); // depends on your contract's mint function
+    // await transaction.wait();
+  };
+
   return (
     <div>
-      <h4 className='text-5xl mb-64'>
-        To create a unique avatar based on what you wrote:
-      </h4>
       {step === 1 && (
         <div>
-          <p>
-            1. Get the prompt for chatgtp based on what you wrote by clicking
-            this button
-          </p>
-          {ouch ? (
-            <Button
-              buttonText='Ouch! That hurted.'
-              buttonAction={() => {}}
-              buttonColor='bg-thered'
-            />
-          ) : (
-            <Button
-              buttonText='Click me.'
-              buttonAction={createPromptFromText}
-              buttonColor='bg-theorange border border-thewhite'
-            />
+          {startingAnkyState && (
+            <div>
+              <p>
+                Send what you wrote to Anky and get a graphical description of
+                you based on it.
+              </p>
+              {ouch ? (
+                <Button
+                  buttonText='Ouch! That hurted.'
+                  buttonAction={() => {}}
+                  buttonColor='bg-thered'
+                />
+              ) : (
+                <Button
+                  buttonText='Click me.'
+                  buttonAction={() => {
+                    setStartingAnkyState(false);
+                    askChatGTPforImagePrompt();
+                  }}
+                  buttonColor='bg-theorange border border-thewhite'
+                />
+              )}
+            </div>
+          )}
+
+          {ankyThinking && (
+            <div className='py-2 flex flex-col space-x-2 items-center'>
+              <div className='rounded-full overflow-hidden shadow-lg border-4 border-thewhite'>
+                <Image
+                  src='/images/anky.png'
+                  width={333}
+                  height={333}
+                  className=''
+                  alt='Anky'
+                />
+              </div>
+
+              {ankyResponse === '' ? (
+                <p className='mt-2'>
+                  I&apos;m looking in the ether for the description of an image
+                  that will describe you in my world... Please stand still and
+                  breathe.
+                </p>
+              ) : (
+                <div className='mt-2'>
+                  <p>{ankyResponse}</p>
+                  {promptForMidjourneyReady ? (
+                    <Button
+                      buttonAction={() => {
+                        setStep(2);
+                      }}
+                      buttonText='You have the prompt. Click here for the next step.'
+                      buttonColor='bg-thegreenbtn'
+                    />
+                  ) : (
+                    <Button
+                      buttonAction={() => {
+                        pasteTextOnClipboard(ankyResponse);
+                        setPromptForMidjourneyReady(true);
+                      }}
+                      buttonText='Copy Description'
+                    />
+                  )}
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}
 
       {step === 2 && (
         <div>
-          <p>
-            2. Go to the chatgtp tab that is open right above here, and paste.
-            What is in your clipboard is the prompt for that exact chat section
-            of the app. What it sends you back, you have to copy that and come
-            back here.
-          </p>
+          {tookToMidjourney ? (
+            <div>
+              <p>
+                Save the image you just generated wherever you want in the
+                filesystem of this computer and proceed to the next step:
+              </p>
+
+              <Button
+                buttonAction={() => setStep(3)}
+                buttonText='If you downloaded the image, click here for the next step.'
+                buttonColor='bg-thegreenbtn'
+              />
+            </div>
+          ) : (
+            <div>
+              {' '}
+              <p>
+                Great. Now that you have the prompt in your clipboard, I need to
+                invite you to discord so that you can get your custom image.
+              </p>
+              <p>
+                Write the /imagine command followed by a space and then paste
+                the prompt.
+              </p>
+              <p>
+                Press enter and allow magic to happen in front of your eyes.
+              </p>
+              <a
+                href='https://discord.com/channels/@me/1054830741042774016'
+                target='_blank'
+                rel='noopener noreferrer'
+                onClick={() => setTookToMidjourney(true)}
+                className={`bg-thegreen whitespace-nowrap align-self-start relative flex flex-row gap-2 font-medium justify-center items-center w-fit false cursor-pointer hover:scale-[1.02] min-w-[112px] text-sm rounded-xl px-6 h-11 ease-in transition-transform bg-black text-white mb-4`}
+              >
+                Got it. Take me to midjourney plz.
+              </a>
+            </div>
+          )}
         </div>
       )}
 
       {step === 3 && (
         <div>
-          <p>
-            3. Now, with what you just copied, go to the discord app and send
-            the /imagine command to the midjourney bot and paste what you have
-            there inside the image command.
-          </p>
+          {imageUrl ? (
+            <div className='flex flex-col items-center'>
+              <Image
+                src={imageUrl}
+                alt='Generated image for the user'
+                width={333}
+                height={333}
+                className='border-4 border-thewhite '
+              />
+              <div className='my-2'>
+                <Button buttonText='Mint NFT' buttonAction={mintNFT} />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p>
+                Now, please upload the image here. Anky will generate a unique
+                NFT for you based on it.
+              </p>{' '}
+              <input
+                type='file'
+                accept='image/png'
+                onChange={handleImageUpload}
+              />
+            </div>
+          )}
         </div>
       )}
 
@@ -103,22 +240,25 @@ const StepsForGettingImage = ({ text }) => {
         </div>
       )}
 
-      {step === 5 ? (
+      {/* {step === 5 ? (
         <p>Thank you, for being who you are. You are awesome.</p>
       ) : (
         <div className='flex justify-center mt-4 space-x-4'>
-          <Button
-            buttonText='Previous'
-            buttonAction={previousStep}
-            buttonColor='bg-theredbtn'
-          />
+          {step !== 1 && (
+            <Button
+              buttonText='Previous'
+              buttonAction={previousStep}
+              buttonColor='bg-theredbtn'
+            />
+          )}
+
           <Button
             buttonText='Next'
             buttonAction={nextStep}
             buttonColor='bg-thegreenbtn'
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

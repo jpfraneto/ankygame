@@ -14,11 +14,14 @@ const GamePage = () => {
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
   const [showText, setShowText] = useState(false);
+  const [submittingRunToDB, setSubmittingRunToDB] = useState(false);
+  const [runSubmitted, setRunSubmitted] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [isDone, setIsDone] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [highscore, setHighscore] = useState(null);
   const [selectedRun, setSelectedRun] = useState(null);
   const [savedToDb, setSavedToDb] = useState(false);
   const [finishedText, setFinishedText] = useState(null);
@@ -34,10 +37,28 @@ const GamePage = () => {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [displayLeaderboard, setDisplayLeaderboard] = useState(false);
+  const [leaderboard, setLeaderboard] = useState(null);
 
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
+  useEffect(() => {
+    const loadLeaderboard = async () => {
+      fetch('/api/runs')
+        .then(res => res.json())
+        .then(data => {
+          const highscoreValue = data.reduce(
+            (max, obj) => (obj.timeSpent > max ? obj.timeSpent : max),
+            0
+          );
+          setHighscore(highscoreValue);
+          setLeaderboard(data);
+        })
+        .catch(err => console.error(err));
+    };
+
+    loadLeaderboard();
+  }, []);
 
   useEffect(() => {
     if (isActive && !isDone) {
@@ -72,7 +93,7 @@ const GamePage = () => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 2) return setMoreThanMinRound(false);
+    if (time < 30) return setMoreThanMinRound(false);
     setMoreThanMinRound(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
@@ -106,6 +127,7 @@ const GamePage = () => {
     }
 
     setSavingRound(true);
+    setSubmittingRunToDB(true);
 
     try {
       const response = await fetch('/api/runs', {
@@ -137,13 +159,21 @@ const GamePage = () => {
           content: text,
         });
         setLeaderboard(leaderboard);
+        setRunSubmitted(true);
+        setSubmittingRunToDB(false);
         setSavingRound('Save to DB');
         setSavedToDb(true);
+
         console.log('the data from the server is: ', data);
       }
     } catch (error) {
       console.log('the error is:', error);
     }
+  };
+
+  const submitRunWithThisUsername = async () => {
+    setSubmittingRunToDB(true);
+    alert(`Add ${twitterUsername}`);
   };
 
   const updateSadhanas = async () => {
@@ -189,6 +219,15 @@ const GamePage = () => {
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
       }}
     >
+      <div className='absolute right-4 top-4 flex flex-col items-center justify-center'>
+        <span
+          className='bg-thegreen px-4 py-2 rounded-full hover:cursor-pointer hover:shadow-theredbtn hover:shadow-lg'
+          onClick={() => setModalOpen(true)}
+        >
+          N&W S3 Leaderboard
+        </span>
+        {highscore && <small>High Score: {highscore} secs.</small>}
+      </div>
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
@@ -203,26 +242,71 @@ const GamePage = () => {
                       <StepsForGettingImage text={text} />
                     ) : (
                       <div>
-                        <p>You are done. Your score is {time}.</p>
+                        {runSubmitted ? (
+                          <div>
+                            <p>You are done. Your score is {time}.</p>
 
-                        <p>
-                          Do you want to get a customized image based on what
-                          you just wrote?
-                        </p>
-                        <div className='flex space-x-2 my-2'>
-                          <Button
-                            buttonAction={() => {
-                              setDisplayStepsForGettingImage(true);
-                            }}
-                            buttonText='Yes'
-                            buttonColor='bg-thegreenbtn'
-                          />
-                          <Button
-                            buttonAction={() => {}}
-                            buttonText='No'
-                            buttonColor='bg-theredbtn'
-                          />
-                        </div>
+                            <p>
+                              Ready. Now do you want to get a customized avatar
+                              based on what you just wrote?
+                            </p>
+                            <div className='flex space-x-2 my-2'>
+                              <Button
+                                buttonAction={() => {
+                                  setDisplayStepsForGettingImage(true);
+                                }}
+                                buttonText='Yes'
+                                buttonColor='bg-thegreenbtn'
+                              />
+                              <Button
+                                buttonAction={() => {
+                                  alert(
+                                    "Ok, if this didn't caught your attention, I have work to do. Thx for trying it out."
+                                  );
+                                }}
+                                buttonText='No'
+                                buttonColor='bg-theredbtn'
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <div>
+                            <p>You are done. Your score is {time}.</p>
+                            <p>
+                              Do you want to add your run to the leaderboard?
+                            </p>
+                            <div className='flex flex-nostretch items-center justify-center space-x-2'>
+                              <input
+                                type='text'
+                                placeholder='Twitter handle'
+                                onChange={e =>
+                                  setTwitterUsername(e.target.value)
+                                }
+                                className='mb-4 px-4 py-2 rounded-xl text-theblack'
+                              />
+                              <button
+                                className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
+                                onClick={() => {
+                                  if (twitterUsername) {
+                                    saveRunToDb();
+                                  }
+                                }}
+                              >
+                                {submittingRunToDB
+                                  ? 'Adding...'
+                                  : 'Add to leaderboard'}
+                              </button>
+                              <button
+                                className='px-4 py-2 rounded-xl bg-theredbtn h-fit hover:opacity-80'
+                                onClick={() => {
+                                  setRunSubmitted(true);
+                                }}
+                              >
+                                No thx, but what comes next?
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
 
@@ -320,8 +404,10 @@ const GamePage = () => {
             </p>
 
             <p>If you stop writing for 1 second, you will fail.</p>
-            <p>For how long will you write?</p>
 
+            <p className={`${righteous.className} font-bold`}>
+              Write as if there was no tomorrow.
+            </p>
             <p className={`${righteous.className} font-bold`}>
               See you on the otherside.
             </p>
@@ -344,7 +430,7 @@ const GamePage = () => {
         )}
       </div>
       <RunModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        {modalOpen && <p>{selectedRun}</p>}
+        <Leaderboard leaderboard={leaderboard} />
       </RunModal>
     </div>
   );
