@@ -3,7 +3,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import RunModal from '@component/components/RunModal';
+import Leaderboard from '@component/components/Leaderboard';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
+import StepsForGettingImage from '@component/components/StepsForGettingImage';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
@@ -20,7 +22,8 @@ const GamePage = () => {
   const [selectedRun, setSelectedRun] = useState(null);
   const [savedToDb, setSavedToDb] = useState(false);
   const [finishedText, setFinishedText] = useState(null);
-  const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
+  const [displayStepsForGettingImage, setDisplayStepsForGettingImage] =
+    useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [finished, setFinished] = useState(false);
   const [ankyImageUrl, setAnkyImageUrl] = useState('/images/anky.png');
@@ -30,8 +33,8 @@ const GamePage = () => {
   const [twitterUsername, setTwitterUsername] = useState('');
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+  const [displayLeaderboard, setDisplayLeaderboard] = useState(false);
 
-  const [leaderboard, setLeaderboard] = useState([]);
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
@@ -68,16 +71,9 @@ const GamePage = () => {
     setIsActive(false);
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
-    if (time < 180) return setMoreThanMinRound(false);
+    await navigator.clipboard.writeText(text);
+    if (time < 2) return setMoreThanMinRound(false);
     setMoreThanMinRound(true);
-    setLoadingLeaderboard(true);
-    fetch('/api/runs')
-      .then(res => res.json())
-      .then(data => {
-        setLeaderboard(data);
-        setLoadingLeaderboard(false);
-      })
-      .catch(err => console.error(err));
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
 
@@ -201,121 +197,93 @@ const GamePage = () => {
           <>
             {moreThanMinRun ? (
               <>
-                {loadingLeaderboard ? (
-                  <p>Loading...</p>
-                ) : (
-                  <>
-                    <div>
-                      <p>You are done. Your score is {time}</p>
-
+                <>
+                  <div>
+                    {displayStepsForGettingImage ? (
+                      <StepsForGettingImage text={text} />
+                    ) : (
                       <div>
-                        {leaderboard && (
-                          <div>
-                            <h2
-                              className={`${righteous.className} text-3xl font-bold mb-2 text-left`}
-                            >
-                              Leaderboard
-                            </h2>
-                            <table className='table-auto w-full'>
-                              <thead className='bg-thegreen border-thewhite text-theblack'>
-                                <tr>
-                                  <th className='border border-thewhite px-4 py-1'>
-                                    Username
-                                  </th>
-                                  <th className='border border-thewhite px-4 py-1'>
-                                    Time spent
-                                  </th>
-                                  <th className='border border-thewhite px-4 py-1'>
-                                    Word count
-                                  </th>
-                                  <th className='border border-thewhite px-4 py-1'>
-                                    Actions
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody className='border-thewhite'>
-                                {leaderboard.map((run, index) => (
-                                  <tr
-                                    key={index}
-                                    className={
-                                      index % 2 === 0
-                                        ? 'bg-thered bg-opacity-70'
-                                        : 'bg-thered bg-opacity-40'
-                                    }
-                                  >
-                                    <td className='border px-4 py-1'>
-                                      @{run.twitterUser}
-                                    </td>
-                                    <td className='border px-4 py-1'>
-                                      {run.timeSpent}
-                                    </td>
-                                    <td className='border px-4 py-1'>
-                                      {run.wordCount}
-                                    </td>
-                                    <td className='border px-4 py-1'>
-                                      <button
-                                        onClick={() => {
-                                          setSelectedRun(run.content);
-                                          setModalOpen(true);
-                                        }}
-                                        className='text-thegreen hover:text-black transition-colors duration-300'
-                                      >
-                                        Read
-                                      </button>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
-                      </div>
-                      {!savedToDb && (
-                        <>
-                          <p>
-                            You can add your score to the system if you want, it
-                            will be associated with the twitter username you
-                            provide. If you lie, it&apos;s up to you.
-                          </p>
-                          <label>
-                            Twitter username:
-                            <input
-                              type='text'
-                              className='px-2 py-1 mx-2 rounded text-theblack'
-                              required
-                              placeholder='elonmusk'
-                              value={twitterUsername}
-                              onChange={e => setTwitterUsername(e.target.value)}
-                            />
-                          </label>
-                        </>
-                      )}
+                        <p>You are done. Your score is {time}.</p>
 
-                      <div className='mt-3 flex space-x-2'>
-                        <Button
-                          buttonText={copyText}
-                          buttonAction={pasteText}
-                          buttonColor='bg-thegreen'
-                        />
-                        {!savedToDb && (
+                        <p>
+                          Do you want to get a customized image based on what
+                          you just wrote?
+                        </p>
+                        <div className='flex space-x-2 my-2'>
                           <Button
-                            buttonText={
-                              savingRound ? 'Adding Run...' : 'Save Run'
-                            }
+                            buttonAction={() => {
+                              setDisplayStepsForGettingImage(true);
+                            }}
+                            buttonText='Yes'
                             buttonColor='bg-thegreenbtn'
-                            buttonAction={saveRunToDb}
                           />
-                        )}
+                          <Button
+                            buttonAction={() => {}}
+                            buttonText='No'
+                            buttonColor='bg-theredbtn'
+                          />
+                        </div>
                       </div>
-                      <div className='mt-4'>
+                    )}
+
+                    {/* <div className='mb-2'>
+                      {displayLeaderboard && <Leaderboard />}
+                      <Button
+                        buttonAction={() => setDisplayLeaderboard(x => !x)}
+                        buttonColor='bg-thegreen mt-4'
+                        buttonText={
+                          displayLeaderboard
+                            ? 'Hide Leaderboard'
+                            : 'Display Leaderboard'
+                        }
+                      />
+                    </div> */}
+
+                    {/* {!savedToDb && (
+                      <>
+                        <p>
+                          You can add your score to the system if you want, it
+                          will be associated with the twitter username you
+                          provide. If you lie, it&apos;s up to you.
+                        </p>
+                        <label>
+                          Twitter username:
+                          <input
+                            type='text'
+                            className='px-2 py-1 mx-2 rounded text-theblack'
+                            required
+                            placeholder='elonmusk'
+                            value={twitterUsername}
+                            onChange={e => setTwitterUsername(e.target.value)}
+                          />
+                        </label>
+                      </>
+                    )} */}
+
+                    {/* <div className='mt-3 flex space-x-2'>
+                      <Button
+                        buttonText={copyText}
+                        buttonAction={pasteText}
+                        buttonColor='bg-thegreen'
+                      />
+                      {!savedToDb && (
                         <Button
-                          buttonText='Try again.'
-                          buttonAction={startNewRun}
+                          buttonText={
+                            savingRound ? 'Adding Run...' : 'Save Run'
+                          }
+                          buttonColor='bg-thegreenbtn'
+                          buttonAction={saveRunToDb}
                         />
-                      </div>
+                      )}
                     </div>
-                  </>
-                )}
+                    <div className='mt-4'>
+                      <Button
+                        buttonText='Try again.'
+                        buttonAction={startNewRun}
+                      />
+                    </div> */}
+                  </div>
+                </>
               </>
             ) : (
               <div className=''>
@@ -323,7 +291,7 @@ const GamePage = () => {
                   You are done. Your score is {time}. You need to try harder
                   next time.
                 </p>
-                <p>Min score to qualify is 180 (3 minutes).</p>
+                <p>Min score to qualify is 30 seconds.</p>
                 <div className='flex justify-center space-x-2'>
                   <Button
                     buttonText={copyText}
