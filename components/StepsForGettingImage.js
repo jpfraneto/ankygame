@@ -96,9 +96,9 @@ const StepsForGettingImage = ({ text }) => {
           <p>
             This is a gift, from me, to you. If you want to get the NFT, send me
             an email to jpfraneto@gmail.com with your wallet address. Just your
-            wallet address of the ethereum network. That's all I need. If not,
-            any feedback that you can give me helps me make this thing even more
-            awesome.
+            wallet address of the ethereum network. That&apos;s all I need. If
+            not, any feedback that you can give me helps me make this thing even
+            more awesome.
           </p>
         </div>
       )}
