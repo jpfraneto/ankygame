@@ -122,12 +122,6 @@ const GamePage = () => {
   };
 
   const saveRunToDb = async () => {
-    if (!twitterUsername) {
-      return alert(
-        'If you want to save the run, please add a Twitter username.'
-      );
-    }
-
     setSavingRound(true);
     setSubmittingRunToDB(true);
 
@@ -138,7 +132,7 @@ const GamePage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          twitterUser: twitterUsername,
+          twitterUser: twitterUsername || 'anon',
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
@@ -284,9 +278,7 @@ const GamePage = () => {
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
                                 onClick={() => {
-                                  if (twitterUsername) {
-                                    saveRunToDb();
-                                  }
+                                  saveRunToDb();
                                 }}
                               >
                                 {submittingRunToDB

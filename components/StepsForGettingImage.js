@@ -198,10 +198,7 @@ const StepsForGettingImage = ({ text }) => {
                 className='border-4 border-thewhite '
               />
               <div className='my-4'>
-                <Button
-                  buttonText='Mint NFT (prize: 1 $APE)'
-                  buttonAction={mintNFT}
-                />
+                <Button buttonText='Mint NFT' buttonAction={mintNFT} />
               </div>
             </div>
           ) : (
