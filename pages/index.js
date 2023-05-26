@@ -207,7 +207,7 @@ const GamePage = () => {
   };
   const pasteText = async () => {
     await navigator.clipboard.writeText(text);
-    setCopyText('Your writing is in your clipboard');
+    alert('Your writing is in your clipboard');
   };
 
   return (
@@ -220,7 +220,7 @@ const GamePage = () => {
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
       }}
     >
-      <div className='bg-thegreener justify-center fixed top-0 w-full flex flex-row space-x-2 h-fit py-2 md:hidden'>
+      <div className='bg-thegreener justify-center fixed top-0 w-full flex flex-row space-x-2 h-fit py-2 hidden'>
         <div className='bg-thegreen px-4 py-2 rounded-md hover:cursor-pointer flex flex-col hover:shadow-theredbtn hover:shadow-lg'>
           <span onClick={() => setModalOpen(true)}>Leaderboard</span>
           {highscore && <small>Top: {highscore} secs.</small>}
@@ -229,7 +229,8 @@ const GamePage = () => {
           <ConnectWallet />
         </div>
       </div>
-      <div className='hidden  md:flex right-4 top-4 flex-col items-center justify-center'>
+
+      <div className='hidden md:absolute right-4 top-4  md:flex flex-col items-center justify-center'>
         <span
           className='bg-thegreen px-4 py-2 rounded-full hover:cursor-pointer hover:shadow-theredbtn hover:shadow-lg'
           onClick={() => setModalOpen(true)}
@@ -244,7 +245,7 @@ const GamePage = () => {
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-full px-2  mt-48 md:w-1/2 lg:w-1/3'>
+      <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-1/3'>
         {finished ? (
           <>
             {moreThanMinRun ? (
@@ -288,22 +289,31 @@ const GamePage = () => {
                                   NEW HIGHSCORE! CONGRATULATIONS. You made it
                                   for {time} seconds.
                                 </p>
-                                <p>
-                                  Do you want to add your run to the
-                                  leaderboard?
-                                </p>
                               </div>
                             ) : (
                               <div>
                                 <p>You are done. Your score is {time}.</p>
-                                <p>
-                                  Do you want to add your run to the
-                                  leaderboard?
-                                </p>
                               </div>
                             )}
 
-                            <div className='flex flex-nostretch items-center justify-center space-x-2'>
+                            <p>
+                              Do you want the hoodie? Save your run to the db.
+                            </p>
+                            <label>
+                              Twitter username:
+                              <input
+                                type='text'
+                                className='px-2 py-1 mx-2 rounded text-theblack'
+                                required
+                                placeholder='elonmusk'
+                                value={twitterUsername}
+                                onChange={e =>
+                                  setTwitterUsername(e.target.value)
+                                }
+                              />
+                            </label>
+
+                            <div className='flex flex-nostretch items-center mt-4 justify-center space-x-2'>
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
                                 onClick={() => {
