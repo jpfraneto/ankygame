@@ -162,16 +162,14 @@ const StepsForGettingImage = ({ text }) => {
           ) : (
             <div>
               <p>
-                Great. Now that you have the prompt in your clipboard, I need to
-                invite you to discord so that you can get your custom image.
+                Great. Now that you have the prompt in your clipboard. Send it
+                to midjourney using the /imagine command.
               </p>
               <p>
-                Write the /imagine command followed by a space and then paste
-                the prompt.
+                If you don&apos;t have a midjourney acccount... What are you
+                doing with your life? Wake up. Life is happening out there.
               </p>
-              <p>
-                Press enter and allow magic to happen in front of your eyes.
-              </p>
+              <p>Send it and allow magic to happen in front of your eyes.</p>
               <a
                 href='https://discord.com/channels/@me/1054830741042774016'
                 target='_blank'
@@ -179,7 +177,7 @@ const StepsForGettingImage = ({ text }) => {
                 onClick={() => setTookToMidjourney(true)}
                 className={`bg-thegreen whitespace-nowrap align-self-start relative flex flex-row gap-2 font-medium justify-center items-center w-fit false cursor-pointer hover:scale-[1.02] min-w-[112px] text-sm rounded-xl px-6 h-11 ease-in transition-transform bg-black text-white mb-4`}
               >
-                Got it. Take me to midjourney plz.
+                Got it. Take me to discord plz.
               </a>
             </div>
           )}
@@ -195,7 +193,7 @@ const StepsForGettingImage = ({ text }) => {
                 alt='Generated image for the user'
                 width={333}
                 height={333}
-                className='border-4 border-thewhite '
+                className='border-4 bg-theblack border-thewhite '
               />
               <div className='my-4'>
                 <Button buttonText='Mint NFT' buttonAction={mintNFT} />
