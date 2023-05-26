@@ -24,6 +24,7 @@ const GamePage = () => {
   const [isDone, setIsDone] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [highscore, setHighscore] = useState(null);
+  const [isHighscore, setIsHighscore] = useState(false);
   const [selectedRun, setSelectedRun] = useState(null);
   const [savedToDb, setSavedToDb] = useState(false);
   const [finishedText, setFinishedText] = useState(null);
@@ -96,6 +97,10 @@ const GamePage = () => {
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
     if (time < 30) return setMoreThanMinRound(false);
+    if (time > highscore) {
+      setIsHighscore(true);
+      setHighscore(time);
+    }
     setMoreThanMinRound(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
@@ -207,7 +212,7 @@ const GamePage = () => {
 
   return (
     <div
-      className='text-thewhite relative min-h-screen flex items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
+      className='text-thewhite relative min-h-screen flex flex-col items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 30px)',
@@ -215,7 +220,16 @@ const GamePage = () => {
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
       }}
     >
-      <div className='absolute right-4 top-4 flex flex-col items-center justify-center'>
+      <div className='bg-thegreener justify-center fixed top-0 w-full flex flex-row space-x-2 h-fit py-2 md:hidden'>
+        <div className='bg-thegreen px-4 py-2 rounded-md hover:cursor-pointer flex flex-col hover:shadow-theredbtn hover:shadow-lg'>
+          <span onClick={() => setModalOpen(true)}>Leaderboard</span>
+          {highscore && <small>Top: {highscore} secs.</small>}
+        </div>
+        <div className='mt-2 flex-'>
+          <ConnectWallet />
+        </div>
+      </div>
+      <div className='hidden  md:flex right-4 top-4 flex-col items-center justify-center'>
         <span
           className='bg-thegreen px-4 py-2 rounded-full hover:cursor-pointer hover:shadow-theredbtn hover:shadow-lg'
           onClick={() => setModalOpen(true)}
@@ -230,7 +244,7 @@ const GamePage = () => {
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-3/4 md:w-1/2 lg:w-1/3'>
+      <div className='w-full px-2  mt-48 md:w-1/2 lg:w-1/3'>
         {finished ? (
           <>
             {moreThanMinRun ? (
@@ -243,8 +257,6 @@ const GamePage = () => {
                       <div>
                         {runSubmitted ? (
                           <div>
-                            <p>You are done. Your score is {time}.</p>
-
                             <p>
                               Ready. Now do you want to get a customized avatar
                               based on what you just wrote?
@@ -270,10 +282,27 @@ const GamePage = () => {
                           </div>
                         ) : (
                           <div>
-                            <p>You are done. Your score is {time}.</p>
-                            <p>
-                              Do you want to add your run to the leaderboard?
-                            </p>
+                            {isHighscore ? (
+                              <div>
+                                <p>
+                                  NEW HIGHSCORE! CONGRATULATIONS. You made it
+                                  for {time} seconds.
+                                </p>
+                                <p>
+                                  Do you want to add your run to the
+                                  leaderboard?
+                                </p>
+                              </div>
+                            ) : (
+                              <div>
+                                <p>You are done. Your score is {time}.</p>
+                                <p>
+                                  Do you want to add your run to the
+                                  leaderboard?
+                                </p>
+                              </div>
+                            )}
+
                             <div className='flex flex-nostretch items-center justify-center space-x-2'>
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
@@ -292,6 +321,14 @@ const GamePage = () => {
                                 }}
                               >
                                 No thx, but what comes next?
+                              </button>
+                              <button
+                                className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
+                                onClick={() => {
+                                  pasteText();
+                                }}
+                              >
+                                Copy what I wrote
                               </button>
                             </div>
                           </div>
