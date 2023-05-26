@@ -196,7 +196,12 @@ const StepsForGettingImage = ({ text }) => {
                 className='border-4 bg-theblack border-thewhite '
               />
               <div className='my-4'>
-                <Button buttonText='Mint NFT' buttonAction={mintNFT} />
+                <Button
+                  buttonText='Mint NFT'
+                  buttonAction={() => {
+                    setStep(4);
+                  }}
+                />
               </div>
             </div>
           ) : (
@@ -218,22 +223,11 @@ const StepsForGettingImage = ({ text }) => {
       {step === 4 && (
         <div>
           <p>
-            4. Then, choose one of those four images, and that is the
-            representation of anky that will exist with you the rest of your
-            life.
+            You will eventually be able to mint that avatar as an NFT, and it
+            will be your access key for the world that I&apos;m creating.
           </p>
-        </div>
-      )}
-
-      {step === 5 && (
-        <div>
-          <p>
-            This is a gift, from me, to you. If you want to get the NFT, send me
-            an email to jpfraneto@gmail.com with your wallet address. Just your
-            wallet address of the ethereum network. That&apos;s all I need. If
-            not, any feedback that you can give me helps me make this thing even
-            more awesome.
-          </p>
+          <p>Welcome. This is just the beginning.</p>
+          <p>You can come back here when you want. I&apos;ll be waiting.</p>
         </div>
       )}
 
