@@ -324,14 +324,14 @@ const GamePage = () => {
                                   ? 'Adding...'
                                   : 'Add to leaderboard'}
                               </button>
-                              <button
+                              {/* <button
                                 className='px-4 py-2 rounded-xl bg-theredbtn h-fit hover:opacity-80'
                                 onClick={() => {
                                   setRunSubmitted(true);
                                 }}
                               >
                                 No thx, but what comes next?
-                              </button>
+                              </button> */}
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
                                 onClick={() => {
