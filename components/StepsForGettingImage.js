@@ -77,8 +77,8 @@ const StepsForGettingImage = ({ text }) => {
           {startingAnkyState && (
             <div>
               <p>
-                Send what you wrote to Anky and get a graphical description of
-                you based on it.
+                This button will send what you wrote to Anky and give you a
+                prompt for you to get an avatar in his world.
               </p>
               {ouch ? (
                 <Button
@@ -161,7 +161,6 @@ const StepsForGettingImage = ({ text }) => {
             </div>
           ) : (
             <div>
-              {' '}
               <p>
                 Great. Now that you have the prompt in your clipboard, I need to
                 invite you to discord so that you can get your custom image.
@@ -198,8 +197,11 @@ const StepsForGettingImage = ({ text }) => {
                 height={333}
                 className='border-4 border-thewhite '
               />
-              <div className='my-2'>
-                <Button buttonText='Mint NFT' buttonAction={mintNFT} />
+              <div className='my-4'>
+                <Button
+                  buttonText='Mint NFT (prize: 1 $APE)'
+                  buttonAction={mintNFT}
+                />
               </div>
             </div>
           ) : (
@@ -207,7 +209,7 @@ const StepsForGettingImage = ({ text }) => {
               <p>
                 Now, please upload the image here. Anky will generate a unique
                 NFT for you based on it.
-              </p>{' '}
+              </p>
               <input
                 type='file'
                 accept='image/png'

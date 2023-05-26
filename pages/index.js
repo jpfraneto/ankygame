@@ -6,6 +6,8 @@ import RunModal from '@component/components/RunModal';
 import Leaderboard from '@component/components/Leaderboard';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import StepsForGettingImage from '@component/components/StepsForGettingImage';
+import { Web3Button } from '@thirdweb-dev/react';
+import { ConnectWallet } from '@thirdweb-dev/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
@@ -227,6 +229,9 @@ const GamePage = () => {
           N&W S3 Leaderboard
         </span>
         {highscore && <small>High Score: {highscore} secs.</small>}
+        <div className='mt-2'>
+          <ConnectWallet />
+        </div>
       </div>
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
@@ -276,14 +281,6 @@ const GamePage = () => {
                               Do you want to add your run to the leaderboard?
                             </p>
                             <div className='flex flex-nostretch items-center justify-center space-x-2'>
-                              <input
-                                type='text'
-                                placeholder='Twitter handle'
-                                onChange={e =>
-                                  setTwitterUsername(e.target.value)
-                                }
-                                className='mb-4 px-4 py-2 rounded-xl text-theblack'
-                              />
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
                                 onClick={() => {
