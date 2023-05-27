@@ -46,7 +46,7 @@ const UserGallery = () => {
       </p>
       <div className='mb-4 flex flex-row justify-center flex-nowrap space-x-2'>
         {kithkui.map((x, i) => {
-          return <GalleryCard element={x} />;
+          return <GalleryCard key={i} element={x} />;
         })}
       </div>
       <div className='flex justify-center '>
