@@ -207,8 +207,8 @@ const StepsForGettingImage = ({ text }) => {
           ) : (
             <div>
               <p>
-                Now, please upload the image here. Anky will generate a unique
-                NFT for you based on it.
+                Now, please upload the image here. You will be able to generate
+                a unique NFT for you based on it.
               </p>
               <input
                 type='file'

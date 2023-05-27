@@ -34,6 +34,7 @@ model User {
   points    Int     @default(0)
   level     Int     @default(1)
   badges    String[]
+  runs      Run[]
 }
 
 model VerificationToken {
@@ -165,5 +166,10 @@ model Run {
   timeSpent   Int
   wordCount   Int
   content     String
+  imageUrl    String
+  pauseTimes Int
+  sentToAnki Boolean
   createdAt   DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
 }

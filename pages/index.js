@@ -1,19 +1,22 @@
 import Button from '@component/components/Button';
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import RunModal from '@component/components/RunModal';
 import Leaderboard from '@component/components/Leaderboard';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import StepsForGettingImage from '@component/components/StepsForGettingImage';
 import { FaHeartbeat } from 'react-icons/fa';
-import { Web3Button } from '@thirdweb-dev/react';
+import { useRouter } from 'next/router';
+import { Web3Button, useAddress } from '@thirdweb-dev/react';
 import { ConnectWallet } from '@thirdweb-dev/react';
+import NavbarComponent from '@component/components/NavbarComponent';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const GamePage = () => {
   const audioRef = useRef();
+  const address = useAddress();
+  const router = useRouter();
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
   const [lives, setLives] = useState(3);
@@ -98,7 +101,7 @@ const GamePage = () => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 30) return setMoreThanMinRound(false);
+    if (time <= 30) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);
@@ -131,6 +134,7 @@ const GamePage = () => {
   const saveRunToDb = async () => {
     setSavingRound(true);
     setSubmittingRunToDB(true);
+    if (!twitterUsername) return alert('Please add your username');
 
     try {
       const response = await fetch('/api/runs', {
@@ -185,6 +189,19 @@ const GamePage = () => {
     console.log('the data is: ', data);
   };
 
+  const spendOneLifeAndGoBackToWriting = () => {
+    if (lives === 0) {
+      return alert(
+        'You dont have more lives. You can buy one for 1APE or wait until tomorrow.'
+      );
+    }
+    setLives(x => x - 1);
+    setSavingRound(false);
+    setSavedToDb(false);
+    setIsDone(false);
+    setFinished(false);
+  };
+
   const deleteAllRuns = async () => {
     try {
       const response = await fetch('/api/runs', {
@@ -222,31 +239,13 @@ const GamePage = () => {
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
       }}
     >
-      <div className='bg-thegreener justify-center fixed top-0 w-full flex flex-row space-x-2 h-fit py-2 hidden'>
-        <div className='bg-thegreen px-4 py-2 rounded-md hover:cursor-pointer flex flex-col hover:shadow-theredbtn hover:shadow-lg'>
-          <span onClick={() => setModalOpen(true)}>Leaderboard</span>
-          {highscore && <small>Top: {highscore} secs.</small>}
-        </div>
-        <div className='mt-2'>
-          <ConnectWallet />
-        </div>
-        <div className=''>
-          {lives} <FaHeartbeat />
-        </div>
-      </div>
-
-      <div className='hidden md:absolute right-4 top-4  md:flex flex-col items-center justify-center'>
-        <span
-          className='bg-thegreen px-4 py-2 rounded-full hover:cursor-pointer hover:shadow-theredbtn hover:shadow-lg'
-          onClick={() => setModalOpen(true)}
-        >
-          N&W S3 Leaderboard
-        </span>
-        {highscore && <small>High Score: {highscore} secs.</small>}
-        <div className='mt-2'>
-          <ConnectWallet />
-        </div>
-      </div>
+      <NavbarComponent
+        setModalOpen={setModalOpen}
+        highscore={highscore}
+        lives={lives}
+        router={router}
+        address={address}
+      />
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
@@ -301,9 +300,7 @@ const GamePage = () => {
                               </div>
                             )}
 
-                            <p>
-                              Do you want the hoodie? Save your run to the db.
-                            </p>
+                            <p>If you want, you can save your run to the db.</p>
                             <label>
                               Twitter username:
                               <input
@@ -319,6 +316,22 @@ const GamePage = () => {
                             </label>
 
                             <div className='flex flex-nostretch items-center mt-4 justify-center space-x-2'>
+                              {lives === 0 ? (
+                                <button
+                                  onClick={spendOneLifeAndGoBackToWriting}
+                                  className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite hover:cursor-not-allowed text-sm justify-center font-medium border rounded-lg'
+                                >
+                                  <span>No lives left</span>
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={spendOneLifeAndGoBackToWriting}
+                                  className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite text-sm justify-center font-medium border rounded-lg hover:opacity-60'
+                                >
+                                  <span>Continue</span>
+                                  <span>1 💚</span>
+                                </button>
+                              )}
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
                                 onClick={() => {
@@ -354,6 +367,22 @@ const GamePage = () => {
                 </p>
                 <p>Min score to qualify is 30 seconds.</p>
                 <div className='flex justify-center space-x-2'>
+                  {lives === 0 ? (
+                    <button
+                      onClick={spendOneLifeAndGoBackToWriting}
+                      className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite hover:cursor-not-allowed text-sm justify-center font-medium border rounded-lg'
+                    >
+                      <span>No lives left</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={spendOneLifeAndGoBackToWriting}
+                      className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite text-sm justify-center font-medium border rounded-lg hover:opacity-60'
+                    >
+                      <span>Continue</span>
+                      <span>1 💚</span>
+                    </button>
+                  )}
                   <Button
                     buttonText={copyText}
                     buttonAction={pasteText}
@@ -361,7 +390,7 @@ const GamePage = () => {
                   />
                   <div className=''>
                     <Button
-                      buttonText='Try again.'
+                      buttonText='Start from scratch'
                       buttonAction={startNewRun}
                     />
                   </div>
@@ -397,12 +426,6 @@ const GamePage = () => {
             <div className='flex justify-center items-center mb-4'>
               <div className='text-4xl'>{time} </div>
             </div>
-            {!isActive && text.length > 0 && (
-              <div className='text-red-500'>
-                You stopped writing. That means you are thinking. You have to
-                start again.
-              </div>
-            )}
           </>
         )}
       </div>
