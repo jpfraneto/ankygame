@@ -16,6 +16,7 @@ const StepsForGettingBuildspaceImage = ({ text }) => {
     useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [responseError, setResponseError] = useState(false);
   const [tookToMidjourney, setTookToMidjourney] = useState(false);
 
   const [promptForMidjourneyText, setPromptForMidjourneyText] = useState('');
@@ -24,14 +25,20 @@ const StepsForGettingBuildspaceImage = ({ text }) => {
   const askChatGTPforImagePrompt = async () => {
     setOuch(true);
     setAnkyThinking(true);
-    console.log('the text in here is: ', text);
-    const response = await fetch('/api/buildspace-gtp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text }),
-    });
-    const data = await response.json();
-    setAnkyResponse(data.imagePromptForMidjourney);
+    try {
+      const response = await fetch('/api/buildspace-gtp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text }),
+      });
+      const data = await response.json();
+      setAnkyResponse(data.imagePromptForMidjourney);
+    } catch (error) {
+      setAnkyResponse(
+        'Ooops, Anky is not available now. Please try again later.'
+      );
+      setResponseError(true);
+    }
   };
 
   const pasteTextOnClipboard = async promptText => {
@@ -48,6 +55,11 @@ const StepsForGettingBuildspaceImage = ({ text }) => {
     if (step > 1) {
       setStep(step - 1);
     }
+  };
+
+  const pasteText = async () => {
+    await navigator.clipboard.writeText(text);
+    alert('Your writing is in your clipboard');
   };
 
   const handleImageUpload = event => {
@@ -138,22 +150,42 @@ const StepsForGettingBuildspaceImage = ({ text }) => {
                   ) : (
                     <div>
                       <p>{ankyResponse}</p>
-                      {promptForMidjourneyReady ? (
-                        <Button
-                          buttonAction={() => {
-                            setStep(2);
-                          }}
-                          buttonText='You have the prompt. Click here for the next step.'
-                          buttonColor='bg-thegreenbtn'
-                        />
+
+                      {responseError ? (
+                        <div>
+                          <p>
+                            You can always copy what you wrote and do this with
+                            chatgtp directly.
+                          </p>
+
+                          <Button
+                            buttonColor='bg-thegreen'
+                            buttonAction={() => {
+                              pasteText();
+                            }}
+                            buttonText='Copy what I wrote'
+                          />
+                        </div>
                       ) : (
-                        <Button
-                          buttonAction={() => {
-                            pasteTextOnClipboard(ankyResponse);
-                            setPromptForMidjourneyReady(true);
-                          }}
-                          buttonText='Copy Description'
-                        />
+                        <div>
+                          {promptForMidjourneyReady ? (
+                            <Button
+                              buttonAction={() => {
+                                setStep(2);
+                              }}
+                              buttonText='You have the prompt. Click here for the next step.'
+                              buttonColor='bg-thegreenbtn'
+                            />
+                          ) : (
+                            <Button
+                              buttonAction={() => {
+                                pasteTextOnClipboard(ankyResponse);
+                                setPromptForMidjourneyReady(true);
+                              }}
+                              buttonText='Copy Description'
+                            />
+                          )}
+                        </div>
                       )}
                     </div>
                   )}
