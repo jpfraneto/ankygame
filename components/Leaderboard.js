@@ -18,13 +18,12 @@ const Leaderboard = ({ setSelectedRun, setModalOpen }) => {
   }, []);
   if (!leaderboard) return <p>Loading...</p>;
   return (
-    <table className='table-auto w-full'>
+    <table className='table-auto w-full max-h-[100vh - 300px] overflow-x-scroll'>
       <thead className='bg-thegreen border-thewhite text-theblack'>
         <tr>
           <th className='border border-thewhite px-4 py-1'>Username</th>
           <th className='border border-thewhite px-4 py-1'>Time spent</th>
           <th className='border border-thewhite px-4 py-1'>Word count</th>
-          <th className='border border-thewhite px-4 py-1'>Actions</th>
         </tr>
       </thead>
       <tbody className='border-thewhite'>
@@ -40,16 +39,6 @@ const Leaderboard = ({ setSelectedRun, setModalOpen }) => {
             <td className='border px-4 py-1'>@{run.twitterUser}</td>
             <td className='border px-4 py-1'>{run.timeSpent}</td>
             <td className='border px-4 py-1'>{run.wordCount}</td>
-            <td className='border px-4 py-1'>
-              <button
-                onClick={() => {
-                  alert('I need to work on this');
-                }}
-                className='text-thegreen hover:text-black transition-colors duration-300'
-              >
-                Read
-              </button>
-            </td>
           </tr>
         ))}
       </tbody>
