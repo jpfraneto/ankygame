@@ -6,7 +6,6 @@ import RunModal from '@component/components/RunModal';
 import Leaderboard from '@component/components/Leaderboard';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import StepsForGettingImage from '@component/components/StepsForGettingImage';
-import { FaHeartbeat } from 'react-icons/fa';
 import { Web3Button } from '@thirdweb-dev/react';
 import { ConnectWallet } from '@thirdweb-dev/react';
 
@@ -16,7 +15,6 @@ const GamePage = () => {
   const audioRef = useRef();
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
-  const [lives, setLives] = useState(3);
   const [showText, setShowText] = useState(false);
   const [submittingRunToDB, setSubmittingRunToDB] = useState(false);
   const [runSubmitted, setRunSubmitted] = useState(false);
@@ -227,11 +225,8 @@ const GamePage = () => {
           <span onClick={() => setModalOpen(true)}>Leaderboard</span>
           {highscore && <small>Top: {highscore} secs.</small>}
         </div>
-        <div className='mt-2'>
+        <div className='mt-2 flex-'>
           <ConnectWallet />
-        </div>
-        <div className=''>
-          {lives} <FaHeartbeat />
         </div>
       </div>
 
@@ -329,7 +324,14 @@ const GamePage = () => {
                                   ? 'Adding...'
                                   : 'Add to leaderboard'}
                               </button>
-
+                              {/* <button
+                                className='px-4 py-2 rounded-xl bg-theredbtn h-fit hover:opacity-80'
+                                onClick={() => {
+                                  setRunSubmitted(true);
+                                }}
+                              >
+                                No thx, but what comes next?
+                              </button> */}
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
                                 onClick={() => {
@@ -343,6 +345,63 @@ const GamePage = () => {
                         )}
                       </div>
                     )}
+
+                    {/* <div className='mb-2'>
+                      {displayLeaderboard && <Leaderboard />}
+                      <Button
+                        buttonAction={() => setDisplayLeaderboard(x => !x)}
+                        buttonColor='bg-thegreen mt-4'
+                        buttonText={
+                          displayLeaderboard
+                            ? 'Hide Leaderboard'
+                            : 'Display Leaderboard'
+                        }
+                      />
+                    </div> */}
+
+                    {/* {!savedToDb && (
+                      <>
+                        <p>
+                          You can add your score to the system if you want, it
+                          will be associated with the twitter username you
+                          provide. If you lie, it&apos;s up to you.
+                        </p>
+                        <label>
+                          Twitter username:
+                          <input
+                            type='text'
+                            className='px-2 py-1 mx-2 rounded text-theblack'
+                            required
+                            placeholder='elonmusk'
+                            value={twitterUsername}
+                            onChange={e => setTwitterUsername(e.target.value)}
+                          />
+                        </label>
+                      </>
+                    )} */}
+
+                    {/* <div className='mt-3 flex space-x-2'>
+                      <Button
+                        buttonText={copyText}
+                        buttonAction={pasteText}
+                        buttonColor='bg-thegreen'
+                      />
+                      {!savedToDb && (
+                        <Button
+                          buttonText={
+                            savingRound ? 'Adding Run...' : 'Save Run'
+                          }
+                          buttonColor='bg-thegreenbtn'
+                          buttonAction={saveRunToDb}
+                        />
+                      )}
+                    </div>
+                    <div className='mt-4'>
+                      <Button
+                        buttonText='Try again.'
+                        buttonAction={startNewRun}
+                      />
+                    </div> */}
                   </div>
                 </>
               </>
