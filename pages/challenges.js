@@ -13,7 +13,7 @@ const WritingChallenges = () => {
   return (
     <div>
       {challenges.map((x, i) => {
-        return <ChallengeCard challenge={x} />;
+        return <ChallengeCard key={i} challenge={x} />;
       })}
     </div>
   );
