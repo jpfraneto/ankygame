@@ -14,6 +14,7 @@ export default async function handler(req, res) {
     res.json(newRun);
   } else if (req.method === 'GET') {
     const topRuns = await prisma.run.findMany({
+      take: 20,
       orderBy: {
         timeSpent: 'desc',
       },

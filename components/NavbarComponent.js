@@ -43,7 +43,7 @@ const NavbarComponent = ({
             }}
           />
         </div>
-        <div
+        {/* <div
           className={`${righteous.className} flex justify-between font-bold px-2 py-1 bg-thepurple rounded-lg mt-3 w-48`}
         >
           <div className='flex space-x-1 hover:cursor-pointer'>
@@ -59,7 +59,7 @@ const NavbarComponent = ({
               </span>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </>
   );

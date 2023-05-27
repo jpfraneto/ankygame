@@ -101,7 +101,7 @@ const GamePage = () => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time <= 0) return setMoreThanMinRound(false);
+    if (time <= 30) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);
@@ -193,18 +193,18 @@ const GamePage = () => {
     console.log('the data is: ', data);
   };
 
-  const spendOneLifeAndGoBackToWriting = () => {
-    if (lives === 0) {
-      return alert(
-        'You dont have more lives. You can buy one for 1APE or wait until tomorrow.'
-      );
-    }
-    setLives(x => x - 1);
-    setSavingRound(false);
-    setSavedToDb(false);
-    setIsDone(false);
-    setFinished(false);
-  };
+  // const spendOneLifeAndGoBackToWriting = () => {
+  //   if (lives === 0) {
+  //     return alert(
+  //       'You dont have more lives. You can buy one for 1APE or wait until tomorrow.'
+  //     );
+  //   }
+  //   setLives(x => x - 1);
+  //   setSavingRound(false);
+  //   setSavedToDb(false);
+  //   setIsDone(false);
+  //   setFinished(false);
+  // };
 
   const deleteAllRuns = async () => {
     try {
@@ -320,22 +320,6 @@ const GamePage = () => {
                             </label>
 
                             <div className='flex flex-nostretch items-center mt-4 justify-center space-x-2'>
-                              {lives === 0 ? (
-                                <button
-                                  onClick={spendOneLifeAndGoBackToWriting}
-                                  className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite hover:cursor-not-allowed text-sm justify-center font-medium border rounded-lg'
-                                >
-                                  <span>No lives left</span>
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={spendOneLifeAndGoBackToWriting}
-                                  className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite text-sm  w-48 justify-center font-medium border rounded-lg hover:opacity-60'
-                                >
-                                  <span className='w-fit'>Keep writing</span>
-                                  <span>1 💚</span>
-                                </button>
-                              )}
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
                                 onClick={() => {
@@ -371,7 +355,7 @@ const GamePage = () => {
                 </p>
                 <p>Min score to qualify is 30 seconds.</p>
                 <div className='flex justify-center space-x-2'>
-                  {lives === 0 ? (
+                  {/* {lives === 0 ? (
                     <button
                       onClick={spendOneLifeAndGoBackToWriting}
                       className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite hover:cursor-not-allowed text-sm justify-center font-medium border rounded-lg'
@@ -386,7 +370,7 @@ const GamePage = () => {
                       <span>Continue</span>
                       <span>1 💚</span>
                     </button>
-                  )}
+                  )} */}
                   <Button
                     buttonText={copyText}
                     buttonAction={pasteText}
