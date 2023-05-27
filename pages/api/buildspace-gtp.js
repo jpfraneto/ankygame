@@ -6,6 +6,9 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function (req, res) {
+  if (req.method !== 'POST') {
+    return res.status(401);
+  }
   if (!configuration.apiKey) {
     res.status(500).json({
       error: {
@@ -15,15 +18,7 @@ export default async function (req, res) {
     });
     return;
   }
-  // const password = req.body.password;
-  // if (password.trim() !== process.env.ANKYPASSWORD) {
-  //   res.status(400).json({
-  //     error: {
-  //       message: 'Please enter a valid password',
-  //     },
-  //   });
-  //   return;
-  // }
+  console.log('in here, ', req.body.message);
 
   const message = req.body.message || '';
   if (message.trim().length === 0) {
@@ -45,13 +40,14 @@ export default async function (req, res) {
 
         You have two missions:
 
-        - Transform everything that the person wrote into ONE tweet of less than 280 characters. Please avoid the usage of hashtags, and make sure you tag @_buildpsace at the bottom of it.
-        - Come up with a prompt for midjourney in the following format: "https://s.mj.run/YLJMlMJbo70, X", where X is the description of the image that will represent what the person wrote.
+        - Transform everything that the person wrote into a prompt for midjourney in the following format: "https://s.mj.run/YLJMlMJbo70, X", where X is the description of the image that will represent what the person wrote.
 
         Here is the long piece of text:`,
       },
       { role: 'user', content: message },
     ];
+
+    console.log('sending to chatgtp the text:', messages);
 
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',

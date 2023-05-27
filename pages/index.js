@@ -132,9 +132,9 @@ const GamePage = () => {
   };
 
   const saveRunToDb = async () => {
+    if (!twitterUsername) return alert('Please add your username');
     setSavingRound(true);
     setSubmittingRunToDB(true);
-    if (!twitterUsername) return alert('Please add your username');
 
     try {
       const response = await fetch('/api/runs', {

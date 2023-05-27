@@ -132,17 +132,22 @@ const GamePage = () => {
   };
 
   const saveRunToDb = async () => {
+    let confirmation;
+    if (!twitterUsername) {
+      confirmation = confirm('Do you want to save your run as anon?');
+    }
+    if (confirmation) return;
     setSavingRound(true);
     setSubmittingRunToDB(true);
-    if (!twitterUsername) return alert('Please add your username');
 
     try {
-      const response = await fetch('/api/buildspace-gtp', {
+      const response = await fetch('/api/runs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          twitterUser: twitterUsername || 'anon',
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
@@ -159,6 +164,7 @@ const GamePage = () => {
         }
         // Insert the new run into leaderboard at the correct position.
         leaderboard.splice(insertIndex, 0, {
+          twitterUser: twitterUsername,
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,

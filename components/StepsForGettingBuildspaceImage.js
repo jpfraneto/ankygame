@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import Button from '@component/components/Button';
 import axios from 'axios';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-const StepsForGettingImage = ({ text }) => {
+const StepsForGettingBuildspaceImage = ({ text }) => {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [copyText, setCopyText] = useState('');
   const [ouch, setOuch] = useState(false);
@@ -22,7 +24,8 @@ const StepsForGettingImage = ({ text }) => {
   const askChatGTPforImagePrompt = async () => {
     setOuch(true);
     setAnkyThinking(true);
-    const response = await fetch('/api/buildpace-gtp', {
+    console.log('the text in here is: ', text);
+    const response = await fetch('/api/buildspace-gtp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text }),
@@ -119,23 +122,40 @@ const StepsForGettingImage = ({ text }) => {
                 </p>
               ) : (
                 <div className='mt-2'>
-                  <p>{ankyResponse}</p>
-                  {promptForMidjourneyReady ? (
-                    <Button
-                      buttonAction={() => {
-                        setStep(2);
-                      }}
-                      buttonText='You have the prompt. Click here for the next step.'
-                      buttonColor='bg-thegreenbtn'
-                    />
+                  {ankyResponse.includes('wrong message') ? (
+                    <div>
+                      <p>
+                        Please try again. Your message is not a stream of
+                        consciousness talking about your experience in s3.
+                      </p>
+                      <Button
+                        buttonAction={() => {
+                          router.push('/');
+                        }}
+                        buttonText='Try again.'
+                      />
+                    </div>
                   ) : (
-                    <Button
-                      buttonAction={() => {
-                        pasteTextOnClipboard(ankyResponse);
-                        setPromptForMidjourneyReady(true);
-                      }}
-                      buttonText='Copy Description'
-                    />
+                    <div>
+                      <p>{ankyResponse}</p>
+                      {promptForMidjourneyReady ? (
+                        <Button
+                          buttonAction={() => {
+                            setStep(2);
+                          }}
+                          buttonText='You have the prompt. Click here for the next step.'
+                          buttonColor='bg-thegreenbtn'
+                        />
+                      ) : (
+                        <Button
+                          buttonAction={() => {
+                            pasteTextOnClipboard(ankyResponse);
+                            setPromptForMidjourneyReady(true);
+                          }}
+                          buttonText='Copy Description'
+                        />
+                      )}
+                    </div>
                   )}
                 </div>
               )}
@@ -254,4 +274,4 @@ const StepsForGettingImage = ({ text }) => {
   );
 };
 
-export default StepsForGettingImage;
+export default StepsForGettingBuildspaceImage;
