@@ -166,10 +166,10 @@ model Run {
   timeSpent   Int
   wordCount   Int
   content     String
-  imageUrl    String
-  pauseTimes Int
-  sentToAnki Boolean
+  imageUrl    String?
+  pauseTimes Int?
+  sentToAnki Boolean @default(true)
   createdAt   DateTime @default(now())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id])
 }
