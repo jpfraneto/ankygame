@@ -25,7 +25,7 @@ const GamePage = () => {
   const [runSubmitted, setRunSubmitted] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [savingRound, setSavingRound] = useState(false);
-  const [moreThanMinRun, setMoreThanMinRound] = useState(null);
+  const [moreThanMinRun, setMoreThanMinRound] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [highscore, setHighscore] = useState(0);

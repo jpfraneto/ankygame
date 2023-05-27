@@ -228,6 +228,27 @@ footer {
   }
 }
 
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px #f1f1f1, 0 0 10px #f1f1f1, 0 0 15px #f1f1f1,
+      0 0 20px #f1f1f1;
+  }
+
+  50% {
+    box-shadow: 0 0 20px #f1f1f1, 0 0 30px #f1f1f1, 0 0 40px #f1f1f1,
+      0 0 50px #f1f1f1;
+  }
+
+  100% {
+    box-shadow: 0 0 5px #f1f1f1, 0 0 10px #f1f1f1, 0 0 15px #f1f1f1,
+      0 0 20px #f1f1f1;
+  }
+}
+
+.glowing {
+  animation: glowing 2s infinite;
+}
+
 @media (max-width: 768px) {
   .w-screen {
     flex-direction: column;

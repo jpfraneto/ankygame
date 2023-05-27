@@ -27,6 +27,11 @@ module.exports = {
       thelight: '#A8BA96',
     },
     extend: {
+      extend: {
+        animation: {
+          glowing: 'glowing 2s infinite',
+        },
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
