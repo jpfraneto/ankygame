@@ -116,7 +116,7 @@ const StepsForGettingBuildspaceImage = ({ text }) => {
 
           {ankyThinking && (
             <div className='py-2 flex flex-col space-x-2 items-center'>
-              <div className='rounded-full glowing overflow-hidden shadow-lg border-4 border-thewhite'>
+              <div className='rounded-full glowing overflow-hidden mb-4 shadow-lg border-4 border-thewhite'>
                 <Image
                   src='/images/anky.png'
                   width={333}
@@ -158,7 +158,6 @@ const StepsForGettingBuildspaceImage = ({ text }) => {
                             chatgtp directly.
                           </p>
                           <div>
-                            {' '}
                             <Button
                               buttonColor='bg-thegreen'
                               buttonAction={() => {
