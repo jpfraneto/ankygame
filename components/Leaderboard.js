@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 const Leaderboard = ({ setSelectedRun, setModalOpen }) => {
-  console.log('in the leaderboard component');
   const [leaderboard, setLeaderboard] = useState(null);
   useEffect(() => {
     const loadLeaderboard = async () => {
