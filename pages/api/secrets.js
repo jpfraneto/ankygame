@@ -3,7 +3,6 @@ import { getUser } from './auth/[...thirdweb]';
 export default async (req, res) => {
   // Get the user off the request
   const user = await getUser(req);
-  console.log('in here, the user is:', user);
 
   // Check if the user is authenticated
   if (!user) {

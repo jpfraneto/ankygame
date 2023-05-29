@@ -18,7 +18,6 @@ export default async function (req, res) {
     });
     return;
   }
-  console.log('in here, ', req.body.message);
 
   const message = req.body.message || '';
   if (message.trim().length === 0) {

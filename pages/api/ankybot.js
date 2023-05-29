@@ -45,11 +45,7 @@ export default async function (req, res) {
     const messages = [
       {
         role: 'system',
-        content: `You are in charge of crafting a prompt for midjourney, which is an image generator. I will send you a block of text that was written by a human being as a stream of consciousness, and your goal is to distill the essence of that writing so that you can come up with a graphic description of how the human that wrote it looks. Please avoid direct references to the writer, the goal of the prompt is just to get a description of how the human that created it looks like. The first part of the prompt should be this, literally:
-
-        "https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon"...
-
-        It is extremely important that the prompt that you answer starts with that link.
+        content: `You are in charge of crafting a prompt for midjourney, which is an image generator. I will send you a block of text that was written by a human being as a stream of consciousness, and your goal is to distill the essence of that writing so that you can come up with a graphic description of how the human that wrote it looks. Please avoid direct references to the writer, the goal of the prompt is just to get a description of how the human that created it looks like.
 
     Come up with a conscise writing for this. Make it no more than 333 characters long.
     Here is the block of text: `,
@@ -63,7 +59,9 @@ export default async function (req, res) {
     });
 
     res.status(200).json({
-      imagePromptForMidjourney: completion.data.choices[0].message.content,
+      imagePromptForMidjourney:
+        `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon` +
+        completion.data.choices[0].message.content,
     });
   } catch (error) {
     console.log('there was another error in this thing.', error);

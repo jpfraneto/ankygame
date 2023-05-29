@@ -2,15 +2,47 @@ import prisma from '@component/lib/prismaClient';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { twitterUser, timeSpent, wordCount, content } = req.body;
+    const { twitterUser, timeSpent, wordCount, content, address } = req.body;
+
+    // Check if a User exists for this address or username
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [{ walletAddress: address }, { twitterUsername: twitterUser }],
+      },
+    });
+
+    if (!user) {
+      // create a new User if needed
+      user = await prisma.user.create({
+        data: {
+          walletAddress: address,
+          twitterUsername: twitterUser,
+        },
+      });
+    }
+
+    // create a new Run associated with the User
     const newRun = await prisma.run.create({
       data: {
         twitterUser,
         timeSpent,
         wordCount,
         content,
+        user: {
+          connect: { id: user.id },
+        },
       },
     });
+
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        readingCredits: {
+          increment: timeSpent,
+        },
+      },
+    });
+
     res.json(newRun);
   } else if (req.method === 'GET') {
     const topRuns = await prisma.run.findMany({

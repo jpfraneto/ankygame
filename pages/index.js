@@ -101,7 +101,7 @@ const GamePage = () => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time <= 30) return setMoreThanMinRound(false);
+    if (time < 30) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);
@@ -132,7 +132,9 @@ const GamePage = () => {
   };
 
   const saveRunToDb = async () => {
-    if (!twitterUsername) return alert('Please add your username');
+    if (!address) {
+      if (!twitterUsername) return alert('Please add your username');
+    }
     setSavingRound(true);
     setSubmittingRunToDB(true);
 
@@ -143,6 +145,7 @@ const GamePage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          address: address || '',
           twitterUser: twitterUsername || 'anon',
           timeSpent: time,
           wordCount: text.split(' ').length,
@@ -316,22 +319,6 @@ const GamePage = () => {
                             </label>
 
                             <div className='flex flex-nostretch items-center mt-4 justify-center space-x-2'>
-                              {lives === 0 ? (
-                                <button
-                                  onClick={spendOneLifeAndGoBackToWriting}
-                                  className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite hover:cursor-not-allowed text-sm justify-center font-medium border rounded-lg'
-                                >
-                                  <span>No lives left</span>
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={spendOneLifeAndGoBackToWriting}
-                                  className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite text-sm justify-center font-medium border rounded-lg hover:opacity-60'
-                                >
-                                  <span>Continue</span>
-                                  <span>1 💚</span>
-                                </button>
-                              )}
                               <button
                                 className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
                                 onClick={() => {
@@ -367,22 +354,6 @@ const GamePage = () => {
                 </p>
                 <p>Min score to qualify is 30 seconds.</p>
                 <div className='flex justify-center space-x-2'>
-                  {lives === 0 ? (
-                    <button
-                      onClick={spendOneLifeAndGoBackToWriting}
-                      className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite hover:cursor-not-allowed text-sm justify-center font-medium border rounded-lg'
-                    >
-                      <span>No lives left</span>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={spendOneLifeAndGoBackToWriting}
-                      className='flex flex-col items-center bg-theblack text-thewhite px-4 py-2 border-thewhite text-sm justify-center font-medium border rounded-lg hover:opacity-60'
-                    >
-                      <span>Continue</span>
-                      <span>1 💚</span>
-                    </button>
-                  )}
                   <Button
                     buttonText={copyText}
                     buttonAction={pasteText}

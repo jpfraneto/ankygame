@@ -113,8 +113,8 @@ const StepsForGettingImage = ({ text }) => {
 
               {ankyResponse === '' ? (
                 <p className='mt-2'>
-                  I&apos;m looking in the ether for the description of an image
-                  that will describe you in my world... Please stand still and
+                  I&apos;m looking in the ether for the prompt of an image that
+                  will describe you in my world... Please stand still and
                   breathe.
                 </p>
               ) : (
