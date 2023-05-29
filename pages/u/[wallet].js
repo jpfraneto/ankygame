@@ -13,11 +13,10 @@ function UserByWallet({ user, runs }) {
   if (!router.isReady) return null;
 
   if (!user) return;
-  console.log('the user is: ', user);
 
   return (
     <>
-      <h2 className='text-4xl'>{user.twitterUsername}'s runs</h2>
+      <h2 className='text-4xl'>{user.twitterUsername}&apos;s runs</h2>
       {user.runs &&
         user.runs.map(run => (
           <div className='flex space-x-2' key={run.id}>
@@ -37,7 +36,7 @@ function UserByWallet({ user, runs }) {
       {chosenRun && (
         <ReaderModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
           {chosenRun.content.split('\n').map((x, i) => (
-            <p>{x}</p>
+            <p key={i}>{x}</p>
           ))}
         </ReaderModal>
       )}

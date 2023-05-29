@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-const index = () => {
+const UsersPage = () => {
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -14,11 +14,18 @@ const index = () => {
     fetchUsers();
   }, []);
   if (loading) return <p>Loading...</p>;
+  if (!users)
+    return (
+      <div>
+        <p>No users!</p>
+        <Link href='/'>Go Back</Link>
+      </div>
+    );
   return (
     <div>
       {users.map((x, i) => {
         return (
-          <div>
+          <div key={i}>
             <Link href={`/u/${x.walletAddress}`}>{x.twitterUsername}</Link>
           </div>
         );
@@ -27,4 +34,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default UsersPage;
