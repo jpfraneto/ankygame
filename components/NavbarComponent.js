@@ -3,6 +3,7 @@ import { ConnectWallet } from '@thirdweb-dev/react';
 import { Righteous } from 'next/font/google';
 import { FaHeartbeat } from 'react-icons/fa';
 import { useAddress } from '@thirdweb-dev/react';
+import Link from 'next/link';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
@@ -40,15 +41,17 @@ const NavbarComponent = ({ setModalOpen, highscore, lives, router }) => {
         </div>
         {address && (
           <div
-            className={`${righteous.className} flex justify-between font-bold px-2 py-1 bg-thepurple rounded-lg mt-3 w-48`}
+            className={`${righteous.className} flex  flex-col justify-between font-bold px-2 py-1 bg-thepurple rounded-lg mt-3 w-48`}
           >
             <div className='flex space-x-1 hover:cursor-pointer'>
-              <span
-                className='hover:text-theblack'
-                onClick={() => router.push(`/u/${address}`)}
-              >
+              <Link className='hover:text-theblack' href={`/u/${address}`}>
                 Your Runs
-              </span>
+              </Link>
+            </div>
+            <div className='flex space-x-1 hover:cursor-pointer'>
+              <Link className='hover:text-theblack' href={`/settings`}>
+                Settings
+              </Link>
             </div>
           </div>
         )}

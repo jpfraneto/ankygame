@@ -2,12 +2,12 @@ import prisma from '@component/lib/prismaClient';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { twitterUser, timeSpent, wordCount, content, address } = req.body;
+    const { timeSpent, wordCount, content, address } = req.body;
 
     // Check if a User exists for this address or username
     let user = await prisma.user.findFirst({
       where: {
-        OR: [{ walletAddress: address }, { twitterUsername: twitterUser }],
+        OR: [{ walletAddress: address }],
       },
     });
 
@@ -16,7 +16,6 @@ export default async function handler(req, res) {
       user = await prisma.user.create({
         data: {
           walletAddress: address,
-          twitterUsername: twitterUser,
         },
       });
     }
@@ -24,7 +23,6 @@ export default async function handler(req, res) {
     // create a new Run associated with the User
     const newRun = await prisma.run.create({
       data: {
-        twitterUser,
         timeSpent,
         wordCount,
         content,

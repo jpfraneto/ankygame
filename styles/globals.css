@@ -158,7 +158,16 @@ footer {
     opacity: 0;
   }
   100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
     opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -293,6 +302,10 @@ footer {
 
 .fade-in {
   animation: fadeIn 1s ease-in-out;
+}
+
+.fade-out {
+  animation: fadeOut 1s ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {

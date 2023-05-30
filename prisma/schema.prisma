@@ -13,8 +13,6 @@ datasource db {
 
 model User {
   id             String            @id @default(cuid())
-  name           String?
-  email          String?           @unique
   username       String?           @unique
   image          String?
   createdAt      DateTime          @default(now())
@@ -22,7 +20,6 @@ model User {
   points    Int     @default(0)
   level     Int     @default(1)
   walletAddress String? @unique
-  twitterUsername String?
   readingCredits Int @default(0)
   runs      Run[]
 }
@@ -31,7 +28,6 @@ model User {
 
 model Run {
   id          Int     @id @default(autoincrement())
-  twitterUser String
   timeSpent   Int
   wordCount   Int
   content     String

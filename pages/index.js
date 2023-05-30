@@ -3,7 +3,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import RunModal from '@component/components/RunModal';
 import Leaderboard from '@component/components/Leaderboard';
-import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
+import {
+  Inter,
+  Righteous,
+  Rajdhani,
+  Dancing_Script,
+  Pacifico,
+} from 'next/font/google';
+import { toast } from 'react-toastify';
 import StepsForGettingImage from '@component/components/StepsForGettingImage';
 import { FaHeartbeat } from 'react-icons/fa';
 import { useRouter } from 'next/router';
@@ -12,6 +19,8 @@ import { ConnectWallet } from '@thirdweb-dev/react';
 import NavbarComponent from '@component/components/NavbarComponent';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
+const dancingScript = Dancing_Script({ weight: '400', subsets: ['latin'] });
+const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 
 const GamePage = () => {
   const audioRef = useRef();
@@ -41,7 +50,6 @@ const GamePage = () => {
   const [failureMessage, setFailureMessage] = useState('');
   const [copyText, setCopyText] = useState('Copy my writing');
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [twitterUsername, setTwitterUsername] = useState('');
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [displayLeaderboard, setDisplayLeaderboard] = useState(false);
@@ -64,7 +72,6 @@ const GamePage = () => {
         })
         .catch(err => console.error(err));
     };
-
     loadLeaderboard();
   }, []);
 
@@ -106,6 +113,7 @@ const GamePage = () => {
       setIsHighscore(true);
       setHighscore(time);
     }
+    saveRunToDb();
     setMoreThanMinRound(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
@@ -133,7 +141,6 @@ const GamePage = () => {
 
   const saveRunToDb = async () => {
     if (!address) {
-      if (!twitterUsername) return alert('Please add your username');
     }
     setSavingRound(true);
     setSubmittingRunToDB(true);
@@ -145,14 +152,14 @@ const GamePage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          address: address || '',
-          twitterUser: twitterUsername || 'anon',
+          address: address || '0xanonrulesxxx',
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
         }),
       });
       const data = await response.json();
+      toast.success('Your run was added to your profile');
       if (data) {
         // Assume leaderboard is sorted by timeSpent in descending order.
         // Find the correct position to insert the new run.
@@ -163,7 +170,6 @@ const GamePage = () => {
         }
         // Insert the new run into leaderboard at the correct position.
         leaderboard.splice(insertIndex, 0, {
-          twitterUser: twitterUsername,
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
@@ -183,7 +189,6 @@ const GamePage = () => {
 
   const submitRunWithThisUsername = async () => {
     setSubmittingRunToDB(true);
-    alert(`Add ${twitterUsername}`);
   };
 
   const updateSadhanas = async () => {
@@ -243,13 +248,16 @@ const GamePage = () => {
             "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
         }}
       >
-        <NavbarComponent
-          setModalOpen={setModalOpen}
-          highscore={highscore}
-          lives={lives}
-          router={router}
-          address={address}
-        />
+        {time <= 10 && (
+          <NavbarComponent
+            setModalOpen={setModalOpen}
+            highscore={highscore}
+            lives={lives}
+            router={router}
+            address={address}
+          />
+        )}
+
         <audio ref={audioRef}>
           <source src='/sounds/bell.mp3' />
         </audio>
@@ -303,45 +311,59 @@ const GamePage = () => {
                                   <p>You are done. Your score is {time}.</p>
                                 </div>
                               )}
-
-                              <p>
-                                If you want, you can save your run to the db.
-                              </p>
-                              <label>
-                                Twitter username:
-                                <input
-                                  type='text'
-                                  className='px-2 py-1 mx-2 rounded text-theblack'
-                                  required
-                                  placeholder='elonmusk'
-                                  value={twitterUsername}
-                                  onChange={e =>
-                                    setTwitterUsername(e.target.value)
-                                  }
-                                />
-                              </label>
-
-                              <div className='flex flex-nostretch items-center mt-4 justify-center space-x-2'>
-                                <button
-                                  className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
-                                  onClick={() => {
-                                    saveRunToDb();
-                                  }}
-                                >
-                                  {submittingRunToDB
-                                    ? 'Adding...'
-                                    : 'Add to leaderboard'}
-                                </button>
-
-                                <button
-                                  className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
-                                  onClick={() => {
-                                    pasteText();
-                                  }}
-                                >
-                                  Copy what I wrote
-                                </button>
-                              </div>
+                              {address ? (
+                                <div>
+                                  <p>Your run was saved into the db.</p>
+                                  <div className='flex space-x-2'>
+                                    <button
+                                      className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
+                                      onClick={() => {
+                                        pasteText();
+                                      }}
+                                    >
+                                      Copy what I wrote
+                                    </button>
+                                    <button
+                                      className='px-4 py-2 rounded-xl bg-theorange h-fit hover:opacity-80'
+                                      onClick={() => {
+                                        router.push(`/u/${address}`);
+                                      }}
+                                    >
+                                      See my runs
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div>
+                                  <p>
+                                    If you had your wallet connected, you would
+                                    have a profile on which to track your
+                                    progress and do all kinds of crazy stuff
+                                    with what you write.
+                                  </p>
+                                  <div className='flex space-x-2'>
+                                    <button
+                                      className='px-4 py-2 rounded-lg bg-thegreen h-fit hover:opacity-80'
+                                      onClick={() => {
+                                        pasteText();
+                                      }}
+                                    >
+                                      Copy what I wrote
+                                    </button>
+                                    <button
+                                      className='px-4 py-2 rounded-lg bg-theorange h-fit hover:opacity-80'
+                                      onClick={startNewRun}
+                                    >
+                                      Play Again
+                                    </button>
+                                    <ConnectWallet
+                                      auth={{
+                                        loginOptional: false,
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
@@ -364,7 +386,7 @@ const GamePage = () => {
                     />
                     <div className=''>
                       <Button
-                        buttonText='Start from scratch'
+                        buttonText='Start Again'
                         buttonAction={startNewRun}
                       />
                     </div>
@@ -374,32 +396,55 @@ const GamePage = () => {
             </>
           ) : (
             <>
-              <p
-                className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
-              >
-                tell me who you are.
-              </p>
-              <p className='text-base text-gray-600 my-1'>
-                My world will only open to those who prove themselves.
-              </p>
+              {
+                <div
+                  className={`${time > 0 && 'fade-out'}} ${
+                    time > 1 && 'hidden'
+                  }`}
+                >
+                  <p
+                    className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
+                  >
+                    tell me who you are.
+                  </p>
+                  <p className='text-base text-gray-600 my-1'>
+                    My world will only open to those who prove themselves.
+                  </p>
+                  <p>If you stop writing for 1 second, you will fail.</p>
+                  <p className={`${righteous.className}  font-bold`}>
+                    Write as if there was no tomorrow.
+                  </p>
+                  <p className={`${righteous.className} font-bold`}>
+                    See you on the otherside.
+                  </p>
+                </div>
+              }
 
-              <p>If you stop writing for 1 second, you will fail.</p>
-
-              <p className={`${righteous.className}  font-bold`}>
-                Write as if there was no tomorrow.
-              </p>
-              <p className={`${righteous.className} font-bold`}>
-                See you on the otherside.
-              </p>
               <textarea
                 ref={textareaRef}
-                className='w-full h-64 p-4 text-thewhite border border-gray-300 rounded-md mb-4 bg-opacity-50 bg-theblack'
+                style={{
+                  top: `${time > 10 ? '0' : '30'}%`,
+                  bottom: `${time > 10 ? '0' : '30'}%`,
+                  left: `${time > 10 ? '0' : '30'}%`,
+                  right: `${time > 10 ? '0' : '30'}%`,
+                  transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
+                }}
+                className={`${pacifico.className} absolute p-4 text-thewhite text-2xl border border-gray-300 rounded-md mb-4 bg-opacity-50 bg-theblack`}
                 value={text}
                 onChange={handleTextChange}
               ></textarea>
-              <div className='flex justify-center items-center mb-4'>
-                <div className='text-4xl'>{time} </div>
-              </div>
+              {time > 1 && (
+                <div
+                  className={`${
+                    time > 0 && 'fade-in'
+                  } flex flex-col justify-center items-center mb-4`}
+                >
+                  <div className='text-9xl'>{time}</div>
+                  <p className={`${righteous.className}  font-bold`}>
+                    Write as if there was no tomorrow.
+                  </p>
+                </div>
+              )}
             </>
           )}
         </div>
