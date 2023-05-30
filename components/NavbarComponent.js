@@ -38,13 +38,10 @@ const NavbarComponent = ({ setModalOpen, highscore, lives, router }) => {
             }}
           />
         </div>
-        <div
-          className={`${righteous.className} flex justify-between font-bold px-2 py-1 bg-thepurple rounded-lg mt-3 w-48`}
-        >
-          {/* <div className='flex space-x-1 hover:cursor-pointer'>
-            <span className=''>{lives}</span> <FaHeartbeat size={20} />
-          </div> */}
-          {address && (
+        {address && (
+          <div
+            className={`${righteous.className} flex justify-between font-bold px-2 py-1 bg-thepurple rounded-lg mt-3 w-48`}
+          >
             <div className='flex space-x-1 hover:cursor-pointer'>
               <span
                 className='hover:text-theblack'
@@ -53,8 +50,8 @@ const NavbarComponent = ({ setModalOpen, highscore, lives, router }) => {
                 Your Runs
               </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );

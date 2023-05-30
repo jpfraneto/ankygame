@@ -233,177 +233,214 @@ const GamePage = () => {
   };
 
   return (
-    <div
-      className='text-thewhite relative min-h-screen flex flex-col items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
-      style={{
-        boxSizing: 'border-box',
-        height: 'calc(100vh  - 30px)',
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
-      }}
-    >
-      <NavbarComponent
-        setModalOpen={setModalOpen}
-        highscore={highscore}
-        lives={lives}
-        router={router}
-        address={address}
-      />
-      <audio ref={audioRef}>
-        <source src='/sounds/bell.mp3' />
-      </audio>
-      <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-1/3'>
-        {finished ? (
-          <>
-            {moreThanMinRun ? (
-              <>
+    <>
+      <div
+        className='text-thewhite relative min-h-screen flex flex-col items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
+        style={{
+          boxSizing: 'border-box',
+          height: 'calc(100vh  - 30px)',
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
+        }}
+      >
+        <NavbarComponent
+          setModalOpen={setModalOpen}
+          highscore={highscore}
+          lives={lives}
+          router={router}
+          address={address}
+        />
+        <audio ref={audioRef}>
+          <source src='/sounds/bell.mp3' />
+        </audio>
+        <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-1/3'>
+          {finished ? (
+            <>
+              {moreThanMinRun ? (
                 <>
-                  <div>
-                    {displayStepsForGettingImage ? (
-                      <StepsForGettingImage text={text} />
-                    ) : (
-                      <div>
-                        {runSubmitted ? (
-                          <div>
-                            <p>
-                              Ready. Now do you want to get a customized avatar
-                              based on what you just wrote?
-                            </p>
-                            <div className='flex space-x-2 my-2'>
-                              <Button
-                                buttonAction={() => {
-                                  setDisplayStepsForGettingImage(true);
-                                }}
-                                buttonText='Yes'
-                                buttonColor='bg-thegreenbtn'
-                              />
-                              <Button
-                                buttonAction={() => {
-                                  alert(
-                                    "Ok, if this didn't caught your attention, I have work to do. Thx for trying it out."
-                                  );
-                                }}
-                                buttonText='No'
-                                buttonColor='bg-theredbtn'
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <div>
-                            {isHighscore ? (
-                              <div>
-                                <p>
-                                  NEW HIGHSCORE! CONGRATULATIONS. You made it
-                                  for {time} seconds.
-                                </p>
+                  <>
+                    <div>
+                      {displayStepsForGettingImage ? (
+                        <StepsForGettingImage text={text} />
+                      ) : (
+                        <div>
+                          {runSubmitted ? (
+                            <div>
+                              <p>
+                                Ready. Now do you want to get a customized
+                                avatar based on what you just wrote?
+                              </p>
+                              <div className='flex space-x-2 my-2'>
+                                <Button
+                                  buttonAction={() => {
+                                    setDisplayStepsForGettingImage(true);
+                                  }}
+                                  buttonText='Yes'
+                                  buttonColor='bg-thegreenbtn'
+                                />
+                                <Button
+                                  buttonAction={() => {
+                                    alert(
+                                      "Ok, if this didn't caught your attention, I have work to do. Thx for trying it out."
+                                    );
+                                  }}
+                                  buttonText='No'
+                                  buttonColor='bg-theredbtn'
+                                />
                               </div>
-                            ) : (
-                              <div>
-                                <p>You are done. Your score is {time}.</p>
-                              </div>
-                            )}
-
-                            <p>If you want, you can save your run to the db.</p>
-                            <label>
-                              Twitter username:
-                              <input
-                                type='text'
-                                className='px-2 py-1 mx-2 rounded text-theblack'
-                                required
-                                placeholder='elonmusk'
-                                value={twitterUsername}
-                                onChange={e =>
-                                  setTwitterUsername(e.target.value)
-                                }
-                              />
-                            </label>
-
-                            <div className='flex flex-nostretch items-center mt-4 justify-center space-x-2'>
-                              <button
-                                className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
-                                onClick={() => {
-                                  saveRunToDb();
-                                }}
-                              >
-                                {submittingRunToDB
-                                  ? 'Adding...'
-                                  : 'Add to leaderboard'}
-                              </button>
-
-                              <button
-                                className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
-                                onClick={() => {
-                                  pasteText();
-                                }}
-                              >
-                                Copy what I wrote
-                              </button>
                             </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                          ) : (
+                            <div>
+                              {isHighscore ? (
+                                <div>
+                                  <p>
+                                    NEW HIGHSCORE! CONGRATULATIONS. You made it
+                                    for {time} seconds.
+                                  </p>
+                                </div>
+                              ) : (
+                                <div>
+                                  <p>You are done. Your score is {time}.</p>
+                                </div>
+                              )}
+
+                              <p>
+                                If you want, you can save your run to the db.
+                              </p>
+                              <label>
+                                Twitter username:
+                                <input
+                                  type='text'
+                                  className='px-2 py-1 mx-2 rounded text-theblack'
+                                  required
+                                  placeholder='elonmusk'
+                                  value={twitterUsername}
+                                  onChange={e =>
+                                    setTwitterUsername(e.target.value)
+                                  }
+                                />
+                              </label>
+
+                              <div className='flex flex-nostretch items-center mt-4 justify-center space-x-2'>
+                                <button
+                                  className='px-4 py-2 rounded-xl bg-thegreenbtn h-fit hover:opacity-80'
+                                  onClick={() => {
+                                    saveRunToDb();
+                                  }}
+                                >
+                                  {submittingRunToDB
+                                    ? 'Adding...'
+                                    : 'Add to leaderboard'}
+                                </button>
+
+                                <button
+                                  className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
+                                  onClick={() => {
+                                    pasteText();
+                                  }}
+                                >
+                                  Copy what I wrote
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </>
                 </>
-              </>
-            ) : (
-              <div className=''>
-                <p>
-                  You are done. Your score is {time}. You need to try harder
-                  next time.
-                </p>
-                <p>Min score to qualify is 30 seconds.</p>
-                <div className='flex justify-center space-x-2'>
-                  <Button
-                    buttonText={copyText}
-                    buttonAction={pasteText}
-                    buttonColor='bg-thegreen'
-                  />
-                  <div className=''>
+              ) : (
+                <div className=''>
+                  <p>
+                    You are done. Your score is {time}. You need to try harder
+                    next time.
+                  </p>
+                  <p>Min score to qualify is 30 seconds.</p>
+                  <div className='flex justify-center space-x-2'>
                     <Button
-                      buttonText='Start from scratch'
-                      buttonAction={startNewRun}
+                      buttonText={copyText}
+                      buttonAction={pasteText}
+                      buttonColor='bg-thegreen'
                     />
+                    <div className=''>
+                      <Button
+                        buttonText='Start from scratch'
+                        buttonAction={startNewRun}
+                      />
+                    </div>
                   </div>
                 </div>
+              )}
+            </>
+          ) : (
+            <>
+              <p
+                className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
+              >
+                tell me who you are.
+              </p>
+              <p className='text-base text-gray-600 my-1'>
+                My world will only open to those who prove themselves.
+              </p>
+
+              <p>If you stop writing for 1 second, you will fail.</p>
+
+              <p className={`${righteous.className}  font-bold`}>
+                Write as if there was no tomorrow.
+              </p>
+              <p className={`${righteous.className} font-bold`}>
+                See you on the otherside.
+              </p>
+              <textarea
+                ref={textareaRef}
+                className='w-full h-64 p-4 text-thewhite border border-gray-300 rounded-md mb-4 bg-opacity-50 bg-theblack'
+                value={text}
+                onChange={handleTextChange}
+              ></textarea>
+              <div className='flex justify-center items-center mb-4'>
+                <div className='text-4xl'>{time} </div>
               </div>
-            )}
-          </>
-        ) : (
-          <>
-            <p
-              className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
-            >
-              tell me who you are.
-            </p>
-            <p className='text-base text-gray-600 my-1'>
-              My world will only open to those who prove themselves.
-            </p>
-
-            <p>If you stop writing for 1 second, you will fail.</p>
-
-            <p className={`${righteous.className}  font-bold`}>
-              Write as if there was no tomorrow.
-            </p>
-            <p className={`${righteous.className} font-bold`}>
-              See you on the otherside.
-            </p>
-            <textarea
-              ref={textareaRef}
-              className='w-full h-64 p-4 text-thewhite border border-gray-300 rounded-md mb-4 bg-opacity-50 bg-theblack'
-              value={text}
-              onChange={handleTextChange}
-            ></textarea>
-            <div className='flex justify-center items-center mb-4'>
-              <div className='text-4xl'>{time} </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
+        <RunModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+          <Leaderboard leaderboard={leaderboard} />
+        </RunModal>
       </div>
-      <RunModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        <Leaderboard leaderboard={leaderboard} />
-      </RunModal>
-    </div>
+      <div className='min-h-screen bg-theblack py-8'>
+        <p
+          className={`${righteous.className} text-thewhite text-5xl font-bold  text-center`}
+        >
+          wtf is this?
+        </p>
+        <div
+          className={`${righteous.className} font-bold text-thewhite text-center`}
+        >
+          <p className=''>Maybe it is easier to say what it is not.</p>
+          <p className=''>It may look like a game.</p>
+          <p className=''>But it is not.</p>
+          <p className=''>It may seem like something absolutely simple.</p>
+          <p className=''>But it is not.</p>
+          <p className=''>It may seem easy.</p>
+          <p className=''>But it is not.</p>
+          <p className=''>
+            The journey that you will embark on by being part of this experience
+            is deep.
+          </p>
+          <p className=''>You are opening to your own transformation.</p>
+          <p className=''>
+            By developing a strong capacity for observing your thoughts.
+          </p>
+          <p className=''>And realizing that you are not them.</p>
+          <p className=''>You are that which underlies them.</p>
+          <p className=''>You are the one that is witnessing them.</p>
+          <p className=''>You are not them.</p>
+          <p className=''>This game is a ruthless exploration into that.</p>
+          <p className=''>Into you.</p>
+          <p className=''>Welcome on board.</p>
+        </div>
+      </div>
+    </>
   );
 };
 
