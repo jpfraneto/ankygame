@@ -140,8 +140,6 @@ const GamePage = () => {
   };
 
   const saveRunToDb = async () => {
-    if (!address) {
-    }
     setSavingRound(true);
     setSubmittingRunToDB(true);
 
@@ -152,7 +150,7 @@ const GamePage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          address: address || '0xanonrulesxxx',
+          address: address || '0x4non',
           timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
@@ -194,7 +192,6 @@ const GamePage = () => {
   const updateSadhanas = async () => {
     const response = await fetch('/api/update-sadhanas');
     const data = await response.json();
-    console.log('the data is: ', data);
   };
 
   const spendOneLifeAndGoBackToWriting = () => {
@@ -272,7 +269,7 @@ const GamePage = () => {
                         <StepsForGettingImage text={text} />
                       ) : (
                         <div>
-                          {runSubmitted ? (
+                          {runSubmitted && address ? (
                             <div>
                               <p>
                                 Ready. Now do you want to get a customized

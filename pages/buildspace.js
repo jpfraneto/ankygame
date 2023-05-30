@@ -188,7 +188,6 @@ const GamePage = () => {
   const updateSadhanas = async () => {
     const response = await fetch('/api/update-sadhanas');
     const data = await response.json();
-    console.log('the data is: ', data);
   };
 
   // const spendOneLifeAndGoBackToWriting = () => {
@@ -211,7 +210,6 @@ const GamePage = () => {
       });
 
       if (response.ok) {
-        console.log('All runs deleted successfully');
         // clear leaderboard
         setLeaderboard([]);
       } else {

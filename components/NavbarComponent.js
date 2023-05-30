@@ -53,6 +53,16 @@ const NavbarComponent = ({ setModalOpen, highscore, lives, router }) => {
                 Settings
               </Link>
             </div>
+            <div className='flex space-x-1 hover:cursor-pointer'>
+              <a
+                className='hover:text-theblack'
+                href='https://www.youtube.com/watch?v=_3EuiU1qdpE'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Music
+              </a>
+            </div>
           </div>
         )}
       </div>

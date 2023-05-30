@@ -164,8 +164,6 @@ const GamePage = () => {
         setSubmittingRunToDB(false);
         setSavingRound('Save to DB');
         setSavedToDb(true);
-
-        console.log('the data from the server is: ', data);
       }
     } catch (error) {
       console.log('the error is:', error);
@@ -180,7 +178,6 @@ const GamePage = () => {
   const updateSadhanas = async () => {
     const response = await fetch('/api/update-sadhanas');
     const data = await response.json();
-    console.log('the data is: ', data);
   };
 
   const deleteAllRuns = async () => {

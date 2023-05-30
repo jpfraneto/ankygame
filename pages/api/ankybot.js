@@ -60,7 +60,7 @@ export default async function (req, res) {
 
     res.status(200).json({
       imagePromptForMidjourney:
-        `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon` +
+        `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ` +
         completion.data.choices[0].message.content,
     });
   } catch (error) {

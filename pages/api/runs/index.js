@@ -4,6 +4,18 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { timeSpent, wordCount, content, address } = req.body;
 
+    if (address === '0x4non') {
+      const newAnonRun = await prisma.run.create({
+        data: {
+          timeSpent,
+          wordCount,
+          content,
+        },
+      });
+      console.log('a new anon run was saved', newAnonRun);
+      return res.status(200).json(newAnonRun);
+    }
+
     // Check if a User exists for this address or username
     let user = await prisma.user.findFirst({
       where: {
@@ -31,7 +43,6 @@ export default async function handler(req, res) {
         },
       },
     });
-    console.log('the run was added', newRun);
 
     const updatedUser = await prisma.user.update({
       where: { id: user.id },
@@ -42,18 +53,15 @@ export default async function handler(req, res) {
       },
     });
 
-    res.json(newRun);
+    res.status(200).json(newRun);
   } else if (req.method === 'GET') {
-    const topRuns = await prisma.run.findMany({});
-    console.log(topRuns);
+    const topRuns = await prisma.run.findMany({
+      take: 20,
+      orderBy: {
+        timeSpent: 'desc',
+      },
+    });
     res.json(topRuns);
-    // const topRuns = await prisma.run.findMany({
-    //   take: 20,
-    //   orderBy: {
-    //     timeSpent: 'desc',
-    //   },
-    // });
-    // res.json(topRuns);
   } else if (req.method === 'DELETE') {
     const deletedRuns = await prisma.run.deleteMany();
     console.log('the runs were deleted');

@@ -7,7 +7,6 @@ const Leaderboard = ({ setSelectedRun, setModalOpen }) => {
       fetch('/api/runs')
         .then(res => res.json())
         .then(data => {
-          console.log('the data is: ', data);
           setLeaderboard(data);
           setLoadingLeaderboard(false);
         })

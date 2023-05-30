@@ -46,8 +46,6 @@ export default async function (req, res) {
       { role: 'user', content: message },
     ];
 
-    console.log('sending to chatgtp the text:', messages);
-
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: messages,
