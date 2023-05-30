@@ -31,6 +31,7 @@ export default async function handler(req, res) {
         },
       },
     });
+    console.log('the run was added', newRun);
 
     const updatedUser = await prisma.user.update({
       where: { id: user.id },
@@ -43,13 +44,16 @@ export default async function handler(req, res) {
 
     res.json(newRun);
   } else if (req.method === 'GET') {
-    const topRuns = await prisma.run.findMany({
-      take: 20,
-      orderBy: {
-        timeSpent: 'desc',
-      },
-    });
+    const topRuns = await prisma.run.findMany({});
+    console.log(topRuns);
     res.json(topRuns);
+    // const topRuns = await prisma.run.findMany({
+    //   take: 20,
+    //   orderBy: {
+    //     timeSpent: 'desc',
+    //   },
+    // });
+    // res.json(topRuns);
   } else if (req.method === 'DELETE') {
     const deletedRuns = await prisma.run.deleteMany();
     console.log('the runs were deleted');
