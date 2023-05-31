@@ -7,6 +7,7 @@ import {
   walletConnect,
 } from '@thirdweb-dev/react';
 import { Ethereum, Polygon, Sepolia } from '@thirdweb-dev/chains';
+import Navbar from '@component/components/Navbar';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -26,7 +27,10 @@ export default function App({ Component, pageProps }) {
         supportedChains={[Ethereum, Sepolia]}
         supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
       >
-        <Component {...pageProps} />
+        <Navbar />
+        <div className=''>
+          <Component {...pageProps} />
+        </div>
       </ThirdwebProvider>
     </>
   );

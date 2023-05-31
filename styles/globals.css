@@ -6,25 +6,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: black;
-  --background-end-rgb: black;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: black;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 html,
 body {
   min-height: 100vh;
   font-family: 'Inter', cursive;
   position: relative;
+  background-color: black;
   padding: 0;
   margin: 0;
 }
@@ -74,8 +61,14 @@ p {
 
 nav {
   z-index: 1000;
-  height: 55px;
-  box-shadow: rgba(0, 0, 0, 0.8) 0px 3px 20px -2px;
+}
+
+.navBtn {
+  padding: 3px 6px;
+  background-color: white;
+  border-radius: 3px;
+  opacity: 80%;
+  font-size: 0.8rem;
 }
 
 h1 {
