@@ -426,7 +426,7 @@ const GamePage = () => {
                   right: `${time > 10 ? '0' : '30'}%`,
                   transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
                 }}
-                className={`${pacifico.className} absolute p-4 text-thewhite text-2xl border border-gray-300 rounded-md mb-4 bg-opacity-50 bg-theblack`}
+                className={`${pacifico.className} absolute p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
                 value={text}
                 onChange={handleTextChange}
               ></textarea>
@@ -434,7 +434,7 @@ const GamePage = () => {
                 <div
                   className={`${
                     time > 0 && 'fade-in'
-                  } flex flex-col justify-center items-center mb-4`}
+                  } flex flex-col justify-center items-center text-opacity-20 mb-4`}
                 >
                   <div className='text-9xl'>{time}</div>
                   <p className={`${righteous.className}  font-bold`}>
