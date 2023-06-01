@@ -133,33 +133,39 @@ const Gallery = ({ userPrompt }) => {
       <div className='h-full w-3/12 overflow-y-scroll  px-9 pt-6 bg-theblack'>
         <h2 className={`${righteous.className}  text-3xl  `}>What is this?</h2>
         <p className={`${righteous.className} mt-7 text-md `}>
-          Anky is a special world that lives inside a game. But it's not just
-          any game. It's a magical place where you can meet characters that are
-          really a bit like you!
+          Anky is a special world that lives inside a game. But it&apos;s not
+          just any game. It&apos;s a magical place where you can meet characters
+          that are really a bit like you.
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>
           You see, each character you see in this gallery is special. Each one
-          was born from a person's imagination and tells a story about them.
-          It's as if they painted a picture using words and their picture turned
-          into these characters!
+          was born from a person&apos;s imagination and tells a story about
+          them. It&apos;s as if they painted a picture using words and their
+          picture turned into these characters.
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>
           You can also make your own special character. All you have to do is
-          write a little story about yourself or what you want to be. Then, like
-          magic, you will see a new character in the gallery. And guess what?
-          That character is a bit like you!
+          write 3 minutes about yourself. Then, like magic, you will see a new
+          character in the gallery. And guess what? That character is a bit like
+          you.
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>
-          Anky is just starting to grow. It's like a tiny seed that has just
-          started to sprout. It might be a little confusing right now, just like
-          a puzzle when you've only put a few pieces together. But as more and
-          more people create their own characters, the picture will become
-          clearer.
+          Anky is just starting to grow. It&apos;s like a tiny seed that has
+          just started to sprout. It might be a little confusing right now, just
+          like a puzzle when you&apos;ve only put a few pieces together. But as
+          more and more people create their own characters, the picture will
+          become clearer.
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>
           And the best part is, each Anky character is like a magical car that
-          takes you on an adventure in this game. So let's start the journey and
-          grow this world together!
+          takes you on an adventure in this game. So let&apos;s start the
+          journey and grow this world together.
+        </p>
+        <p className={`${righteous.className} mt-7 text-md `}>
+          Thank you for being here.
+        </p>
+        <p className={`${righteous.className} mt-7 text-md `}>
+          Thank you for being who you are.
         </p>
       </div>
       <div className='h-full w-9/12 flex bg-thewhite text-theblack flex-col'>
