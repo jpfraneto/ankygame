@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { ConnectWallet } from '@thirdweb-dev/react';
 import { Web3Button, useAddress } from '@thirdweb-dev/react';
 import { toast } from 'react-toastify';
+import { MdNavigateBefore, MdOutlineNavigateNext } from 'react-icons/md';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
@@ -112,7 +113,7 @@ const TheJourney = ({ userPrompt }) => {
               onClick={() => setDisplayedStory(x => stories[x.number - 1 - 1])}
               className={`${righteous.className} text-theblack z-10 text-md mt-4 font-bold hover:text-thelightblue hover:cursor-pointer  mb-0 text-center`}
             >
-              Back
+              <MdNavigateBefore size={30} />
             </span>
           )}
           {displayedStory.number !== 7 && (
@@ -120,7 +121,7 @@ const TheJourney = ({ userPrompt }) => {
               className={`${righteous.className} text-theblack z-10 text-md mt-4 hover:cursor-pointer hover:text-thelightblue font-bold mb-0 text-center`}
               onClick={() => setDisplayedStory(x => stories[x.number + 1 - 1])}
             >
-              Then
+              <MdOutlineNavigateNext size={30} />
             </span>
           )}
         </div>
