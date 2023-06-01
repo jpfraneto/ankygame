@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Button from '@component/components/Button';
 import axios from 'axios';
 import Image from 'next/image';
+import { Righteous } from 'next/font/google';
+
+const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const StepsForGettingImage = ({ text }) => {
   const [step, setStep] = useState(1);
@@ -15,6 +18,7 @@ const StepsForGettingImage = ({ text }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [tookToMidjourney, setTookToMidjourney] = useState(false);
+  const [personDescription, setPersonDescription] = useState(null);
 
   const [promptForMidjourneyText, setPromptForMidjourneyText] = useState('');
   const [mintOptions, setMintOptions] = useState(false);
@@ -29,6 +33,14 @@ const StepsForGettingImage = ({ text }) => {
     });
     const data = await response.json();
     setAnkyResponse(data.imagePromptForMidjourney);
+
+    const responseDementor = await fetch('/api/ankydementor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text }),
+    });
+    const dataDementor = await responseDementor.json();
+    setPersonDescription(data.personDescription);
   };
 
   const pasteTextOnClipboard = async promptText => {
@@ -77,8 +89,8 @@ const StepsForGettingImage = ({ text }) => {
           {startingAnkyState && (
             <div>
               <p>
-                This button will send what you wrote to Anky and give you a
-                prompt for you to get an avatar in his world.
+                This button will transform what you wrote into a prompt for
+                midjourney.
               </p>
               {ouch ? (
                 <Button
@@ -100,7 +112,7 @@ const StepsForGettingImage = ({ text }) => {
           )}
 
           {ankyThinking && (
-            <div className='py-2 flex flex-col space-x-2 items-center'>
+            <div className='py-0 flex flex-col space-x-2 items-center'>
               <div className='rounded-full glowing mb-4 overflow-hidden shadow-lg border-4 border-thewhite'>
                 <Image
                   src='/images/anky.png'
@@ -118,7 +130,7 @@ const StepsForGettingImage = ({ text }) => {
                   breathe.
                 </p>
               ) : (
-                <div className='mt-2'>
+                <div className='mt-2 overflow-y-scroll'>
                   <p>{ankyResponse}</p>
                   {promptForMidjourneyReady ? (
                     <Button
@@ -188,13 +200,27 @@ const StepsForGettingImage = ({ text }) => {
         <div>
           {imageUrl ? (
             <div className='flex flex-col items-center'>
-              <Image
-                src={imageUrl}
-                alt='Generated image for the user'
-                width={333}
-                height={333}
-                className='border-4 bg-theblack border-thewhite '
-              />
+              <div className='flex flex-row '>
+                <div className='rounded-xl overflow-hidden border-2 border-thewhite'>
+                  <Image
+                    src={imageUrl}
+                    alt='Generated image for the user'
+                    width={333}
+                    height={333}
+                    className=' bg-theblack '
+                  />
+                </div>
+                <div>
+                  {personDescription.split('\n').map((x, i) => {
+                    return (
+                      <p key={i} className={`${righteous.className} mb-2`}>
+                        {x}
+                      </p>
+                    );
+                  })}
+                </div>
+              </div>
+
               <div className='my-4'>
                 <Button
                   buttonText='Mint NFT'

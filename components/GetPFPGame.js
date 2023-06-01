@@ -17,7 +17,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const dancingScript = Dancing_Script({ weight: '400', subsets: ['latin'] });
 const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 
-const WritingGame = ({ userPrompt }) => {
+const GetPFPGame = ({ userPrompt }) => {
   const audioRef = useRef();
   const address = useAddress();
   const router = useRouter();
@@ -103,7 +103,7 @@ const WritingGame = ({ userPrompt }) => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 30) return setMoreThanMinRound(false);
+    if (time < 161) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);
@@ -218,7 +218,7 @@ const WritingGame = ({ userPrompt }) => {
         boxSizing: 'border-box',
         height: 'calc(100vh  - 90px)',
         backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
+          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/ankystickers.png')",
       }}
     >
       <audio ref={audioRef}>
@@ -235,99 +235,33 @@ const WritingGame = ({ userPrompt }) => {
                       <StepsForGettingImage text={text} />
                     ) : (
                       <div>
-                        {runSubmitted && address ? (
+                        {runSubmitted ? (
                           <div>
                             <p>
-                              Ready. Now do you want to get a customized avatar
-                              based on what you just wrote?
+                              Ready. Now it is time to get you your avatar for
+                              this world.
                             </p>
                             <div className='flex space-x-2 my-2'>
                               <Button
                                 buttonAction={() => {
                                   setDisplayStepsForGettingImage(true);
                                 }}
-                                buttonText='Yes'
+                                buttonText='Continue'
                                 buttonColor='bg-thegreenbtn'
                               />
                               <Button
                                 buttonAction={() => {
                                   alert(
-                                    "Ok, if this didn't caught your attention, I have work to do. Thx for trying it out."
+                                    'Sorry for not making this as cool as it could be. I will make it better.'
                                   );
                                 }}
-                                buttonText='No'
+                                buttonText='Exit'
                                 buttonColor='bg-theredbtn'
                               />
                             </div>
                           </div>
                         ) : (
-                          <div>
-                            {isHighscore ? (
-                              <div>
-                                <p>
-                                  NEW HIGHSCORE! CONGRATULATIONS. You made it
-                                  for {time} seconds.
-                                </p>
-                              </div>
-                            ) : (
-                              <div>
-                                <p>You are done. Your score is {time}.</p>
-                              </div>
-                            )}
-                            {address ? (
-                              <div>
-                                <p>Your run was saved into the db.</p>
-                                <div className='flex space-x-2'>
-                                  <button
-                                    className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
-                                    onClick={() => {
-                                      pasteText();
-                                    }}
-                                  >
-                                    Copy what I wrote
-                                  </button>
-                                  <button
-                                    className='px-4 py-2 rounded-xl bg-theorange h-fit hover:opacity-80'
-                                    onClick={() => {
-                                      router.push(`/u/${address}`);
-                                    }}
-                                  >
-                                    See my runs
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <div>
-                                <p>
-                                  If you had your wallet connected, you would
-                                  have a profile on which to track your progress
-                                  and do all kinds of crazy stuff with what you
-                                  write.
-                                </p>
-                                <div className='flex space-x-2'>
-                                  <button
-                                    className='px-4 py-2 rounded-lg bg-thegreen h-fit hover:opacity-80'
-                                    onClick={() => {
-                                      pasteText();
-                                    }}
-                                  >
-                                    Copy what I wrote
-                                  </button>
-                                  <button
-                                    className='px-4 py-2 rounded-lg bg-theorange h-fit hover:opacity-80'
-                                    onClick={startNewRun}
-                                  >
-                                    Play Again
-                                  </button>
-                                  <ConnectWallet
-                                    auth={{
-                                      loginOptional: false,
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
+                          <p>Saving your run into the database...</p>
                         )}
                       </div>
                     )}
@@ -340,7 +274,7 @@ const WritingGame = ({ userPrompt }) => {
                   You are done. Your score is {time}. You need to try harder
                   next time.
                 </p>
-                <p>Min score to qualify is 30 seconds.</p>
+                <p>Min score to qualify is 161 seconds.</p>
                 <div className='flex justify-center space-x-2'>
                   <Button
                     buttonText={copyText}
@@ -369,9 +303,18 @@ const WritingGame = ({ userPrompt }) => {
                   {userPrompt}
                 </p>
                 <p className='text-base text-gray-600 my-1'>
-                  My world will only open to those who prove themselves.
+                  To get your own and unique image is simple.
                 </p>
-                <p>If you stop writing for 1 second, you will fail.</p>
+                <p className='text-base text-gray-600 my-1'>
+                  You just have to be yourself.
+                </p>
+
+                <p className='text-base text-gray-600 my-1'>
+                  If you stop writing for 1 second, you will fail.
+                </p>
+                <p className='text-base text-gray-600 my-1'>
+                  The goal is 161 seconds.
+                </p>
                 <p className={`${righteous.className}  font-bold`}>
                   Write as if there was no tomorrow.
                 </p>
@@ -384,8 +327,8 @@ const WritingGame = ({ userPrompt }) => {
             <textarea
               ref={textareaRef}
               style={{
-                top: `${time > 10 ? '0' : '30'}%`,
-                bottom: `${time > 10 ? '0' : '30'}%`,
+                top: `${time > 10 ? '0' : '25'}%`,
+                bottom: `${time > 10 ? '0' : '25'}%`,
                 left: `${time > 10 ? '0' : '30'}%`,
                 right: `${time > 10 ? '0' : '30'}%`,
                 transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
@@ -413,4 +356,4 @@ const WritingGame = ({ userPrompt }) => {
   );
 };
 
-export default WritingGame;
+export default GetPFPGame;

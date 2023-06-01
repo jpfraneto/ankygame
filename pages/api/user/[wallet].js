@@ -5,9 +5,8 @@ export default async (req, res) => {
   if (req.method === 'GET') {
     try {
       const user = await prisma.user.findUnique({
-        where: {
-          walletAddress: req.query.wallet,
-        },
+        where: { walletAddress: req.query.wallet },
+        include: { runs: true },
       });
       res.status(200).json({ user });
     } catch (error) {

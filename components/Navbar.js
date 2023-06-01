@@ -14,6 +14,7 @@ const Navbar = () => {
   const [displayHello, setDisplayHello] = useState(false);
   const [displayTheJourney, setDisplayTheJourney] = useState(false);
   const [displayGallery, setDisplayGallery] = useState(false);
+  const [displayProfile, setDisplayProfile] = useState(false);
 
   return (
     <nav
@@ -28,6 +29,13 @@ const Navbar = () => {
         {displayHello ? 'hello :)' : 'ANKY'}
       </span>
       <div className='flex items-center space-x-4 w-fit px-2'>
+        <span
+          onMouseEnter={() => setDisplayConnecters(true)}
+          onMouseLeave={() => setDisplayConnecters(false)}
+          className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
+        >
+          {displayConnecters ? '@kithkui' : 'Twitter'}
+        </span>
         <span
           onMouseEnter={() => setDisplayTheJourney(true)}
           onMouseLeave={() => setDisplayTheJourney(false)}
@@ -47,6 +55,14 @@ const Navbar = () => {
         >
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
+        <span
+          onMouseEnter={() => setDisplayProfile(true)}
+          onMouseLeave={() => setDisplayProfile(false)}
+          onClick={() => router.push('/me', undefined, { shallow: true })}
+          className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
+        >
+          {displayProfile ? '/me' : 'Profile'}
+        </span>
         {/*
         <span
           onMouseEnter={() => setDisplayShop(true)}
@@ -56,14 +72,6 @@ const Navbar = () => {
         >
           {displayShop ? '/shop' : 'Shop'}
         </span> */}
-
-        <span
-          onMouseEnter={() => setDisplayConnecters(true)}
-          onMouseLeave={() => setDisplayConnecters(false)}
-          className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
-        >
-          {displayConnecters ? '@kithkui' : 'Twitter'}
-        </span>
 
         <span>
           <ConnectWallet
