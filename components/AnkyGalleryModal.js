@@ -21,7 +21,11 @@ const AnkyGalleryModal = ({ isOpen, onClose, children, anky }) => {
           </h2>
           <div className='overflow-y-scroll'>
             {anky.characterDescription.split('\n').map((x, i) => {
-              return <p className={`${righteous.className} mb-2`}>{x}</p>;
+              return (
+                <p key={i} className={`${righteous.className} mb-2`}>
+                  {x}
+                </p>
+              );
             })}
           </div>
         </div>
