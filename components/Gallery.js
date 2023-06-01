@@ -177,7 +177,10 @@ const Gallery = ({ userPrompt }) => {
         <div className='px-6 py-6 flex flex-wrap h-full justify-center overflow-y-scroll'>
           {ankys.map((x, i) => {
             return (
-              <div className='flex flex-col justify-center items-center'>
+              <div
+                key={i}
+                className='flex flex-col justify-center items-center'
+              >
                 <div
                   key={i}
                   onClick={() => chooseAnkyForDisplay(x.index)}
