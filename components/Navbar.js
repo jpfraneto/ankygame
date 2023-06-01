@@ -14,6 +14,7 @@ const Navbar = () => {
   const [displayHello, setDisplayHello] = useState(false);
   const [displayTheJourney, setDisplayTheJourney] = useState(false);
   const [displayGallery, setDisplayGallery] = useState(false);
+
   return (
     <nav
       className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between bg-theblack flex items-center px-16 py-4`}
@@ -22,7 +23,7 @@ const Navbar = () => {
         onMouseEnter={() => setDisplayHello(true)}
         onMouseLeave={() => setDisplayHello(false)}
         onClick={() => router.push('/', undefined, { shallow: true })}
-        className={`${righteous.className} hover:text-thegreenbtn  text-2xl  hover:cursor-pointer navBtn`}
+        className={`${righteous.className} hover:text-thegreenbtn  text-3xl  hover:cursor-pointer navBtn`}
       >
         {displayHello ? 'hello :)' : 'ANKY'}
       </span>
@@ -37,15 +38,16 @@ const Navbar = () => {
         >
           {displayTheJourney ? '/the-journey' : 'The Journey'}
         </span>
-        {/* <span
+
+        <span
           onMouseEnter={() => setDisplayGallery(true)}
           onMouseLeave={() => setDisplayGallery(false)}
           onClick={() => router.push('/gallery', undefined, { shallow: true })}
-          className={`${righteous.className} hover:text-thegreenbtn hover:cursor-pointer navBtn`}
+          className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
         >
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
-
+        {/*
         <span
           onMouseEnter={() => setDisplayShop(true)}
           onMouseLeave={() => setDisplayShop(false)}
