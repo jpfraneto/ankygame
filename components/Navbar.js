@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from './Button';
 import { Righteous } from 'next/font/google';
-import { ConnectWallet } from '@thirdweb-dev/react';
+import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const Navbar = () => {
   const router = useRouter();
+  const address = useAddress();
   const [displayConnecters, setDisplayConnecters] = useState(false);
   const [displayShop, setDisplayShop] = useState(false);
   const [displayHello, setDisplayHello] = useState(false);
@@ -18,7 +19,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between bg-theblack flex items-center px-16 py-4`}
+      className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between overflow-x-scroll bg-theblack flex items-center px-16 py-4`}
     >
       <span
         onMouseEnter={() => setDisplayHello(true)}
@@ -55,14 +56,17 @@ const Navbar = () => {
         >
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
-        <span
-          onMouseEnter={() => setDisplayProfile(true)}
-          onMouseLeave={() => setDisplayProfile(false)}
-          onClick={() => router.push('/me', undefined, { shallow: true })}
-          className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
-        >
-          {displayProfile ? '/me' : 'Profile'}
-        </span>
+        {address && (
+          <span
+            onMouseEnter={() => setDisplayProfile(true)}
+            onMouseLeave={() => setDisplayProfile(false)}
+            onClick={() => router.push('/me', undefined, { shallow: true })}
+            className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
+          >
+            {displayProfile ? '/me' : 'Profile'}
+          </span>
+        )}
+
         {/*
         <span
           onMouseEnter={() => setDisplayShop(true)}

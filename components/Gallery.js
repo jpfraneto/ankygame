@@ -124,13 +124,13 @@ const Gallery = ({ userPrompt }) => {
 
   return (
     <div
-      className='text-thewhite relative flex  overflow-y-scroll  w-full bg-cover bg-center'
+      className='text-thewhite relative flex md:flex-row flex-col overflow-y-scroll w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 73px)',
       }}
     >
-      <div className='h-full w-3/12 overflow-y-scroll  px-9 pt-6 bg-theblack'>
+      <div className='h-fit md:h-full w-screen md:w-3/12 overflow-y-scroll  px-9 pt-6 bg-theblack'>
         <h2 className={`${righteous.className}  text-3xl  `}>What is this?</h2>
         <p className={`${righteous.className} mt-7 text-md `}>
           Anky is a special world that lives inside a game. But it&apos;s not
@@ -168,7 +168,7 @@ const Gallery = ({ userPrompt }) => {
           Thank you for being who you are.
         </p>
       </div>
-      <div className='h-full w-9/12 flex bg-thewhite text-theblack flex-col'>
+      <div className='h-fit md:h-full w-screen md:w-9/12 flex bg-thewhite text-theblack flex-col'>
         <h2
           className={`${righteous.className} px-9 mt-6 hover:text-thegreenbtn  text-3xl  hover:cursor-pointer`}
         >
