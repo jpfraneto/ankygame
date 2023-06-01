@@ -40,6 +40,7 @@ const StepsForGettingImage = ({ text }) => {
       body: JSON.stringify({ message: text }),
     });
     const dataDementor = await responseDementor.json();
+    console.log('the data dementor is: ', dataDementor);
     setPersonDescription(data.personDescription);
   };
 
@@ -210,15 +211,17 @@ const StepsForGettingImage = ({ text }) => {
                     className=' bg-theblack '
                   />
                 </div>
-                <div>
-                  {personDescription.split('\n').map((x, i) => {
-                    return (
-                      <p key={i} className={`${righteous.className} mb-2`}>
-                        {x}
-                      </p>
-                    );
-                  })}
-                </div>
+                {personDescription && (
+                  <div>
+                    {personDescription.split('\n').map((x, i) => {
+                      return (
+                        <p key={i} className={`${righteous.className} mb-2`}>
+                          {x}
+                        </p>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               <div className='my-4'>

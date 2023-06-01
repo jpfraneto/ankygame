@@ -172,8 +172,6 @@ const GetPFPGame = ({ userPrompt }) => {
         setSubmittingRunToDB(false);
         setSavingRound('Save to DB');
         setSavedToDb(true);
-
-        console.log('the data from the server is: ', data);
       }
     } catch (error) {
       console.log('the error is:', error);

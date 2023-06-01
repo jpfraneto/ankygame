@@ -15,6 +15,7 @@ function MePage({}) {
     const fetchUserData = async () => {
       const response = await fetch(`/api/user/${address}`);
       const data = await response.json();
+      console.log('the data is: ', data);
       setUser(data.user);
     };
     if (address) fetchUserData();
@@ -22,7 +23,7 @@ function MePage({}) {
   // check if router is ready before using its params
 
   if (!address) return <p>Log in to be here</p>;
-  if (!user) return <p>Loading...</p>;
+  if (!user) return <p className='text-thewhite'>Loading...</p>;
 
   return (
     <div className='bg-theblack text-thewhite h-screen w-screen overflow-scroll py-12'>
@@ -44,7 +45,6 @@ function MePage({}) {
               router.push('/me/get-pfp', undefined, { shallow: true })
             }
           >
-            {' '}
             Click here to get it.
           </span>
         </small>

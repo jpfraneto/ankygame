@@ -95,7 +95,7 @@ const TheJourney = ({ userPrompt }) => {
       className='text-thewhite relative flex  overflow-y-scroll  w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
-        height: 'calc(100vh  - 73px)',
+        height: 'calc(100vh  - 90px)',
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/the-journey/${displayedStory.number}.png')`,
       }}
     >
