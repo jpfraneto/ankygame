@@ -22,7 +22,7 @@ const Navbar = () => {
         onMouseEnter={() => setDisplayHello(true)}
         onMouseLeave={() => setDisplayHello(false)}
         onClick={() => router.push('/', undefined, { shallow: true })}
-        className={`${righteous.className} hover:text-thegreenbtn hover:cursor-pointer navBtn`}
+        className={`${righteous.className} hover:text-thegreenbtn  text-2xl  hover:cursor-pointer navBtn`}
       >
         {displayHello ? 'hello :)' : 'ANKY'}
       </span>
@@ -33,7 +33,7 @@ const Navbar = () => {
           onClick={() =>
             router.push('/the-journey', undefined, { shallow: true })
           }
-          className={`${righteous.className} hover:text-thegreenbtn hover:cursor-pointer navBtn`}
+          className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
         >
           {displayTheJourney ? '/the-journey' : 'The Journey'}
         </span>
@@ -58,7 +58,7 @@ const Navbar = () => {
         <span
           onMouseEnter={() => setDisplayConnecters(true)}
           onMouseLeave={() => setDisplayConnecters(false)}
-          className={`${righteous.className} hover:text-thegreenbtn hover:cursor-pointer navBtn`}
+          className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
         >
           {displayConnecters ? '@kithkui' : 'Twitter'}
         </span>
