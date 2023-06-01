@@ -63,8 +63,20 @@ nav {
   z-index: 1000;
 }
 
+.box {
+  width: calc(100vh / 7);
+}
+
 .navBtn {
   padding: 3px 6px;
+  background-color: white;
+  border-radius: 3px;
+  opacity: 80%;
+  font-size: 0.8rem;
+}
+
+.navBtn2 {
+  padding: 8px 8px;
   background-color: white;
   border-radius: 3px;
   opacity: 80%;

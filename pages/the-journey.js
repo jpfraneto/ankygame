@@ -1,3 +1,4 @@
+import TheJourney from '@component/components/TheJourney';
 import React, { useState } from 'react';
 
 const World = () => {
@@ -61,38 +62,7 @@ const World = () => {
     },
   ];
 
-  return (
-    <div className='px-32 pt-32 flex h-screen'>
-      <div className='flex flex-col h-fit w-96'>
-        {ankyStoryPhases.map((x, i) => {
-          return (
-            <div
-              key={i}
-              style={{ backgroundColor: `#${x.color}` }}
-              onClick={() => setChosenPhase(x)}
-              className={`hover:cursor-pointer my-1 w-16 h-16 rounded-sm text-3xl flex items-center justify-center`}
-            >
-              {x.number}
-            </div>
-          );
-        })}
-      </div>
-      <div className='text-thewhite w-96'>
-        {chosenPhase ? (
-          <div>
-            <p className='text-bold'>{chosenPhase.healingFocus}</p>
-            <p>{chosenPhase.mainTopic}</p>
-            <p>{chosenPhase.description}</p>
-          </div>
-        ) : (
-          <div>
-            <h2 className=''>Phases of development</h2>
-            <p>{}</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return <TheJourney />;
 };
 
 export default World;

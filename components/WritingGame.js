@@ -213,10 +213,10 @@ const WritingGame = ({ userPrompt }) => {
 
   return (
     <div
-      className='text-thewhite relative min-h-screen flex flex-col items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
+      className='text-thewhite relative  flex flex-col items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
-        height: 'calc(100vh  - 30px)',
+        height: 'calc(100vh  - 73px)',
         backgroundImage:
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
       }}
