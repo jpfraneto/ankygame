@@ -3,7 +3,6 @@ import Button from '@component/components/Button';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { S3 } from 'aws-sdk';
 import { Righteous } from 'next/font/google';
 import { useAddress } from '@thirdweb-dev/react';
 
@@ -118,6 +117,14 @@ const StepsForGettingImage = ({ text }) => {
 
   return (
     <div className='text-center '>
+      {text && (
+        <Button
+          buttonAction={() => {
+            pasteTextOnClipboard(text);
+          }}
+          buttonText='Copy what I wrote'
+        />
+      )}
       {step === 1 && (
         <div>
           {startingAnkyState && (

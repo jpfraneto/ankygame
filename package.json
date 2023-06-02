@@ -17,7 +17,6 @@
     "@thirdweb-dev/react": "^3.12.2",
     "@thirdweb-dev/sdk": "^3.10.17",
     "@tremor/react": "^2.8.2",
-    "aws-sdk": "^2.1389.0",
     "axios": "^1.4.0",
     "busboy": "^1.6.0",
     "eslint": "8.38.0",
