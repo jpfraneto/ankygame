@@ -103,7 +103,7 @@ const GetPFPGame = ({ userPrompt }) => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 161) return setMoreThanMinRound(false);
+    if (time < 2) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);
@@ -222,7 +222,7 @@ const GetPFPGame = ({ userPrompt }) => {
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-1/3'>
+      <div className='w-full px-2 mt-48 md:mt-2 md:w-1/2 lg:w-2/3 text-center'>
         {finished ? (
           <>
             {moreThanMinRun ? (
@@ -239,7 +239,7 @@ const GetPFPGame = ({ userPrompt }) => {
                               Ready. Now it is time to get you your avatar for
                               this world.
                             </p>
-                            <div className='flex space-x-2 my-2'>
+                            <div className='flex justify-center space-x-2 my-2'>
                               <Button
                                 buttonAction={() => {
                                   setDisplayStepsForGettingImage(true);
@@ -293,7 +293,9 @@ const GetPFPGame = ({ userPrompt }) => {
           <>
             {
               <div
-                className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
+                className={`${time > 0 && 'fade-out'}} ${
+                  time > 1 && 'hidden'
+                } text-center`}
               >
                 <p
                   className={`${righteous.className} text-5xl font-bold mb-4 text-center`}

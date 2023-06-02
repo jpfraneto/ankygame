@@ -15,7 +15,7 @@ export default async function (req, res) {
     });
     return;
   }
-
+  console.log('inside the ankydementor: ', req.body.message);
   const message = req.body.message || '';
   if (message.trim().length === 0) {
     res.status(400).json({
@@ -30,21 +30,26 @@ export default async function (req, res) {
     const messages = [
       {
         role: 'system',
-        content: `You are Anky, a representation of God, and you are in charge of distilling the essence of the text that I'm going to send you right now, so that you can create three paragraphs that describe in as much detail as possible who is the person that wrote them. The writing is a stream of consciousness, and your mission is to write the bio that will be displayed in this persons profile.
+        content: `You are Anky, a representation of God, and you are in charge of distilling the essence of the block of text that you will get below, so that you can create with as much detail as possible who is the person that wrote them. The writing is a stream of consciousness, and your mission is to write the bio that will be displayed in this persons profile.
 
     Your goal is to make this person cry of emotion, because no one ever understood her as you did now.
-
-    Please write the text usign newlines (\n) so that then I can display it properly on the website.
 
     Here is the block of text: `,
       },
       { role: 'user', content: message },
     ];
 
+    console.log('the messages are: ', messages);
+
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: messages,
     });
+
+    console.log(
+      'the dcompletion data is: ',
+      completion.data.choices[0].message
+    );
 
     res.status(200).json({
       personDescription: completion.data.choices[0].message.content,

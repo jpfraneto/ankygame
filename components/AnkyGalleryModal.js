@@ -5,6 +5,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const AnkyGalleryModal = ({ isOpen, onClose, children, anky }) => {
   if (!isOpen) return null;
+  console.log('the anky is:', anky);
 
   return (
     <div className='fixed top-0 left-0 z-10  h-screen w-screen flex items-center justify-center bg-opacity-60 bg-theblack'>
@@ -15,11 +16,11 @@ const AnkyGalleryModal = ({ isOpen, onClose, children, anky }) => {
         >
           <Image src={`/ankys/${anky.index}.png`} fill />
         </div>
-        <div className='flex flex-col px-9 w-3/5 items-start mb-auto pt-1 justify-start'>
+        <div className='flex flex-col px-9 w-3/5 overflow-y-scroll h-full pb-2 items-start mb-auto pt-1 justify-start'>
           <h2 className={`${righteous.className} text-3xl mb-2 `}>
             {anky.name}
           </h2>
-          <div className='overflow-y-scroll'>
+          <div className=''>
             {anky.characterDescription.split('\n').map((x, i) => {
               return (
                 <p key={i} className={`${righteous.className} mb-2`}>

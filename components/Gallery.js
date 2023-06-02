@@ -15,10 +15,10 @@ let ankys = [
   {
     index: 1,
     imagePrompt:
-      'A strong dwarf with a hammer, ornate armor, and long, braided red hair.',
+      'A robust man with a straw hat, weather-beaten overalls, and a gleaming hoe slung over his shoulder.',
     characterDescription:
-      "Borin Firebeard is a seasoned warrior, coming from the deepest caverns of the Earthen Realm.\nHis fiery red hair is a symbol of his clan's eternal flame. Known for his master craftsmanship and unyielding courage, he battles for honor and the prosperity of his people. Never one to back down from a challenge, Borin constantly seeks to push his limits.\nBehind the stoic and resilient exterior, he has a compassionate heart and is loved by his kin.",
-    name: 'Borin Firebeard',
+      'This humble farmer cultivates the fertile lands of the Green Valley.\nWhile seemingly ordinary, Fergus harbors numerous secrets. Some say he was once a legendary hero, others whisper of a hidden treasure buried under his farm.\nHis weathered hands and sun-beaten face are testament to a lifetime of hard work, while his twinkling eyes hint at the countless stories he has yet to tell.',
+    name: 'Fergus the Tillerman',
   },
   {
     index: 2,
@@ -39,18 +39,18 @@ let ankys = [
   {
     index: 4,
     imagePrompt:
-      'A sorcerer in royal blue robes, carrying a staff adorned with a glowing crystal, eyes glowing with arcane energy.',
+      'A serene figure in flowing robes, performing a complex martial arts pose with a meditative look on his face.',
     characterDescription:
-      "Aelius Stormhand was born under a comet's streak, marking him for a destiny entwined with the Arcane.\nHe is a renowned scholar from the Ivory Tower, a mystical place where time bends to the rhythm of ancient spells. Aelius wields powerful magic with a graceful finesse that inspires awe and fear. Behind the spectacle of his magic, he is a man in search of knowledge, driven by an insatiable curiosity.\nHe seeks to uncover the secrets of the cosmos and use this knowledge for the betterment of all.",
-    name: 'Aelius Stormhand',
+      'A revered martial artist from the Whispering Peaks.\nHe is the embodiment of tranquility, having mastered control over body and mind through years of disciplined practice.\nHis wisdom is sought by many, for he is the beacon that guides lost souls through the storm, and his teachings have brought harmony to many troubled hearts.',
+    name: "Master Zen'Han",
   },
   {
     index: 5,
     imagePrompt:
-      'A human knight in gleaming silver armor, wielding a large broadsword, and bearing a crest of a golden lion on his shield.',
+      "A man dressed in fine servant's attire, a tray of exquisite delicacies in hand, his eyes shining with an unwavering loyalty.",
     characterDescription:
-      "Sir Galahad the Valiant, a beacon of hope from the kingdom of Lion's Heart, stands tall against the forces of darkness.\nKnown for his chivalry and honor, he embodies the virtues of a true knight. His radiant armor is as much a weapon as his broadsword, striking fear into the hearts of the wicked.\nDespite his formidable reputation, Galahad is humble, often found aiding the less fortunate.\nHis dream is to bring lasting peace to his kingdom and live out his days in a land free from conflict.",
-    name: 'Sir Galahad the Valiant',
+      "He serves the great lord of a bustling city, his loyalty earning him much respect among his peers. His humble demeanor belies the strength of his devotion.\nWhile he's often in the shadow of power, Leoric's integrity shines through, proving that sometimes the greatest power comes from serving others.",
+    name: 'Leoric the Steward',
   },
   {
     index: 6,
@@ -63,10 +63,10 @@ let ankys = [
   {
     index: 7,
     imagePrompt:
-      'An orcish shaman adorned in tribal artifacts, carrying a staff of bones, and tattooed with vibrant tribal markings.',
+      'A travel-worn figure, backpack slung over one shoulder, looking at the horizon with an expression of curious anticipation.',
     characterDescription:
-      'Gorath Earthspeaker, hailing from the Bone Peaks, is an imposing figure.\nGuided by the spirits of his ancestors, Gorath is a bridge between the physical and spiritual worlds.\nHe wields the raw elemental forces with a balance that only few can achieve. Respected for his wisdom and feared for his power, Gorath maintains order in his tribe.\nDeep within his stern demeanor, he carries a longing for unity among the disparate tribes, a dream of an orc nation standing tall and proud.',
-    name: 'Gorath Earthspeaker',
+      'An adventurer at heart.\nHis days are spent wandering the sprawling cities and quaint villages of the world, his thirst for knowledge as insatiable as his love for the open road.\nEvery winding path is a story, every new face a book to read, and in his journey of endless discovery, Roderick seeks to understand the vast tapestry of life.',
+    name: 'Roaming Roderick',
   },
   {
     index: 8,
@@ -108,6 +108,38 @@ let ankys = [
       'Seraphiel the Keybearer is a celestial from the divine realms.\nHer very presence exudes an aura of peace and tranquility. She carries the Key of Divine Will, a symbol of her role as a guide for lost souls.\nHer compassion is limitless, offering guidance to those in need, regardless of their origin or destiny.\nDespite her celestial duty, Seraphiel holds a deep fascination with the mortal realm and often finds herself wandering its varied lands, seeking to understand the mortal experience.',
     name: 'Seraphiel the Keybearer',
   },
+  {
+    index: 13,
+    imagePrompt:
+      "A vibrant character with sparkling eyes, wild hair, and colorful tattoos covering his arms. He carries a big backpack full of curious objects. He's seen with a garden hoe in one hand, a paintbrush in the other, and a mischievous smile on his face.",
+    characterDescription:
+      "Lively spirit and a cultivator of life. Hailing from the southern lands of Anky, he has roamed the multiverse, learning and growing with each step. This cheerful tattooist by trade also loves to indulge in the world's culinary delights, especially those from his homeland.\n\nFelipe has a boundless love for gardening, often spending long hours nurturing his plants with his daughter Mara and their loyal dog Maya. Among all, cucumbers hold a special place in his heart, teaching him lessons about sensitivity and attention.\n\nFelipe embodies the free spirit of Anky, ever exploring and ever present. His journey from the depths of self to the expanse of the multiverse, from the physical to the abstract, and from language to silence, paints a vibrant image of the world. His stories resonate with the rhythm of life, revealing the multidimensional nature of existence, one moment at a time. His infectious laughter and boundless energy leave a trail of joy wherever he goes. But his true journey, the one that matters the most, is his quest to answer the question: 'Who am I?'",
+    name: 'Felipe the Wanderer',
+  },
+  {
+    index: 14,
+    imagePrompt:
+      "A vibrant character with sparkling eyes, wild hair, and colorful tattoos covering his arms. He carries a big backpack full of curious objects. He's seen with a garden hoe in one hand, a paintbrush in the other, and a mischievous smile on his face.",
+    characterDescription:
+      "Anxious grad student, consumed by a whirlwind of emotions and thoughts. \nA deep thinker, he's continually pondering on philosophical dilemmas and ethical questions. Despite his knowledge and skills, he harbors deep-seated insecurities and fears about his capabilities and his future.\nHe worries constantly about the world, his role in it, his responsibilities towards others, and his personal life.\nHe's also grappling with the issue of his own self-worth and the pressure to prove himself. His anxieties often get in the way of his focus, making him question his decisions, his choices, and the path he has embarked on.\nAt heart, he is someone who wants to do meaningful work and make a difference, but he struggles with the fear that he might not be able to fulfill these aspirations.",
+    name: 'Simon Zellweger',
+  },
+  {
+    index: 15,
+    imagePrompt:
+      'A young man stands at the edge of a baseball field, baseball cap turned backwards, eyes determined. In one hand, he holds a bat; the other hand is full of crumpled pieces of paper filled with equations and data points. Behind him, a chalkboard stands tall, brimming with math formulas and baseball strategies. Far off in the distance, we see a group of people, perhaps his family and friends, watching him with mixed emotions of concern and admiration.',
+    characterDescription:
+      "Young, ambitious man with a deep love for baseball and mathematics. He's highly self-driven and intelligent, constantly looking for ways to revolutionize the game he loves using his skills in math and data science. He values his family and friends greatly, yet often finds himself torn between spending time with them and dedicating himself to his work. He is highly self-critical and fears showing his flaws, always aiming for perfection. At the same time, he realizes that he's often overly harsh on himself, and yearns to adopt a more forgiving and positive attitude towards his own work and self. The struggle with his identity and his constant strive for perfection make him anxious, but his determination and passion for baseball and math keep him going.",
+    name: 'Caleb Hardison',
+  },
+  {
+    index: 16,
+    imagePrompt:
+      'A vibrant setting depicts the evening in full swing at an eclectic gathering spot. People of all walks of life, some engaging in deep conversations, some lost in their creative pursuits, fill the space. In one corner, someone is making something intricate and fascinating, a testament to the creative freedom fostered by "Buildspace." The protagonist, visibly excited, is in the middle of this lively atmosphere, observing all these interactions with joy and admiration. Ambient music permeates the scene, harmonizing with the hum of ongoing conversations and the soft click-clack of keyboard strokes.',
+    characterDescription:
+      "Individual with a deep appreciation for human connections and creative endeavors.\nHe finds joy and inspiration in the energy of social environments and are excited to learn from others. The character is also the creator of 'Buildspace', a platform that allows for creative expression, and they take immense pride in the amazing things people are creating there.\nDespite his accomplishments, he often forgets to take moments of pause in their day, a realization they have come to during their time at 'Nights & Weekends'.\nThis character is thoughtful, reflective, and passionate about their work and the creativity of others.",
+    name: 'Jordan Piers',
+  },
 ];
 
 const Gallery = ({ userPrompt }) => {
@@ -138,15 +170,15 @@ const Gallery = ({ userPrompt }) => {
           that are really a bit like you.
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>
-          You see, each character you see in this gallery is special. Each one
-          was born from a person&apos;s imagination and tells a story about
-          them. It&apos;s as if they painted a picture using words and their
-          picture turned into these characters.
+          You see, each character that is part of this gallery has its unique
+          story. Each one was born from a person&apos;s story and tells us about
+          that person. It&apos;s as if they painted a picture using words and
+          their picture turned into these characters.
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>
           You can also make your own special character. All you have to do is
-          write 3 minutes about yourself. Then, like magic, you will see a new
-          character in the gallery. And guess what? That character is a bit like
+          write at least 3 minutes about yourself. Then, like magic, you will
+          see a new character in the gallery. And guess what? That character is
           you.
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>
@@ -168,13 +200,8 @@ const Gallery = ({ userPrompt }) => {
           Thank you for being who you are.
         </p>
       </div>
-      <div className='h-fit md:h-full w-screen md:w-9/12 flex bg-thewhite text-theblack flex-col'>
-        <h2
-          className={`${righteous.className} px-9 mt-6 hover:text-thegreenbtn  text-3xl  hover:cursor-pointer`}
-        >
-          Ankys
-        </h2>
-        <div className='px-6 py-6 flex flex-wrap h-full justify-center overflow-y-scroll'>
+      <div className='h-fit pb-8 md:h-full w-screen md:w-9/12 overflow-y-scroll flex bg-thewhite text-theblack flex-col'>
+        <div className='px-6 py-6 flex flex-wrap h-full justify-center '>
           {ankys.map((x, i) => {
             return (
               <div

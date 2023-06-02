@@ -45,9 +45,9 @@ export default async function (req, res) {
     const messages = [
       {
         role: 'system',
-        content: `You are in charge of crafting a prompt for midjourney, which is an image generator. I will send you a block of text that was written by a human being as a stream of consciousness, and your goal is to distill the essence of that writing so that you can come up with a graphic description of how the human that wrote it looks. Please avoid direct references to the writer, the goal of the prompt is just to get a description of how the human that created it looks like.
+        content: `You are in charge of imagining a description of a human being in a cartoon world. I will send you a block of text that was written as a stream of consciousness, and your goal is to distill the essence of that writing so that you can come up with a graphic description of how the human that wrote it looks. Please avoid direct references to the writer, the goal of the prompt is just to get a description of how the human that created it looks like.
 
-    Come up with a conscise writing for this. Make it no more than 333 characters long.
+    Make it no more than 333 characters long.
     Here is the block of text: `,
       },
       { role: 'user', content: message },

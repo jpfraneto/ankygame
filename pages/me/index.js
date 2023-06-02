@@ -4,6 +4,9 @@ import Button from '@component/components/Button';
 import ReaderModal from '@component/components/ReaderModal';
 import { useAddress } from '@thirdweb-dev/react';
 import Image from 'next/image';
+import { Righteous } from 'next/font/google';
+
+const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 function MePage({}) {
   const address = useAddress();
@@ -49,6 +52,23 @@ function MePage({}) {
           </span>
         </small>
       )}
+      {user.bio && (
+        <div className='text-thewhite px-4 mt-4 md:w-2/5 mx-auto'>
+          <p
+            className={`${righteous.className} font-bold text-thewhite text-center`}
+          >
+            {user.bio}
+          </p>
+        </div>
+      )}
+      <div className='flex justify-center'>
+        <Button
+          buttonText='Get New Profile'
+          buttonAction={() =>
+            router.push('/me/get-pfp', undefined, { shallow: true })
+          }
+        />
+      </div>
 
       {/* <h2 className='text-4xl text-center'>Your runs</h2>
       {user.runs &&

@@ -73,6 +73,8 @@ nav {
   border-radius: 3px;
   opacity: 80%;
   font-size: 0.9 rem;
+  width: 133px;
+  text-align: center;
 }
 
 .navBtn2 {
