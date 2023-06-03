@@ -41,6 +41,7 @@ const Navbar = () => {
         <span
           onMouseEnter={() => setDisplayFeed(true)}
           onMouseLeave={() => setDisplayFeed(false)}
+          onClick={() => router.push('/feed', undefined, { shallow: true })}
           className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
         >
           {displayFeed ? '/feed' : 'Feed'}
