@@ -18,7 +18,6 @@ function MePage({}) {
     const fetchUserData = async () => {
       const response = await fetch(`/api/user/${address}`);
       const data = await response.json();
-      console.log('the data is: ', data);
       setUser(data.user);
     };
     if (address) fetchUserData();
@@ -31,15 +30,19 @@ function MePage({}) {
   return (
     <div className='bg-theblack text-thewhite h-screen w-screen overflow-scroll py-12'>
       <div className='relative border-thewhite border-2 w-48 h-48 rounded-xl overflow-hidden mx-auto'>
-        {user.image ? (
-          <Image src={user.image} alt='The image for this user' fill />
+        {user.profiles[0] ? (
+          <Image
+            src={user.profiles[0].imageUrl}
+            alt='The image for this user'
+            fill
+          />
         ) : (
           <>
             <Image src='/images/anky.png' fill alt='This is Anky' />
           </>
         )}
       </div>
-      {!user.image && (
+      {!user.profiles[0].imageUrl && (
         <small className='text-center block'>
           You don&apos;t have your custom image yet.
           <span
@@ -52,13 +55,18 @@ function MePage({}) {
           </span>
         </small>
       )}
-      {user.bio && (
+      {user.profiles[0].bio && (
         <div className='text-thewhite px-4 mt-4 md:w-2/5 mx-auto'>
-          <p
-            className={`${righteous.className} font-bold text-thewhite text-center`}
-          >
-            {user.bio}
-          </p>
+          {user.profiles[0].bio.split('\n').map((x, i) => {
+            return (
+              <p
+                key={i}
+                className={`${righteous.className} font-bold text-thewhite text-center`}
+              >
+                {x}
+              </p>
+            );
+          })}
         </div>
       )}
       <div className='flex justify-center'>

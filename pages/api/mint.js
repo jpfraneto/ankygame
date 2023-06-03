@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const response = await pinFileToIPFS(req.body);
-      res.status(200).json(response.data);
+      res.status(200).json({ profile: response.profile });
     } catch (error) {
       console.log('the error is: ', error);
       res.status(500).json({ error: 'Could not process your request.' });
@@ -49,17 +49,27 @@ const pinFileToIPFS = async formData => {
   );
   if (res.data.IpfsHash) {
     console.log('the ipfs hash is: ', res.data.IpfsHash);
-    const updatedUser = await prisma.user.update({
+
+    const user = await prisma.user.findUnique({
       where: { walletAddress: formData.address },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const profile = await prisma.profile.create({
       data: {
-        image: `https://ipfs.io/ipfs/${res.data.IpfsHash}`,
+        writing: formData.writing, // Assuming that `formData` contains the user's writing
+        imageUrl: `https://ipfs.io/ipfs/${res.data.IpfsHash}`,
         bio: formData.description,
+        userId: user.id, // Associate the profile with the user
       },
     });
-    console.log('the updated user is: ', updatedUser);
-  }
 
-  return res;
+    console.log('the profile that just was created is: ', profile);
+    return profile;
+  }
 };
 
 export const config = {

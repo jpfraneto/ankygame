@@ -23,6 +23,7 @@ const StepsForGettingImage = ({ text }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [tookToMidjourney, setTookToMidjourney] = useState(false);
   const [personDescription, setPersonDescription] = useState(null);
+  const [textCopied, setTextCopied] = useState(false);
 
   const [promptForMidjourneyText, setPromptForMidjourneyText] = useState('');
   const [mintOptions, setMintOptions] = useState(false);
@@ -43,17 +44,17 @@ const StepsForGettingImage = ({ text }) => {
     // );
     setAnkyResponse(data.imagePromptForMidjourney);
 
-    const responseDementor = await fetch('/api/ankydementor', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text }),
-    });
-    const dataDementor = await responseDementor.json();
-    console.log('the data dementor is: ', dataDementor);
-    // setPersonDescription(
-    //   "Meet Jane, she is a 22-year-old girl who is on a journey to discover who she really is. Her identity is constantly changing, but what she knows for sure is that she wants to make an impact in the world of baseball. Jane is not your typical baseball fan, she wants to change the game by using her mathematical skills to excel in the sport. She is determined to put her best self out there, but sometimes that means she ends up isolating herself from friends and family. She knows how important they are for her well-being, but she's often focused on her passion for baseball, math, data science, knowledge, and wisdom. Jane is her own worst critic. She feels that she needs to be perfect and often finds it hard to forgive herself for her flaws. However, she understands that by being more forgiving and positive towards herself, she would be inspired to continue doing and being herself to her highest capabilities. This stream of consciousness writing is a new technique for Jane, but it has given her the space to express herself freely. She hopes that through her writing, others will see her for who she is and understand that she is on a journey to discover her true identity while also pursuing her passion."
-    // );
-    setPersonDescription(dataDementor.personDescription);
+    // const responseDementor = await fetch('/api/ankydementor', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ message: text }),
+    // });
+    // const dataDementor = await responseDementor.json();
+    // console.log('the data dementor is: ', dataDementor);
+    // // setPersonDescription(
+    // //   "Meet Jane, she is a 22-year-old girl who is on a journey to discover who she really is. Her identity is constantly changing, but what she knows for sure is that she wants to make an impact in the world of baseball. Jane is not your typical baseball fan, she wants to change the game by using her mathematical skills to excel in the sport. She is determined to put her best self out there, but sometimes that means she ends up isolating herself from friends and family. She knows how important they are for her well-being, but she's often focused on her passion for baseball, math, data science, knowledge, and wisdom. Jane is her own worst critic. She feels that she needs to be perfect and often finds it hard to forgive herself for her flaws. However, she understands that by being more forgiving and positive towards herself, she would be inspired to continue doing and being herself to her highest capabilities. This stream of consciousness writing is a new technique for Jane, but it has given her the space to express herself freely. She hopes that through her writing, others will see her for who she is and understand that she is on a journey to discover her true identity while also pursuing her passion."
+    // // );
+    setPersonDescription(data.bio);
   };
 
   const pasteTextOnClipboard = async promptText => {
@@ -79,6 +80,7 @@ const StepsForGettingImage = ({ text }) => {
         image: uploadedImage,
         description: personDescription,
         address: address,
+        writing: text,
       });
       console.log('the axios response is: ', response);
       setStep(4);
@@ -295,7 +297,7 @@ const StepsForGettingImage = ({ text }) => {
         <div>
           <p>Wow. You are now officially part of the community.</p>
           <p>
-            Check out your new profile <Link href='/me'>HERE</Link>dk luxa
+            Check out your new profile <Link href='/me'>HERE</Link>
           </p>
         </div>
       )}

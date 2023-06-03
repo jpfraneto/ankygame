@@ -13,6 +13,7 @@ const Navbar = () => {
   const [displayConnecters, setDisplayConnecters] = useState(false);
   const [displayShop, setDisplayShop] = useState(false);
   const [displayHello, setDisplayHello] = useState(false);
+  const [displayFeed, setDisplayFeed] = useState(false);
   const [displayTheJourney, setDisplayTheJourney] = useState(false);
   const [displayGallery, setDisplayGallery] = useState(false);
   const [displayProfile, setDisplayProfile] = useState(false);
@@ -36,6 +37,13 @@ const Navbar = () => {
           className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
         >
           {displayConnecters ? '@kithkui' : 'Twitter'}
+        </span>
+        <span
+          onMouseEnter={() => setDisplayFeed(true)}
+          onMouseLeave={() => setDisplayFeed(false)}
+          className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
+        >
+          {displayFeed ? '/feed' : 'Feed'}
         </span>
         <span
           onMouseEnter={() => setDisplayTheJourney(true)}

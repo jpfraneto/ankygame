@@ -6,9 +6,8 @@ export default async (req, res) => {
     try {
       const user = await prisma.user.findUnique({
         where: { walletAddress: req.query.wallet },
-        include: { runs: true },
+        include: { runs: true, profiles: true },
       });
-      console.log('the user is: ', user);
       res.status(200).json({ user });
     } catch (error) {
       console.log('The error is: ', error);

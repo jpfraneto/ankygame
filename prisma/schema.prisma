@@ -23,9 +23,9 @@ model User {
   walletAddress String? @unique
   readingCredits Int @default(0)
   runs      Run[]
+  profiles       Profile[]
+
 }
-
-
 
 model Run {
   id          Int     @id @default(autoincrement())
@@ -39,3 +39,14 @@ model Run {
   userId     String?
    user        User?     @relation(fields: [userId], references: [id])
 }
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  writing   String
+  imageUrl  String
+  bio       String
+  createdAt DateTime @default(now())
+  userId    String   // Added userId to relate with User model
+  user      User     @relation(fields: [userId], references: [id])
+}
+

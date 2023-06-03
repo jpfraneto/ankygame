@@ -58,7 +58,7 @@ export async function getServerSideProps(context) {
   // Fetch the user and their runs from the database
   const user = await prisma.user.findUnique({
     where: { walletAddress: wallet },
-    include: { runs: true },
+    include: { runs: true, profiles: true },
   });
 
   // If user does not exist, return 404

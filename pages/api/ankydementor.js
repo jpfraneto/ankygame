@@ -46,6 +46,8 @@ export default async function (req, res) {
       messages: messages,
     });
 
+    console.log('the completion is: ', completion.data);
+
     console.log(
       'the dcompletion data is: ',
       completion.data.choices[0].message
