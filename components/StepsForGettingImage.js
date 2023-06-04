@@ -83,6 +83,7 @@ const StepsForGettingImage = ({ text }) => {
         writing: text,
       });
       console.log('the axios response is: ', response);
+      setMintingProfile(false);
       setStep(4);
     } catch (error) {
       alert('THERE WAS A FUCKING ERROR. CONTACT JP ASAP');

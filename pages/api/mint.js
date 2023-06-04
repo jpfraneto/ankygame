@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const response = await pinFileToIPFS(req.body);
-      res.status(200).json({ profile: response.profile });
+      res.status(200).json({ profile: response });
     } catch (error) {
       console.log('the error is: ', error);
       res.status(500).json({ error: 'Could not process your request.' });
