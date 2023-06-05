@@ -28,8 +28,11 @@ export default FeedPage;
 
 export async function getServerSideProps(context) {
   try {
-    const profiles = await prisma.profile.findMany();
-    console.log('the profiles are: ', profiles);
+    const profiles = await prisma.profile.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
     return {
       props: { profiles: JSON.parse(JSON.stringify(profiles)) },
     };

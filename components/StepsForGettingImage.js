@@ -8,7 +8,7 @@ import { useAddress } from '@thirdweb-dev/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
-const StepsForGettingImage = ({ text }) => {
+const StepsForGettingImage = ({ text, time }) => {
   const address = useAddress();
   const [step, setStep] = useState(1);
   const [copyText, setCopyText] = useState('');
@@ -33,28 +33,18 @@ const StepsForGettingImage = ({ text }) => {
   const askChatGTPforImagePrompt = async () => {
     setOuch(true);
     setAnkyThinking(true);
-    const response = await fetch('/api/ankybot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text }),
-    });
-    const data = await response.json();
-    // setAnkyResponse(
-    //   'https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. An introverted and introspective young adult with a thin and delicate appearance embraces math and data science while striving for recognition in baseball. Despite valuing family and friends, this person finds it challenging to balance their social life with their passions. They are crippled by a fear of imperfection and are often overly critical of themselves.'
-    // );
-    setAnkyResponse(data.imagePromptForMidjourney);
-
-    // const responseDementor = await fetch('/api/ankydementor', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ message: text }),
-    // });
-    // const dataDementor = await responseDementor.json();
-    // console.log('the data dementor is: ', dataDementor);
-    // // setPersonDescription(
-    // //   "Meet Jane, she is a 22-year-old girl who is on a journey to discover who she really is. Her identity is constantly changing, but what she knows for sure is that she wants to make an impact in the world of baseball. Jane is not your typical baseball fan, she wants to change the game by using her mathematical skills to excel in the sport. She is determined to put her best self out there, but sometimes that means she ends up isolating herself from friends and family. She knows how important they are for her well-being, but she's often focused on her passion for baseball, math, data science, knowledge, and wisdom. Jane is her own worst critic. She feels that she needs to be perfect and often finds it hard to forgive herself for her flaws. However, she understands that by being more forgiving and positive towards herself, she would be inspired to continue doing and being herself to her highest capabilities. This stream of consciousness writing is a new technique for Jane, but it has given her the space to express herself freely. She hopes that through her writing, others will see her for who she is and understand that she is on a journey to discover her true identity while also pursuing her passion."
-    // // );
-    setPersonDescription(data.bio);
+    try {
+      const response = await fetch('/api/ankybot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text }),
+      });
+      const data = await response.json();
+      setAnkyResponse(data.imagePromptForMidjourney);
+      setPersonDescription(data.bio);
+    } catch (error) {
+      alert('There was an error in here. I will work on fixing it.');
+    }
   };
 
   const pasteTextOnClipboard = async promptText => {
@@ -81,6 +71,7 @@ const StepsForGettingImage = ({ text }) => {
         description: personDescription,
         address: address,
         writing: text,
+        timeSpent: time,
       });
       console.log('the axios response is: ', response);
       setMintingProfile(false);

@@ -13,12 +13,15 @@ function MePage({}) {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   const [chosenRun, setChosenRun] = useState(null);
+  const [runs, setRuns] = useState(null);
   const [user, setUser] = useState(null);
   useEffect(() => {
     const fetchUserData = async () => {
       const response = await fetch(`/api/user/${address}`);
       const data = await response.json();
+      console.log('in here, the data is: ', data);
       setUser(data.user);
+      setRuns(data.user.runs);
     };
     if (address) fetchUserData();
   }, [address]);
@@ -30,7 +33,7 @@ function MePage({}) {
   return (
     <div className='bg-theblack text-thewhite h-screen w-screen overflow-scroll py-12'>
       <div className='relative border-thewhite border-2 w-48 h-48 rounded-xl overflow-hidden mx-auto'>
-        {user.profiles[0] ? (
+        {user.profiles[user.profiles.length - 1] ? (
           <Image
             src={user.profiles[0].imageUrl}
             alt='The image for this user'
@@ -42,7 +45,7 @@ function MePage({}) {
           </>
         )}
       </div>
-      {!user.profiles[0].imageUrl && (
+      {!user.profiles[user.profiles.length - 1].imageUrl && (
         <small className='text-center block'>
           You don&apos;t have your custom image yet.
           <span
@@ -55,18 +58,20 @@ function MePage({}) {
           </span>
         </small>
       )}
-      {user.profiles[0].bio && (
+      {user.profiles[user.profiles.length - 1].bio && (
         <div className='text-thewhite px-4 mt-4 md:w-2/5 mx-auto'>
-          {user.profiles[0].bio.split('\n').map((x, i) => {
-            return (
-              <p
-                key={i}
-                className={`${righteous.className} font-bold text-thewhite text-center`}
-              >
-                {x}
-              </p>
-            );
-          })}
+          {user.profiles[user.profiles.length - 1].bio
+            .split('\n')
+            .map((x, i) => {
+              return (
+                <p
+                  key={i}
+                  className={`${righteous.className} font-bold text-thewhite text-center`}
+                >
+                  {x}
+                </p>
+              );
+            })}
         </div>
       )}
       <div className='flex justify-center'>
@@ -76,6 +81,12 @@ function MePage({}) {
             router.push('/me/get-pfp', undefined, { shallow: true })
           }
         />
+      </div>
+      <div>
+        {runs.map((run, index) => {
+          console.log('the run is: ', run);
+          return <div key={index}>aloja</div>;
+        })}
       </div>
 
       {/* <h2 className='text-4xl text-center'>Your runs</h2>

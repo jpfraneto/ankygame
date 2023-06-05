@@ -64,6 +64,7 @@ const pinFileToIPFS = async formData => {
         imageUrl: `https://ipfs.io/ipfs/${res.data.IpfsHash}`,
         bio: formData.description,
         userId: user.id, // Associate the profile with the user
+        timeSpent: formData.timeSpent,
       },
     });
 

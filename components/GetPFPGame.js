@@ -103,7 +103,7 @@ const GetPFPGame = ({ userPrompt }) => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 1) return setMoreThanMinRound(false);
+    if (time < 10) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);
@@ -230,7 +230,7 @@ const GetPFPGame = ({ userPrompt }) => {
                 <>
                   <div>
                     {displayStepsForGettingImage ? (
-                      <StepsForGettingImage text={text} />
+                      <StepsForGettingImage text={text} time={time} />
                     ) : (
                       <div>
                         {runSubmitted ? (

@@ -45,6 +45,7 @@ model Profile {
   writing   String
   imageUrl  String
   bio       String
+  timeSpent   Int    @default(88)
   createdAt DateTime @default(now())
   userId    String   // Added userId to relate with User model
   user      User     @relation(fields: [userId], references: [id])
