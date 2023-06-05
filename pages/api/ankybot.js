@@ -76,13 +76,19 @@ export default async function (req, res) {
       model: 'gpt-3.5-turbo',
       messages: messages2,
     });
-
-    res.status(200).json({
-      imagePromptForMidjourney:
-        `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ` +
-        completion.data.choices[0].message.content,
-      bio: completion2.data.choices[0].message.content,
-    });
+    if (completion.data && completion2.data) {
+      res.status(200).json({
+        imagePromptForMidjourney:
+          `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ` +
+          completion.data.choices[0].message.content,
+        bio: completion2.data.choices[0].message.content,
+      });
+    } else {
+      res.status(200).json({
+        imagePromptForMidjourney: `There was an error generating your prompt. `,
+        bio: `There was an error generating the bio with what you wrote. But no worries, it was saved to your profile and you will be able to access it later.`,
+      });
+    }
   } catch (error) {
     console.log('there was another error in this thing.', error);
 
