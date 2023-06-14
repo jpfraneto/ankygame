@@ -70,7 +70,7 @@ const Navbar = () => {
         <span
           onMouseEnter={() => setDisplayGallery(true)}
           onMouseLeave={() => setDisplayGallery(false)}
-          onClick={() => router.push('/gallery', undefined, { shallow: true })}
+          onClick={() => router.push('/mint', undefined, { shallow: true })}
           className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
         >
           {displayMint ? '/mint' : 'Mint'}
