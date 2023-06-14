@@ -34,12 +34,14 @@ const StepsForGettingImage = ({ text, time }) => {
     setOuch(true);
     setAnkyThinking(true);
     try {
+      console.log('sending to ankybot');
       const response = await fetch('/api/ankybot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text }),
       });
       const data = await response.json();
+      console.log('response from ankybot', data);
       setAnkyResponse(data.imagePromptForMidjourney);
       setPersonDescription(data.bio);
     } catch (error) {
@@ -111,14 +113,14 @@ const StepsForGettingImage = ({ text, time }) => {
 
   return (
     <div className='text-center '>
-      {text && (
+      {/* {text && (
         <Button
           buttonAction={() => {
             pasteTextOnClipboard(text);
           }}
           buttonText='Copy what I wrote'
         />
-      )}
+      )} */}
       {step === 1 && (
         <div>
           {startingAnkyState && (

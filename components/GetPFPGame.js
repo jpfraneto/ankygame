@@ -103,7 +103,7 @@ const GetPFPGame = ({ userPrompt }) => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 10) return setMoreThanMinRound(false);
+    if (time < 8) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);

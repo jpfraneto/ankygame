@@ -35,7 +35,7 @@ function MePage({}) {
       <div className='relative border-thewhite border-2 w-48 h-48 rounded-xl overflow-hidden mx-auto'>
         {user.profiles[user.profiles.length - 1] ? (
           <Image
-            src={user.profiles[0].imageUrl}
+            src={user.profiles[user.profiles.length - 1].imageUrl}
             alt='The image for this user'
             fill
           />
@@ -81,12 +81,6 @@ function MePage({}) {
             router.push('/me/get-pfp', undefined, { shallow: true })
           }
         />
-      </div>
-      <div>
-        {runs.map((run, index) => {
-          console.log('the run is: ', run);
-          return <div key={index}>aloja</div>;
-        })}
       </div>
 
       {/* <h2 className='text-4xl text-center'>Your runs</h2>

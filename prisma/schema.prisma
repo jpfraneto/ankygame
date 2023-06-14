@@ -51,3 +51,11 @@ model Profile {
   user      User     @relation(fields: [userId], references: [id])
 }
 
+
+model NFT {
+  id        Int      @id @default(autoincrement())
+  prompt    String
+  imageUrl  String
+  createdAt DateTime @default(now())
+}
+

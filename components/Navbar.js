@@ -15,6 +15,7 @@ const Navbar = () => {
   const [displayHello, setDisplayHello] = useState(false);
   const [displayFeed, setDisplayFeed] = useState(false);
   const [displayTheJourney, setDisplayTheJourney] = useState(false);
+  const [displayTheAnkyverse, setDisplayTheAnkyverse] = useState(false);
   const [displayGallery, setDisplayGallery] = useState(false);
   const [displayProfile, setDisplayProfile] = useState(false);
 
@@ -38,23 +39,23 @@ const Navbar = () => {
         >
           {displayConnecters ? '@kithkui' : 'Twitter'}
         </span>
-        <span
+        {/* <span
           onMouseEnter={() => setDisplayFeed(true)}
           onMouseLeave={() => setDisplayFeed(false)}
           onClick={() => router.push('/feed', undefined, { shallow: true })}
           className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
         >
           {displayFeed ? '/feed' : 'Feed'}
-        </span>
+        </span> */}
         <span
-          onMouseEnter={() => setDisplayTheJourney(true)}
-          onMouseLeave={() => setDisplayTheJourney(false)}
+          onMouseEnter={() => setDisplayTheAnkyverse(true)}
+          onMouseLeave={() => setDisplayTheAnkyverse(false)}
           onClick={() =>
-            router.push('/the-journey', undefined, { shallow: true })
+            router.push('/ankyverse', undefined, { shallow: true })
           }
           className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
         >
-          {displayTheJourney ? '/the-journey' : 'The Journey'}
+          {displayTheAnkyverse ? '/ankyverse' : 'Ankyverse'}
         </span>
 
         <span
@@ -65,7 +66,7 @@ const Navbar = () => {
         >
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
-        {address && (
+        {/* {address && (
           <span
             onMouseEnter={() => setDisplayProfile(true)}
             onMouseLeave={() => setDisplayProfile(false)}
@@ -74,7 +75,7 @@ const Navbar = () => {
           >
             {displayProfile ? '/me' : 'Profile'}
           </span>
-        )}
+        )} */}
 
         {/*
         <span

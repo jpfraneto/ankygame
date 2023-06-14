@@ -1,4 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai';
+import axios from 'axios';
 const configuration = new Configuration({
   organization: 'org-jky0txWAU8ZrAAF5d14VR12J',
   apiKey: process.env.OPENAI_API_KEY,
@@ -61,6 +62,23 @@ export default async function (req, res) {
       messages: messages,
     });
 
+    const config = {
+      headers: { Authorization: `Bearer ${process.env.IMAGINE_API_KEY}` },
+    };
+
+    const bodyParameters = {
+      prompt: `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ${completion.data.choices[0].message.content}`,
+    };
+
+    console.log('going to imagine api.');
+    const responseFromImagineApi = await axios.post(
+      'http://164.90.252.239:8055/items/images',
+      bodyParameters,
+      config
+    );
+    const imagineApiID = responseFromImagineApi.data.data.id;
+    console.log('IN HERE', responseFromImagineApi);
+
     const messages2 = [
       {
         role: 'system',
@@ -80,10 +98,27 @@ export default async function (req, res) {
       messages: messages2,
     });
     if (completion.data && completion2.data) {
+      let requestStatus = false;
+      while (!requestStatus) {
+        const intervalId = setInterval(async () => {
+          console.log('inside the interval');
+          const gettingImageApiResponse = await axios.get(
+            `http://164.90.252.239:8055/items/images/${imagineApiID}`,
+            bodyParameters,
+            config
+          );
+          console.log('alooooja', gettinImageApiResponse.data.data);
+          if (false) {
+            clearInterval(intervalId);
+            res.status(200).json({
+              message: 'listoco',
+            });
+          }
+        }, [10000]);
+      }
+
       res.status(200).json({
-        imagePromptForMidjourney:
-          `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ` +
-          completion.data.choices[0].message.content,
+        imagePromptForMidjourney: `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ${completion.data.choices[0].message.content}`,
         bio: completion2.data.choices[0].message.content,
       });
     } else {
