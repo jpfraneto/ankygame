@@ -38,7 +38,7 @@ const AnkyverseComponent = ({}) => {
       </div>
 
       <AnkyverseKingdoms />
-      
+
     </div>
   );
 };

@@ -15,6 +15,7 @@ const AnkyverseKingdoms = () => {
         {worlds.map((world, index) => {
           return (
             <div
+              key={index}
               onClick={() => setChosenWorld(world)}
               className={`${righteous.className} flex justify-center items-center hover:text-thered hover:cursor-pointer `}
               style={{
@@ -37,7 +38,7 @@ const AnkyverseKingdoms = () => {
               <h2>Cities</h2>
               <div>
                 {chosenWorld.cities.map((x, i) => (
-                  <div>
+                  <div key={i}>
                     <h3>
                       {x.cityName} - {x.associatedLandmark} - {x.mainActivity}
                     </h3>
