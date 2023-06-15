@@ -18,7 +18,7 @@ const Navbar = () => {
   const [displayTheAnkyverse, setDisplayTheAnkyverse] = useState(false);
   const [displayGallery, setDisplayGallery] = useState(false);
   const [displayProfile, setDisplayProfile] = useState(false);
-  const [mint, displayMint] = useState(false);
+  const [displayMint, setDisplayMint] = useState(false);
 
   return (
     <nav
@@ -68,8 +68,8 @@ const Navbar = () => {
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
         <span
-          onMouseEnter={() => setDisplayGallery(true)}
-          onMouseLeave={() => setDisplayGallery(false)}
+          onMouseEnter={() => setDisplayMint(true)}
+          onMouseLeave={() => setDisplayMint(false)}
           onClick={() => router.push('/mint', undefined, { shallow: true })}
           className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
         >
