@@ -42,30 +42,7 @@ export default async function (req, res) {
       config
     );
     const imagineApiID = responseFromImagineApi.data.data.id;
-    console.log(
-      'IN HERE, the response from imagine api is: ',
-      responseFromImagineApi
-    );
 
-    // if (completion.data) {
-    //   let requestStatus = false;
-    //   while (!requestStatus) {
-    //     const intervalId = setInterval(async () => {
-    //       console.log('inside the interval');
-    //       const gettingImageApiResponse = await axios.get(
-    //         `http://164.90.252.239:8055/items/images/${imagineApiID}`,
-    //         bodyParameters,
-    //         config
-    //       );
-    //       console.log('alooooja', gettinImageApiResponse.data.data);
-    //       if (false) {
-    //         clearInterval(intervalId);
-    //         res.status(200).json({
-    //           message: 'listoco',
-    //         });
-    //       }
-    //     }, [10000]);
-    //   }
     res.status(200).json({
       midjourneyImageId: imagineApiID,
     });
