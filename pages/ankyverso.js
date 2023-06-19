@@ -201,9 +201,13 @@ const StepsForGettingImage = ({ text, time }) => {
         >
           <option value=''>Choose World</option>
           {worlds.map((x, i) => {
-            return <option value={x.chakra}>{x.name}</option>;
+            return (
+              <option key={i} value={x.chakra}>
+                {x.name}
+              </option>
+            );
           })}
-        </select>{' '}
+        </select>
         {chosenWorld && (
           <p className='text-thewhite '>{chosenWorld.description}</p>
         )}
@@ -215,7 +219,11 @@ const StepsForGettingImage = ({ text, time }) => {
         >
           <option value=''>Choose Character Type</option>
           {characterTypes.map((x, i) => {
-            return <option value={x}>{x}</option>;
+            return (
+              <option key={i} value={x}>
+                {x}
+              </option>
+            );
           })}
         </select>
         <div>
@@ -288,7 +296,11 @@ const StepsForGettingImage = ({ text, time }) => {
                 <div className='w-9/12 p-4 bg-thelightblue rounded-2xl mx-auto my-4'>
                   <h2 className='mb-4 text-2xl'>{thisCharacter.name}</h2>
                   {thisCharacter.characterStory.split('\n').map((x, i) => {
-                    return <p className='text-theblack mb-2'>{x}</p>;
+                    return (
+                      <p key={i} className='text-theblack mb-2'>
+                        {x}
+                      </p>
+                    );
                   })}
 
                   {imagineId && (
@@ -300,6 +312,7 @@ const StepsForGettingImage = ({ text, time }) => {
                         {upscaledImages.map((image, index) => {
                           return (
                             <div
+                              key={i}
                               onClick={() => setChosenImageUrl(image)}
                               className={`w-1/2 p-2 border ${
                                 chosenImageUrl === image
