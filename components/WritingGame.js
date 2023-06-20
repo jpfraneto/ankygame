@@ -103,7 +103,7 @@ const WritingGame = ({ userPrompt }) => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 30) return setMoreThanMinRound(false);
+    if (time < 3) return setMoreThanMinRound(false);
     if (time > highscore) {
       setIsHighscore(true);
       setHighscore(time);

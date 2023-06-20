@@ -32,7 +32,7 @@ const GamePage = () => {
         <p
           className={`${righteous.className} text-thewhite text-5xl font-bold  text-center`}
         >
-          wtf is this?
+          what is this?
         </p>
         <div
           className={`${righteous.className} font-bold text-thewhite text-center`}
