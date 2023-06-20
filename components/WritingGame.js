@@ -368,9 +368,9 @@ const WritingGame = ({ userPrompt }) => {
                 >
                   {userPrompt}
                 </p>
-                <p className='text-base text-gray-600 my-1'>
+                {/* <p className='text-base text-gray-600 my-1'>
                   My world will only open to those who prove themselves.
-                </p>
+                </p> */}
                 <p>If you stop writing for 1 second, you will fail.</p>
                 <p className={`${righteous.className}  font-bold`}>
                   Write as if there was no tomorrow.

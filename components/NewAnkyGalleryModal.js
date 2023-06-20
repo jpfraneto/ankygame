@@ -14,14 +14,14 @@ const NewAnkyGalleryModal = ({ isOpen, onClose, children, anky }) => {
           style={{ height: '366px' }}
           className=' aspect-square relative overflow-hidden rounded-xl'
         >
-          <Image src={anky.upscaledImageUrls[2]} fill />
+          <Image src={`/newgallery/${anky.index}.png`} fill alt={anky.name} />
         </div>
         <div className='flex flex-col px-9 w-3/5 overflow-y-scroll h-full pb-2 items-start mb-auto pt-1 justify-start'>
           <h2 className={`${righteous.className} text-3xl mb-2 `}>
-            {anky.characterName}
+            {anky.name}
           </h2>
           <div className=''>
-            {anky.characterBackstory.split('\n').map((x, i) => {
+            {anky.characterDescription.split('\n').map((x, i) => {
               return (
                 <p key={i} className={`${righteous.className} mb-2`}>
                   {x}

@@ -2,6 +2,7 @@ import AnkyverseComponent from '@component/components/AnkyverseComponent';
 import React, { useState } from 'react';
 import { Righteous } from 'next/font/google';
 import { worlds } from '@component/lib/newCharacterGenerator';
+import Image from 'next/image';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
@@ -74,14 +75,10 @@ const Ankyverse = () => {
               </div>
             </div>
           ) : (
-            <div className={`${righteous.className} text-thewhite`}>
-              <h3>Welcome to the Ankyverse</h3>
-              <p>
-                Sorry for how shitty this thing looks. I will make it better,
-                day after day, until it flips your mind. From the inside out. If
-                you want to contribute, here is the github repo. Open source
-                times: https://github.com/jpfraneto/ankygame
-              </p>
+            <div
+              className={`${righteous.className} text-thewhite w-full h-full relative`}
+            >
+              <Image src='/images/ankyverse.jpeg' alt='Ankyverse' fill />
             </div>
           )}
         </div>
