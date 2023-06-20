@@ -27,8 +27,8 @@ export default function App({ Component, pageProps }) {
         supportedChains={[Ethereum, Sepolia]}
         supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
       >
-        <Navbar />
-        <div className=''>
+        <div className='overflow-x-hidden'>
+          <Navbar />
           <Component {...pageProps} />
         </div>
       </ThirdwebProvider>

@@ -213,12 +213,15 @@ const WritingGame = ({ userPrompt }) => {
 
   return (
     <div
-      className='text-thewhite relative  flex flex-col items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
+      className='text-thewhite relative  flex flex-col items-center py-16 justify-center w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 90px)',
         backgroundImage:
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat'
       }}
     >
       <audio ref={audioRef}>

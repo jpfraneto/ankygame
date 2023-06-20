@@ -164,6 +164,7 @@ footer {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 0.6;
   }
@@ -173,6 +174,7 @@ footer {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -204,7 +206,8 @@ footer {
 }
 
 .scrollableTable {
-  min-width: 1200px; /* adjust as needed */
+  min-width: 1200px;
+  /* adjust as needed */
   width: 100%;
 }
 
@@ -227,18 +230,23 @@ footer {
   0% {
     letter-spacing: 1px;
   }
+
   20% {
     letter-spacing: 2px;
   }
+
   40% {
     letter-spacing: 3px;
   }
+
   60% {
     letter-spacing: 4px;
   }
+
   80% {
     letter-spacing: 5px;
   }
+
   100% {
     letter-spacing: 4px;
   }
@@ -269,34 +277,23 @@ footer {
   .w-screen {
     flex-direction: column;
   }
+
   .w-160 {
     width: 100%;
     height: auto;
   }
 }
 
-.layoutstylefull {
-  padding-top: 40px;
-  width: 96%;
-  max-width: 666px;
-  margin: 0 auto;
-  text-align: center;
-  font-family: 'Comic Neue', cursive;
-}
-
-.layoutstylefull {
-  padding-top: 40px;
-  width: 96%;
+html {
+  width: 100%;
   max-width: 100vw;
   margin: 0 auto;
   text-align: center;
   font-family: 'Comic Neue', cursive;
 }
 
-.layoutstylefull h1 {
-}
 
-.layoutstyle h1 {
+html {
   font-family: 'Russo One', sans-serif;
 }
 
@@ -315,11 +312,29 @@ footer {
   animation: fadeOut 1s ease-in-out;
 }
 
+html::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #000000;
+}
+
+html::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+html::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #555;
+}
+
+
 @media only screen and (max-width: 600px) {
   .hero h2 {
     font-size: 2rem;
     margin-bottom: 0;
   }
+
   .mainContainer h4 {
     font-size: 2rem;
   }

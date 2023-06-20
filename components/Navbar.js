@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between overflow-x-scroll bg-theblack flex items-center px-16 py-4`}
+      className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between overflow-x-auto bg-theblack flex items-center px-16 py-4`}
     >
       <span
         onMouseEnter={() => setDisplayHello(true)}
