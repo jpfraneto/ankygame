@@ -221,7 +221,7 @@ const WritingGame = ({ userPrompt }) => {
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
       }}
     >
       <audio ref={audioRef}>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from './Button';
 import { Righteous } from 'next/font/google';
+import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
@@ -19,42 +20,54 @@ const Navbar = () => {
   const [displayGallery, setDisplayGallery] = useState(false);
   const [displayProfile, setDisplayProfile] = useState(false);
   const [displayMint, setDisplayMint] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggleMenu = () => {
+    setIsOpen(prevState => !prevState);
+  };
+
+  const handleClickLink = link => {
+    if (!link) return;
+    setIsOpen(false);
+    router.push(link, undefined, { shallow: true });
+  };
 
   return (
     <nav
-      className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between overflow-x-auto bg-theblack flex items-center px-16 py-4`}
+      className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between overflow-x-auto bg-theblack px-4 py-2 flex flex-row items-center`}
     >
       <span
         onMouseEnter={() => setDisplayHello(true)}
         onMouseLeave={() => setDisplayHello(false)}
-        onClick={() => router.push('/', undefined, { shallow: true })}
-        className={`${righteous.className} hover:text-thegreenbtn  text-3xl  hover:cursor-pointer navBtn`}
+        onClick={() => handleClickLink('/')}
+        className={`${righteous.className} hover:text-thegreenbtn text-lg sm:text-3xl hover:cursor-pointer navBtn`}
       >
         {displayHello ? 'hello :)' : 'ANKY'}
       </span>
-      <div className='flex items-center space-x-4 w-fit px-2'>
+      <div className='sm:hidden block'>
+        <button className='text-thewhite mt-4' onClick={handleToggleMenu}>
+          {isOpen ? <RiCloseLine size={30} /> : <RiMenu3Line size={30} />}
+        </button>
+      </div>
+      <div
+        className={`flex flex-col w-full sm:items-center sm:justify-end space-y-2 mt-2 pr-3 h-screen items-end bg-theblack fixed top-0 right-0 transform transition-transform duration-200 ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        } sm:static sm:bg-transparent sm:h-auto sm:flex-row sm:space-y-0 sm:translate-x-0 sm:space-x-4`}
+      >
         <span
           onMouseEnter={() => setDisplayConnecters(true)}
           onMouseLeave={() => setDisplayConnecters(false)}
-          className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
+          onClick={() => handleClickLink('/ankyverse')}
+          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayConnecters ? '@kithkui' : 'Twitter'}
         </span>
-        {/* <span
-          onMouseEnter={() => setDisplayFeed(true)}
-          onMouseLeave={() => setDisplayFeed(false)}
-          onClick={() => router.push('/feed', undefined, { shallow: true })}
-          className={`${righteous.className} hover:text-thegreenbtn  text-xl hover:cursor-pointer navBtn`}
-        >
-          {displayFeed ? '/feed' : 'Feed'}
-        </span> */}
+
         <span
           onMouseEnter={() => setDisplayTheAnkyverse(true)}
           onMouseLeave={() => setDisplayTheAnkyverse(false)}
-          onClick={() =>
-            router.push('/ankyverse', undefined, { shallow: true })
-          }
-          className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
+          onClick={() => handleClickLink('/ankyverse')}
+          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayTheAnkyverse ? '/ankyverse' : 'Ankyverse'}
         </span>
@@ -62,47 +75,24 @@ const Navbar = () => {
         <span
           onMouseEnter={() => setDisplayGallery(true)}
           onMouseLeave={() => setDisplayGallery(false)}
-          onClick={() => router.push('/gallery', undefined, { shallow: true })}
-          className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
+          onClick={() => handleClickLink('/gallery')}
+          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
         <span
           onMouseEnter={() => setDisplayMint(true)}
           onMouseLeave={() => setDisplayMint(false)}
-          onClick={() => router.push('/mint', undefined, { shallow: true })}
-          className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
+          onClick={() => handleClickLink('/mint')}
+          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayMint ? '/mint' : 'Mint'}
         </span>
-        {/* {address && (
-          <span
-            onMouseEnter={() => setDisplayProfile(true)}
-            onMouseLeave={() => setDisplayProfile(false)}
-            onClick={() => router.push('/me', undefined, { shallow: true })}
-            className={`${righteous.className} hover:text-thegreenbtn  text-xl  hover:cursor-pointer navBtn`}
-          >
-            {displayProfile ? '/me' : 'Profile'}
-          </span>
-        )} */}
-
-        {/*
-        <span
-          onMouseEnter={() => setDisplayShop(true)}
-          onMouseLeave={() => setDisplayShop(false)}
-          onClick={() => router.push('/shop', undefined, { shallow: true })}
-          className={`${righteous.className} hover:text-thegreenbtn hover:cursor-pointer navBtn`}
-        >
-          {displayShop ? '/shop' : 'Shop'}
-        </span> */}
-
-        <span>
-          <ConnectWallet
-            auth={{
-              loginOptional: false,
-            }}
-          />
-        </span>
+        <ConnectWallet
+          auth={{
+            loginOptional: false,
+          }}
+        />
       </div>
     </nav>
   );

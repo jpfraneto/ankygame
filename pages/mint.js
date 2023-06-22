@@ -125,13 +125,12 @@ const Mint = ({}) => {
 
   return (
     <div
-      className='text-thewhite relative flex md:flex-row flex-col overflow-y-scroll w-full bg-cover bg-center'
+      className='text-thewhite relative flex md:flex-row flex-col w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
-        height: 'calc(100vh  - 73px)',
       }}
     >
-      <div className='h-fit md:h-full w-screen md:w-3/12 overflow-y-scroll  px-9 pt-6 bg-theblack'>
+      <div className=' md:h-full w-screen md:w-3/12 overflow-y-scroll px-9 pt-6 bg-theblack'>
         <h2 className={`${righteous.className}  text-3xl  `}>Mint Info</h2>
         <p className={`${righteous.className} mt-7 text-md `}>
           The Ankyverse will starts its genesis on the 21th of June of 2023, at
@@ -156,7 +155,7 @@ const Mint = ({}) => {
         </p>
         <p className={`${righteous.className} mt-7 text-md `}>Location TBA.</p>
       </div>
-      <div className='h-fit pb-8 md:h-full w-screen md:w-9/12 overflow-y-scroll flex bg-thewhite text-theblack flex-col'>
+      <div className='pb-8 md:h-full w-screen md:w-9/12 overflow-y-scroll flex bg-thewhite text-theblack md:flex-col'>
         <div className='px-6 py-6 flex flex-wrap h-full justify-center '>
           {ankys &&
             ankys.map((x, i) => {

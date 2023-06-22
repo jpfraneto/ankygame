@@ -159,7 +159,6 @@ const Gallery = ({ userPrompt }) => {
       className='text-thewhite relative flex md:flex-row flex-col overflow-y-scroll w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
-        height: 'calc(100vh  - 73px)',
       }}
     >
       <div className='h-fit md:h-full w-screen md:w-3/12 overflow-y-scroll  px-9 pt-6 bg-theblack'>
