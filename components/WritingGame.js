@@ -376,11 +376,14 @@ const WritingGame = ({ userPrompt }) => {
                 </p> */}
                 <p>If you stop writing for 1 second, you will fail.</p>
                 <p className={`${righteous.className}  font-bold`}>
+                  The target is 180 seconds.
+                </p>
+                <p className={`${righteous.className}  font-bold`}>
                   Write as if there was no tomorrow.
                 </p>
-                <p className={`${righteous.className} font-bold`}>
+                {/* <p className={`${righteous.className} font-bold`}>
                   See you on the otherside.
-                </p>
+                </p> */}
               </div>
             }
 
@@ -404,6 +407,7 @@ const WritingGame = ({ userPrompt }) => {
                 } flex flex-col justify-center items-center text-opacity-20 mb-4`}
               >
                 <div className='text-9xl'>{time}</div>
+
                 <p className={`${righteous.className}  font-bold`}>
                   Write as if there was no tomorrow.
                 </p>

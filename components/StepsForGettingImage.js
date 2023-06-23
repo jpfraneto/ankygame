@@ -111,14 +111,14 @@ const StepsForGettingImage = ({ text, time }) => {
 
   return (
     <div className='text-center '>
-      {text && (
+      {/* {text && (
         <Button
           buttonAction={() => {
             pasteTextOnClipboard(text);
           }}
           buttonText='Copy what I wrote'
         />
-      )}
+      )} */}
       {step === 1 && (
         <div>
           {startingAnkyState && (
@@ -168,7 +168,7 @@ const StepsForGettingImage = ({ text, time }) => {
                 </p>
               ) : (
                 <div className='mt-2 overflow-y-scroll md:w-3/5'>
-                  <p>{ankyResponse}</p>
+                  <p className='overflow-y-scroll h-48'>{ankyResponse}</p>
                   <div className='flex flex-row justify-center'>
                     {promptForMidjourneyReady ? (
                       <Button
@@ -237,17 +237,9 @@ const StepsForGettingImage = ({ text, time }) => {
 
       {step === 3 && (
         <div>
-          {imageUrl ? (
+          {true ? (
             <div className='flex h-96 flex-col items-center'>
               <div className='flex flex-row h-full justify-center '>
-                <div className='relative rounded-xl w-1/3 aspect-square overflow-hidden border-2 mb-auto mx-2 border-thewhite'>
-                  <Image
-                    src={imageUrl}
-                    alt='Generated image for the user'
-                    fill
-                    className=' bg-theblack '
-                  />
-                </div>
                 {personDescription && (
                   <div className='w-1/2  h-full overflow-y-scroll'>
                     {personDescription.split('\n').map((x, i) => {
@@ -264,7 +256,7 @@ const StepsForGettingImage = ({ text, time }) => {
               <div className='my-4'>
                 <Button
                   buttonText='Mint Profile'
-                  buttonAction={handleMintProfile}
+                  buttonAction={() => alert('LFG')}
                 />
               </div>
             </div>

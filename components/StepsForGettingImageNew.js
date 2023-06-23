@@ -113,14 +113,6 @@ const StepsForGettingImage = ({ text, time }) => {
 
   return (
     <div className='text-center '>
-      {/* {text && (
-        <Button
-          buttonAction={() => {
-            pasteTextOnClipboard(text);
-          }}
-          buttonText='Copy what I wrote'
-        />
-      )} */}
       {step === 1 && (
         <div>
           {startingAnkyState && (
