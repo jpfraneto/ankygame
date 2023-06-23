@@ -70,14 +70,14 @@ export default async function (req, res) {
       prompt: `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ${completion.data.choices[0].message.content}`,
     };
 
-    console.log('going to imagine api.');
-    const responseFromImagineApi = await axios.post(
-      'http://164.90.252.239:8055/items/images',
-      bodyParameters,
-      config
-    );
-    const imagineApiID = responseFromImagineApi.data.data.id;
-    console.log('IN HERE', responseFromImagineApi);
+    // console.log('going to imagine api.');
+    // const responseFromImagineApi = await axios.post(
+    //   'http://164.90.252.239:8055/items/images',
+    //   bodyParameters,
+    //   config
+    // );
+    // const imagineApiID = responseFromImagineApi.data.data.id;
+    // console.log('IN HERE', responseFromImagineApi);
 
     const messages2 = [
       {
@@ -98,24 +98,24 @@ export default async function (req, res) {
       messages: messages2,
     });
     if (completion.data && completion2.data) {
-      let requestStatus = false;
-      while (!requestStatus) {
-        const intervalId = setInterval(async () => {
-          console.log('inside the interval');
-          const gettingImageApiResponse = await axios.get(
-            `http://164.90.252.239:8055/items/images/${imagineApiID}`,
-            bodyParameters,
-            config
-          );
-          console.log('alooooja', gettinImageApiResponse.data.data);
-          if (false) {
-            clearInterval(intervalId);
-            res.status(200).json({
-              message: 'listoco',
-            });
-          }
-        }, [10000]);
-      }
+      // let requestStatus = false;
+      // while (!requestStatus) {
+      //   const intervalId = setInterval(async () => {
+      //     console.log('inside the interval');
+      //     const gettingImageApiResponse = await axios.get(
+      //       `http://164.90.252.239:8055/items/images/${imagineApiID}`,
+      //       bodyParameters,
+      //       config
+      //     );
+      //     console.log('alooooja', gettinImageApiResponse.data.data);
+      //     if (false) {
+      //       clearInterval(intervalId);
+      //       res.status(200).json({
+      //         message: 'listoco',
+      //       });
+      //     }
+      //   }, [10000]);
+      // }
 
       res.status(200).json({
         imagePromptForMidjourney: `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ${completion.data.choices[0].message.content}`,

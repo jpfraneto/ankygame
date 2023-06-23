@@ -238,7 +238,7 @@ const WritingGame = ({ userPrompt }) => {
                       <StepsForGettingImage text={text} />
                     ) : (
                       <div>
-                        {runSubmitted && address ? (
+                        {true && true ? (
                           <div>
                             <p>
                               Ready. Now do you want to get a customized avatar
@@ -277,7 +277,7 @@ const WritingGame = ({ userPrompt }) => {
                                 <p>You are done. Your score is {time}.</p>
                               </div>
                             )}
-                            {address ? (
+                            {true ? (
                               <div>
                                 <p>Your run was saved into the db.</p>
                                 <div className='flex space-x-2'>

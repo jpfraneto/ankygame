@@ -173,9 +173,9 @@ const StepsForGettingImage = ({ text, time }) => {
                     {promptForMidjourneyReady ? (
                       <Button
                         buttonAction={() => {
-                          setStep(2);
+                          setStep(3);
                         }}
-                        buttonText='You have the prompt. Click here for the next step.'
+                        buttonText='You have the prompt. Now send it to jp'
                         buttonColor='bg-thegreenbtn'
                       />
                     ) : (
@@ -184,7 +184,7 @@ const StepsForGettingImage = ({ text, time }) => {
                           pasteTextOnClipboard(ankyResponse);
                           setPromptForMidjourneyReady(true);
                         }}
-                        buttonText='Copy Description'
+                        buttonText='Copy Prompt'
                       />
                     )}
                   </div>
