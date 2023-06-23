@@ -26,7 +26,7 @@ const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 const GamePage = () => {
   return (
     <>
-      <WritingGame userPrompt='finish this sentence: "I can..."' />
+      <WritingGame userPrompt='What brings me joy?' />
 
       <div className='min-h-screen bg-theblack py-8'>
         <p

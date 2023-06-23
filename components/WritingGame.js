@@ -73,6 +73,9 @@ const WritingGame = ({ userPrompt }) => {
   useEffect(() => {
     if (isActive && !isDone) {
       intervalRef.current = setInterval(() => {
+        if (time === 180) {
+          finishRun();
+        }
         setTime(time => time + 1);
       }, 1000);
     } else if (!isActive && !isDone) {
