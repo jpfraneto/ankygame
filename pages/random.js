@@ -37,7 +37,7 @@ const Random = ({ random }) => {
 export default Random;
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/getrandomcharacter');
+  const res = await fetch('https://www.anky.lat/api/getrandomcharacter');
   const data = await res.json();
 
   if (!data) {
