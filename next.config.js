@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['pbs.twimg.com'],
+    domains: ['pbs.twimg.com', '164.90.252.239:8055'],
     unoptimized: true,
     remotePatterns: [
       {
