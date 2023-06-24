@@ -25,8 +25,8 @@ const Random = ({ random }) => {
         </div>
 
         <div className='p-4'>
-          {random.characterBackstory.split('\n').map(x => (
-            <p>{x}</p>
+          {random.characterBackstory.split('\n').map((x, i) => (
+            <p key={i}>{x}</p>
           ))}
         </div>
       </div>
