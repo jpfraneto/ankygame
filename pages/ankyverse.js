@@ -37,46 +37,58 @@ const Ankyverse = () => {
       >
         <div className='px-6 py-6 flex flex-wrap h-full '>
           {chosenWorld ? (
-            <div>
-              <h2 className='text-3xl mb-1'>
-                {chosenWorld.name.toUpperCase()}
-              </h2>
-              <h2>{chosenWorld.description}</h2>
-              <hr className='mb-2' />
-              <div>
-                <h2>Cities</h2>
+            <div className='flex h-full'>
+              <div className='relative h-96 aspect-square'>
+                <Image
+                  src={`/images/kingdoms/${chosenWorld.name}.png`}
+                  fill
+                  alt={chosenWorld.name}
+                />
+              </div>
+              <div className='text-left'>
+                <h2 className='text-3xl mb-1'>
+                  {chosenWorld.name.toUpperCase()}
+                </h2>
+                <h2>{chosenWorld.description}</h2>
+                <hr className='mb-2' />
                 <div>
-                  {chosenWorld.cities.map((x, i) => (
-                    <div key={i}>
-                      <h3>
-                        {x.cityName} - {x.associatedLandmark} - {x.mainActivity}
-                      </h3>
-                    </div>
-                  ))}
+                  <h2 className='text-2xl text-theredbtn'>Cities</h2>
+                  <div>
+                    {chosenWorld.cities.map((x, i) => (
+                      <div key={i}>
+                        <h3>
+                          {x.cityName} - {x.associatedLandmark} -{' '}
+                          {x.mainActivity}
+                        </h3>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <br />
-              <div>
-                <h2>Landmarks</h2>
-                <ul>
-                  {chosenWorld.landmarks.map((x, i) => (
-                    <li key={i}>{x}</li>
-                  ))}
-                </ul>
-              </div>
-              <br />
-              <div>
-                <h2>Celebrations</h2>
-                <ul>
-                  {chosenWorld.celebrations.map((x, i) => (
-                    <li key={i}>{x}</li>
-                  ))}
-                </ul>
-              </div>
-              <br />
-              <div>
-                <h2>People Characteristics</h2>
-                <p>{chosenWorld.characteristicsOfPeople}</p>
+                <br />
+                <div>
+                  <h2 className='text-2xl text-theredbtn'>Landmarks</h2>
+                  <ul>
+                    {chosenWorld.landmarks.map((x, i) => (
+                      <li key={i}>{x}</li>
+                    ))}
+                  </ul>
+                </div>
+                <br />
+                <div>
+                  <h2 className='text-2xl text-theredbtn'>Celebrations</h2>
+                  <ul>
+                    {chosenWorld.celebrations.map((x, i) => (
+                      <li key={i}>{x}</li>
+                    ))}
+                  </ul>
+                </div>
+                <br />
+                <div>
+                  <h2 className='text-2xl text-theredbtn'>
+                    People Characteristics
+                  </h2>
+                  <p>{chosenWorld.characteristicsOfPeople}</p>
+                </div>
               </div>
             </div>
           ) : (
