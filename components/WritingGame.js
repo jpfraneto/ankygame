@@ -230,7 +230,7 @@ const WritingGame = ({ userPrompt }) => {
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-1/3'>
+      <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-2/3'>
         {finished ? (
           <>
             {moreThanMinRun ? (
