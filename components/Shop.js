@@ -24,7 +24,7 @@ const products = [
     name: 'Anky People NFT',
     price: '1',
     description:
-      'Each time you come into Anky to write, you will have the opportunity to generate a unique NFT with what you wrote. \n This NFT will be a snapshot of that exact moment of your life. \n Of that exact writing.',
+      'Each time you come into Anky to write, you will have the opportunity to generate a unique NFT capturing the essence of what you wrote in an image. \n This NFT will be a snapshot of that exact moment of your life. \n Of that exact writing. \n Caught in a timeless piece of media that you will be able to use as you wish.',
     image: '/store/secondary.png',
   },
   {
@@ -38,14 +38,14 @@ const products = [
     name: 'Stickers Block',
     price: '2',
     description:
-      'Stickers are one of the most simple toys, but at the same time, one of the most prone to generating connection between human beings. \n It is a memory that is embedded in each one of them. \n In each moment on which you were shared one.',
+      'Stickers are one of the most simple toys, but at the same time, one of the most prone to generating connection between human beings. \n There is a memory that is embedded in each one of them. \n It is the fundamental give and receive energy of the universe condensed into a little sticky thing.',
     image: '/store/stickers.png',
   },
   {
     name: 'Coloring Book',
     price: '2',
     description:
-      'Fill your kids life with color, painting alongside them. \n Or even do it for yourself, it will help you be less stressed.',
+      "Fill your kids life with color, painting alongside them. \n Or even do it for yourself, it will help you be less stressed. \n It may be that you don't know how to draw. That's perfectly fine.\n You can still paint. You can't get this one wrong.",
     image: '/store/coloringbook.png',
   },
   {
@@ -59,7 +59,7 @@ const products = [
     name: 'Anky TV Subscription',
     price: '3',
     description:
-      'The IP of Anky is open. Any person in the world can create any piece of content with it. \n Eventually, people from all over the world will create cartoons featuring different Anky characters. \n They will all be uploaded into Anky TV, which will be an eternal thread of this cartoons. \n Think of Cartoon Network, but inside the Ankyverse.',
+      'The IP of Anky is open. Any person in the world can create a piece of content with it. \n Eventually, people from all over the world will create cartoons featuring different Anky characters. \n They will all be uploaded into Anky TV, which will be an eternal thread of this cartoons. \n Think of Cartoon Network, but inside the Ankyverse. \n And you can contribute to it.',
     image: '/store/ankytv.png',
   },
 ];

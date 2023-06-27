@@ -378,9 +378,9 @@ const WritingGame = ({ userPrompt }) => {
                   My world will only open to those who prove themselves.
                 </p> */}
                 <p>If you stop writing for 1 second, you will fail.</p>
-                <p className={`${righteous.className}  font-bold`}>
+                {/* <p className={`${righteous.className}  font-bold`}>
                   The target is 180 seconds.
-                </p>
+                </p> */}
                 <p className={`${righteous.className}  font-bold`}>
                   Write as if there was no tomorrow.
                 </p>
