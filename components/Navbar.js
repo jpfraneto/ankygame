@@ -83,10 +83,10 @@ const Navbar = () => {
         <span
           onMouseEnter={() => setDisplayMint(true)}
           onMouseLeave={() => setDisplayMint(false)}
-          onClick={() => handleClickLink('/mint')}
+          onClick={() => handleClickLink('/shop')}
           className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
-          {displayMint ? '/mint' : 'Mint'}
+          {displayMint ? '/shop' : 'Shop'}
         </span>
         <ConnectWallet
           auth={{
