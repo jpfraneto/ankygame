@@ -5,6 +5,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const AnkyGeneratedGalleryModal = ({ isOpen, onClose, children, anky }) => {
   if (!isOpen) return null;
+  console.log('the anky is: ', anky);
 
   return (
     <div className='fixed top-0 left-0 z-10  h-screen w-screen flex items-center justify-center bg-opacity-60 bg-theblack'>
