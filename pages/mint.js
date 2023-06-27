@@ -110,7 +110,6 @@ let ankys = [
 ];
 
 const Mint = ({}) => {
-  console.log('inside the mint page, the ankys are: ', ankys);
   const audioRef = useRef();
   const address = useAddress();
   const router = useRouter();
