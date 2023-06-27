@@ -161,7 +161,7 @@ const Gallery = ({ userPrompt }) => {
         boxSizing: 'border-box',
       }}
     >
-      <div className='h-fit md:h-full w-screen md:w-3/12 overflow-y-scroll  px-9 pt-6 bg-theblack'>
+      <div className='h-fit md:h-full w-screen md:w-96 overflow-y-scroll px-9 pt-6 '>
         <h2 className={`${righteous.className}  text-3xl  `}>What is this?</h2>
         <p className={`${righteous.className} mt-7 text-md `}>
           Anky is a special world that lives inside a game. But it&apos;s not
@@ -199,8 +199,8 @@ const Gallery = ({ userPrompt }) => {
           Thank you for being who you are.
         </p>
       </div>
-      <div className='h-fit pb-8 md:h-full w-screen md:w-9/12 overflow-y-scroll flex bg-thewhite text-theblack flex-col'>
-        <div className='px-6 py-6 flex flex-wrap h-full justify-center '>
+      <div className='h-fit pb-8 md:h-full overflow-y-scroll w-full flex bg-theblack text-thewhite md:flex-row flex-col'>
+        <div className='px-6 py-6 flex  flex-wrap h-full justify-center '>
           {ankys.map((x, i) => {
             return (
               <div
