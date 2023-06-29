@@ -1,0 +1,121 @@
+import {
+  useContractMetadata,
+  useContract,
+  useNetworkMismatch,
+  useNFTBalance,
+  useClaimedNFTSupply,
+  useUnclaimedNFTSupply,
+  metamaskWallet,
+  useAddress,
+  useConnect,
+} from '@thirdweb-dev/react';
+import { useState } from 'react';
+
+const metamaskConfig = metamaskWallet();
+
+function Minter() {
+  const [claiming, setClaiming] = useState(false);
+  const [numberToMint, setNumberToMint] = useState(6);
+  const { contract, isLoading } = useContract(
+    '0x962A1Fb83Aa0Fa4e37c55522bDC0EDCa657Db353'
+  );
+  const { data: contractMetadata } = useContractMetadata(contract);
+  const { data: claimedSupply } = useClaimedNFTSupply(contract);
+  const { data: unclaimedSupply } = useUnclaimedNFTSupply(contract);
+  const address = useAddress();
+  const connect = useConnect();
+  const isWrongNetwork = useNetworkMismatch();
+  const { data: ownerBalance } = useNFTBalance(contract, address);
+
+  const connectWallet = async () => {
+    const wallet = await connect(metamaskConfig);
+    console.log('connected to ', wallet);
+  };
+
+  const mint = async () => {
+    if (!address) {
+      connectWallet();
+      return;
+    }
+
+    if (isWrongNetwork) {
+      alert('Please connect to the correct network!');
+      return;
+    }
+
+    setClaiming(true);
+
+    try {
+      await contract?.erc721.claim(numberToMint);
+      alert('Minted successfully!');
+      console.log(ownerBalance);
+    } catch (e) {
+      console.log('There was an error minting');
+      console.log(e);
+    }
+
+    setClaiming(false);
+  };
+
+  if (!contract || !contractMetadata) {
+    return (
+      <div className='flex min-h-screen justify-center items-center'>
+        welcome to the Ankyverse..
+      </div>
+    );
+  }
+
+  return (
+    <div className='text-thewhite mx-auto flex h-screen justify-center items-center max-w-6xl flex-col p-6 md:p-12'>
+      <main className='grid gap-6 rounded-md bg-black/20 p-6 md:grid-cols-2 md:p-12'>
+        <div className='flex flex-col items-center justify-center space-y-6'>
+          <h1 className='text-2xl font-bold text-secondary'>
+            Name: {contractMetadata?.name}
+          </h1>
+          <p className='text-center leading-relaxed'>
+            Description: {contractMetadata?.description}
+          </p>
+        </div>
+
+        <div className='flex flex-col items-center'>
+          <div className='flex w-full max-w-sm flex-col space-y-4'>
+            <div className='aspect-square w-full overflow-hidden rounded-md'>
+              <img
+                className='aspect-square object-cover'
+                src={contractMetadata?.image}
+              />
+            </div>
+
+            <div className='flex max-w-sm justify-between'>
+              <p>Total Minted</p>
+              <p>
+                {claimedSupply?.toNumber()} /{' '}
+                {(claimedSupply?.toNumber() || 0) +
+                  (unclaimedSupply?.toNumber() || 0)}
+              </p>
+            </div>
+            <div className='flex justify-center'>
+              {address === undefined ? (
+                <button
+                  onClick={connectWallet}
+                  className='rounded-full bg-primary px-6 py-2 text-white hover:bg-opacity-75'
+                >
+                  Connect Wallet
+                </button>
+              ) : (
+                <button
+                  onClick={mint}
+                  className='rounded-full bg-primary px-6 py-2 text-white hover:bg-opacity-75'
+                >
+                  {claiming ? 'Claiming...' : `Mint ${numberToMint}`}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default Minter;

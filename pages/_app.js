@@ -6,7 +6,7 @@ import {
   coinbaseWallet,
   walletConnect,
 } from '@thirdweb-dev/react';
-import { Ethereum, Polygon, Sepolia } from '@thirdweb-dev/chains';
+import { Ethereum, Goerli, Sepolia } from '@thirdweb-dev/chains';
 import Navbar from '@component/components/Navbar';
 
 export default function App({ Component, pageProps }) {
@@ -23,8 +23,8 @@ export default function App({ Component, pageProps }) {
         />
       </Head>
       <ThirdwebProvider
-        activeChain={Sepolia}
-        supportedChains={[Ethereum, Sepolia]}
+        activeChain='goerli'
+        supportedChains={[Ethereum, Sepolia, Goerli]}
         supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
       >
         <div className='overflow-x-hidden'>
