@@ -27,13 +27,13 @@ const products = [
       'Each time you come into Anky to write, you will have the opportunity to generate a unique NFT capturing the essence of what you wrote in an image. \n This NFT will be a snapshot of that exact moment of your life. \n Of that exact writing. \n Caught in a timeless piece of media that you will be able to use as you wish.',
     image: '/store/secondary.png',
   },
-  {
-    name: 'Cannabis Ice Cream',
-    price: '4',
-    description:
-      'Sometimes the intention to open the mind is not enough, and you need a little push. \n Our ice cream came into being with the power of music and good vibes, and that is what will be embedded in each scoop of it. \n Each bite will be a catapult into the magic of the universe. ',
-    image: '/store/icecream.png',
-  },
+  // {
+  //   name: 'Cannabis Ice Cream',
+  //   price: '4',
+  //   description:
+  //     'Sometimes the intention to open the mind is not enough, and you need a little push. \n Our ice cream came into being with the power of music and good vibes, and that is what will be embedded in each scoop of it. \n Each bite will be a catapult into the magic of the universe. ',
+  //   image: '/store/icecream.png',
+  // },
   {
     name: 'Stickers Block',
     price: '2',
