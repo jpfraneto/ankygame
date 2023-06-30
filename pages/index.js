@@ -26,7 +26,7 @@ const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 const GamePage = () => {
   return (
     <>
-      <WritingGame userPrompt='What is your religion?' />
+      <WritingGame userPrompt='Why web3?' />
 
       <div className='min-h-screen bg-theblack py-8'>
         <p
