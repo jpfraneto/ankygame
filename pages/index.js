@@ -26,39 +26,39 @@ const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 const GamePage = () => {
   return (
     <>
-      <WritingGame userPrompt='Why web3?' />
+      <WritingGame userPrompt='Qué es la muerte?' />
 
       <div className='min-h-screen bg-theblack py-8'>
         <p
           className={`${righteous.className} text-thewhite text-5xl font-bold  text-center`}
         >
-          what is this?
+          ¿Qué es esto?
         </p>
         <div
           className={`${righteous.className} font-bold text-thewhite text-center`}
         >
-          <p className=''>Maybe it is easier to say what it is not.</p>
-          <p className=''>It may look like a game.</p>
-          <p className=''>But it is not.</p>
-          <p className=''>It may seem like something absolutely simple.</p>
-          <p className=''>But it is not.</p>
-          <p className=''>It may seem easy.</p>
-          <p className=''>But it is not.</p>
+          <p className=''>Quizás es más fácil decir lo que no es.</p>
+          <p className=''>Puede parecer un juego.</p>
+          <p className=''>Pero no lo es.</p>
+          <p className=''>Puede parecer algo absolutamente simple.</p>
+          <p className=''>Pero no lo es.</p>
+          <p className=''>Puede parecer fácil.</p>
+          <p className=''>Pero no lo es.</p>
           <p className=''>
-            The journey that you will embark on by being part of this experience
-            is deep.
+            El viaje en el que te embarcarás al ser parte de esta experiencia es
+            profundo.
           </p>
-          <p className=''>You are opening to your own transformation.</p>
+          <p className=''>Te estás abriendo a tu propia transformación.</p>
           <p className=''>
-            By developing a strong capacity for observing your thoughts.
+            Al desarrollar una fuerte capacidad para observar tus pensamientos.
           </p>
-          <p className=''>And realizing that you are not them.</p>
-          <p className=''>You are that which underlies them.</p>
-          <p className=''>You are the one that is witnessing them.</p>
-          <p className=''>You are not them.</p>
-          <p className=''>This game is a ruthless exploration into that.</p>
-          <p className=''>Into you.</p>
-          <p className=''>Welcome on board.</p>
+          <p className=''>Y darte cuenta de que tú no eres ellos.</p>
+          <p className=''>Eres lo que subyace en ellos.</p>
+          <p className=''>Eres el que los está presenciando.</p>
+          <p className=''>Tú no eres ellos.</p>
+          <p className=''>Este juego es una exploración despiadada de eso.</p>
+          <p className=''>De ti.</p>
+          <p className=''>Bienvenido a bordo.</p>
         </div>
       </div>
     </>
