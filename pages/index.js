@@ -32,7 +32,7 @@ const GamePage = () => {
         <p
           className={`${righteous.className} text-thewhite text-5xl font-bold  text-center`}
         >
-          what is this?
+          qué te hace sentir seguridad en ti mism@?
         </p>
         <div
           className={`${righteous.className} font-bold text-thewhite text-center`}
