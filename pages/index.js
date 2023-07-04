@@ -26,13 +26,13 @@ const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 const GamePage = () => {
   return (
     <>
-      <WritingGame userPrompt='Tell me who you are.' />
+      <WritingGame userPrompt='qué te hace sentir seguridad en ti mism@?' />
 
       <div className='min-h-screen bg-theblack py-8'>
         <p
           className={`${righteous.className} text-thewhite text-5xl font-bold  text-center`}
         >
-          qué te hace sentir seguridad en ti mism@?
+          what is this?
         </p>
         <div
           className={`${righteous.className} font-bold text-thewhite text-center`}
