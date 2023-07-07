@@ -249,8 +249,8 @@ const WritingGame = ({ userPrompt }) => {
                               from the inside out.
                             </p>
                             <p>
-                              It's powerful stuff. Thank you for being who you
-                              are.
+                              It&apos;s powerful stuff. Thank you for being who
+                              you are.
                             </p>
                             {/* <div className='flex space-x-2 my-2'>
                               <Button
