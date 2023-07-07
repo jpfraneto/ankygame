@@ -26,7 +26,7 @@ const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 const GamePage = () => {
   return (
     <>
-      <WritingGame userPrompt='Quién eres en 5 años más?' />
+      <WritingGame userPrompt='What is the biggest transformation you have expewrienced in your life?' />
 
       <div className='min-h-screen bg-theblack py-8'>
         <p

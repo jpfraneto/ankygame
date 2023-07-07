@@ -244,10 +244,15 @@ const WritingGame = ({ userPrompt }) => {
                         {true && true ? (
                           <div>
                             <p>
-                              Ready. Now do you want to get a customized avatar
-                              based on what you just wrote?
+                              Your writing is on your clipboard. Come back here
+                              every day, and see how this thing transforms you,
+                              from the inside out.
                             </p>
-                            <div className='flex space-x-2 my-2'>
+                            <p>
+                              It's powerful stuff. Thank you for being who you
+                              are.
+                            </p>
+                            {/* <div className='flex space-x-2 my-2'>
                               <Button
                                 buttonAction={() => {
                                   setDisplayStepsForGettingImage(true);
@@ -264,7 +269,7 @@ const WritingGame = ({ userPrompt }) => {
                                 buttonText='No'
                                 buttonColor='bg-theredbtn'
                               />
-                            </div>
+                            </div> */}
                           </div>
                         ) : (
                           <div>
