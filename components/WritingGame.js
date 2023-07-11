@@ -17,7 +17,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const dancingScript = Dancing_Script({ weight: '400', subsets: ['latin'] });
 const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 
-const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
+const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
   const audioRef = useRef();
   const address = useAddress();
   const [text, setText] = useState('');
@@ -104,11 +104,6 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
-    if (time < 3) return setMoreThanMinRound(false);
-    if (time > highscore) {
-      setIsHighscore(true);
-      setHighscore(time);
-    }
     setMoreThanMinRound(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
@@ -263,7 +258,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
               right: `${time > 10 && '0'}%`,
               transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
             }}
-            className={`${pacifico.className} ${time > 10 && 'absolute'} ${
+            className={`${pacifico.className} ${time >= 10 && 'absolute'} ${
               time < 10 && 'md:w-3/5 md:aspect-video w-full h-square'
             } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
             value={text}
@@ -273,7 +268,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
           {time > 10 && (
             <div
               className={`${
-                time > 0 && 'fade-in'
+                time > 10 && 'fade-in'
               } flex flex-col justify-center items-center text-opacity-20 mb-4`}
             >
               <div className='text-9xl'>{time}</div>

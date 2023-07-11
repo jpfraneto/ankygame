@@ -24,6 +24,7 @@ const GamePage = () => {
       </div>
       <WritingGame
         setLives={setLives}
+        lives={lives}
         userPrompt='Qué mantiene tu fuego prendido?'
         setLifeBarLength={setLifeBarLength}
       />
