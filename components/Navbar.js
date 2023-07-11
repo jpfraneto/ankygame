@@ -54,14 +54,14 @@ const Navbar = () => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } sm:static sm:bg-transparent sm:h-auto sm:flex-row sm:space-y-0 sm:translate-x-0 sm:space-x-4`}
       >
-        <span
+        {/* <span
           onMouseEnter={() => setDisplayConnecters(true)}
           onMouseLeave={() => setDisplayConnecters(false)}
           onClick={() => handleClickLink('/ankyverse')}
           className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayConnecters ? '@kithkui' : 'Twitter'}
-        </span>
+        </span> */}
 
         <span
           onMouseEnter={() => setDisplayTheAnkyverse(true)}
