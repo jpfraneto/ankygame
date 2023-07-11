@@ -20,10 +20,8 @@ const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
   const audioRef = useRef();
   const address = useAddress();
-  const router = useRouter();
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
-  const [showText, setShowText] = useState(false);
   const [submittingRunToDB, setSubmittingRunToDB] = useState(false);
   const [runSubmitted, setRunSubmitted] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -33,11 +31,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [highscore, setHighscore] = useState(0);
   const [isHighscore, setIsHighscore] = useState(false);
-  const [selectedRun, setSelectedRun] = useState(null);
   const [savedToDb, setSavedToDb] = useState(false);
-  const [finishedText, setFinishedText] = useState(null);
-  const [displayStepsForGettingImage, setDisplayStepsForGettingImage] =
-    useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [finished, setFinished] = useState(false);
   const [ankyImageUrl, setAnkyImageUrl] = useState('/images/anky.png');
@@ -46,7 +40,6 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [displayLeaderboard, setDisplayLeaderboard] = useState(false);
   const [leaderboard, setLeaderboard] = useState(null);
 
   const textareaRef = useRef(null);
@@ -256,7 +249,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
                 Escribe lo que salga. Tu verdad, sin juicios. Escribe sólo por
                 el placer de desahogarte.
               </p>
-              <p>No hay nada que puedas hacer para hacerlo 'mal'.</p>
+              <p>No hay nada que puedas hacer para hacerlo &apos;mal&apos;.</p>
             </div>
           )}
 
