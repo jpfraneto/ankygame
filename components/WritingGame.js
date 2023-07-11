@@ -88,7 +88,6 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
         }
       }, 100);
     } else {
-      setLifeBarLength(0);
       clearInterval(keystrokeIntervalRef.current);
     }
 
@@ -96,6 +95,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
   }, [isActive, lastKeystroke]);
 
   const finishRun = async () => {
+    setLifeBarLength(0);
     audioRef.current.play();
     setFinished(true);
     setEndTime(Date.now());
