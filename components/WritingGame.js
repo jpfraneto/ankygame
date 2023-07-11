@@ -252,47 +252,61 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
             ref={textareaRef}
             disabled={finished}
             style={{
-              top: `${time > 10 && '0'}%`,
-              bottom: `${time > 10 && '0'}%`,
-              left: `${time > 10 && '0'}%`,
-              right: `${time > 10 && '0'}%`,
+              top: `${time >= 10 && '0'}%`,
+              bottom: `${time >= 10 && '0'}%`,
+              left: `${time >= 10 && '0'}%`,
+              right: `${time >= 10 && '0'}%`,
               transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
             }}
             className={`${pacifico.className} ${time >= 10 && 'absolute'} ${
-              time < 10 && 'md:w-3/5 md:aspect-video w-full h-square'
+              time <= 10 && 'md:w-3/5 md:aspect-video w-full h-square'
             } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
             value={text}
             placeholder='Escribe acá...'
             onChange={handleTextChange}
           ></textarea>
-          {time > 10 && (
+          {time >= 1 && (
             <div
               className={`${
-                time > 10 && 'fade-in'
+                time >= 10 && 'fade-in'
               } flex flex-col justify-center items-center text-opacity-20 mb-4`}
             >
               <div className='text-9xl'>{time}</div>
 
               {finished ? (
                 <div className='flex space-x-2'>
-                  {lives > 0 ? (
+                  {!runSubmitted ? (
                     <Button
                       buttonColor='bg-thegreenbtn'
-                      buttonAction={spendOneLifeAndGoBackToWriting}
-                      buttonText='Seguir Escribiendo (1 vida)'
+                      buttonAction={startNewRun}
+                      buttonText='Jugar de nuevo (1 vida)'
                     />
                   ) : (
-                    <Button
-                      buttonColor='bg-theredbtn'
-                      buttonAction={() => alert('No the quedan vidas por hoy')}
-                      buttonText='No te quedan vidas.'
-                    />
+                    <>
+                      {lives > 0 ? (
+                        <Button
+                          buttonColor='bg-thegreenbtn'
+                          buttonAction={spendOneLifeAndGoBackToWriting}
+                          buttonText='Seguir Escribiendo (1 vida)'
+                        />
+                      ) : (
+                        <Button
+                          buttonColor='bg-theredbtn'
+                          buttonAction={() =>
+                            alert('No the quedan vidas por hoy')
+                          }
+                          buttonText='No te quedan vidas.'
+                        />
+                      )}
+                    </>
                   )}
 
                   <Button
                     buttonAction={saveRunToDb}
                     buttonText={
-                      savingRound
+                      runSubmitted
+                        ? 'Guardada'
+                        : savingRound
                         ? 'Guardando...'
                         : `Guardar escritura ${
                             address ? 'en mi perfil' : 'anónimamente'
@@ -302,7 +316,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
                 </div>
               ) : (
                 <p className={`${righteous.className}  font-bold`}>
-                  Write as if there was no tomorrow.
+                  Escribe como si no hubiera un mañana.
                 </p>
               )}
             </div>
