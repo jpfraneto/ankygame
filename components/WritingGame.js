@@ -17,13 +17,12 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const dancingScript = Dancing_Script({ weight: '400', subsets: ['latin'] });
 const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 
-const WritingGame = ({ userPrompt }) => {
+const WritingGame = ({ userPrompt, setLifeBarLength, setLives }) => {
   const audioRef = useRef();
   const address = useAddress();
   const router = useRouter();
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
-  const [lives, setLives] = useState(3);
   const [showText, setShowText] = useState(false);
   const [submittingRunToDB, setSubmittingRunToDB] = useState(false);
   const [runSubmitted, setRunSubmitted] = useState(false);
@@ -73,9 +72,6 @@ const WritingGame = ({ userPrompt }) => {
   useEffect(() => {
     if (isActive && !isDone) {
       intervalRef.current = setInterval(() => {
-        // if (time === 180) {
-        //   finishRun();
-        // }
         setTime(time => time + 1);
       }, 1000);
     } else if (!isActive && !isDone) {
@@ -87,13 +83,22 @@ const WritingGame = ({ userPrompt }) => {
   useEffect(() => {
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
-        if (Date.now() - lastKeystroke > 1000 && !isDone) {
+        const elapsedTime = Date.now() - lastKeystroke;
+
+        if (elapsedTime > 3000 && !isDone) {
+          // change 1000 to 3000 for 3 seconds
           finishRun();
+        } else {
+          // calculate life bar length
+          const newLifeBarLength = 100 - elapsedTime / 30; // 100% - (elapsed time in seconds * (100 / 3))
+          setLifeBarLength(Math.max(newLifeBarLength, 0)); // do not allow negative values
         }
-      }, 500);
+      }, 100);
     } else {
+      setLifeBarLength(0);
       clearInterval(keystrokeIntervalRef.current);
     }
+
     return () => clearInterval(keystrokeIntervalRef.current);
   }, [isActive, lastKeystroke]);
 
@@ -111,7 +116,6 @@ const WritingGame = ({ userPrompt }) => {
       setIsHighscore(true);
       setHighscore(time);
     }
-    saveRunToDb();
     setMoreThanMinRound(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
@@ -120,6 +124,7 @@ const WritingGame = ({ userPrompt }) => {
     audioRef.current.pause();
     setCopyText('Copy my writing');
     setTime(0);
+    setLifeBarLength(100);
     setText('');
     setSavingRound(false);
     setSavedToDb(false);
@@ -219,7 +224,7 @@ const WritingGame = ({ userPrompt }) => {
       className='text-thewhite relative  flex flex-col items-center py-16 justify-center w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
-        height: 'calc(100vh  - 90px)',
+        height: 'calc(100vh  - 120px)',
         backgroundImage:
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
         backgroundPosition: 'center center',
@@ -231,198 +236,90 @@ const WritingGame = ({ userPrompt }) => {
         <source src='/sounds/bell.mp3' />
       </audio>
       <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-2/3'>
-        {finished ? (
-          <>
-            {moreThanMinRun ? (
-              <>
-                <>
-                  <div>
-                    {displayStepsForGettingImage ? (
-                      <StepsForGettingImage text={text} />
-                    ) : (
-                      <div>
-                        {true && true ? (
-                          <div>
-                            <p>
-                              Your writing is on your clipboard. Come back here
-                              every day, and see how this thing transforms you,
-                              from the inside out.
-                            </p>
-                            <p>
-                              It&apos;s powerful stuff. Thank you for being who
-                              you are.
-                            </p>
-                            {/* <div className='flex space-x-2 my-2'>
-                              <Button
-                                buttonAction={() => {
-                                  setDisplayStepsForGettingImage(true);
-                                }}
-                                buttonText='Yes'
-                                buttonColor='bg-thegreenbtn'
-                              />
-                              <Button
-                                buttonAction={() => {
-                                  alert(
-                                    "Ok, if this didn't caught your attention, I have work to do. Thx for trying it out."
-                                  );
-                                }}
-                                buttonText='No'
-                                buttonColor='bg-theredbtn'
-                              />
-                            </div> */}
-                          </div>
-                        ) : (
-                          <div>
-                            {isHighscore ? (
-                              <div>
-                                <p>
-                                  NEW HIGHSCORE! CONGRATULATIONS. You made it
-                                  for {time} seconds.
-                                </p>
-                              </div>
-                            ) : (
-                              <div>
-                                <p>You are done. Your score is {time}.</p>
-                              </div>
-                            )}
-                            {true ? (
-                              <div>
-                                <p>Your run was saved into the db.</p>
-                                <div className='flex space-x-2'>
-                                  <button
-                                    className='px-4 py-2 rounded-xl bg-thegreen h-fit hover:opacity-80'
-                                    onClick={() => {
-                                      pasteText();
-                                    }}
-                                  >
-                                    Copy what I wrote
-                                  </button>
-                                  <button
-                                    className='px-4 py-2 rounded-xl bg-theorange h-fit hover:opacity-80'
-                                    onClick={() => {
-                                      router.push(`/u/${address}`);
-                                    }}
-                                  >
-                                    See my runs
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <div>
-                                <p>
-                                  If you had your wallet connected, you would
-                                  have a profile on which to track your progress
-                                  and do all kinds of crazy stuff with what you
-                                  write.
-                                </p>
-                                <div className='flex space-x-2'>
-                                  <button
-                                    className='px-4 py-2 rounded-lg bg-thegreen h-fit hover:opacity-80'
-                                    onClick={() => {
-                                      pasteText();
-                                    }}
-                                  >
-                                    Copy what I wrote
-                                  </button>
-                                  <button
-                                    className='px-4 py-2 rounded-lg bg-theorange h-fit hover:opacity-80'
-                                    onClick={startNewRun}
-                                  >
-                                    Play Again
-                                  </button>
-                                  <ConnectWallet
-                                    auth={{
-                                      loginOptional: false,
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </>
-              </>
-            ) : (
-              <div className=''>
-                <p>
-                  You are done. Your score is {time}. You need to try harder
-                  next time.
-                </p>
-                <p>Min score to qualify is 30 seconds.</p>
-                <div className='flex justify-center space-x-2'>
-                  <Button
-                    buttonText={copyText}
-                    buttonAction={pasteText}
-                    buttonColor='bg-thegreen'
-                  />
-                  <div className=''>
+        <>
+          {!finished && (
+            <div
+              className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
+            >
+              <p
+                className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
+              >
+                {userPrompt}
+              </p>
+
+              <p>
+                Lee bien la pregunta que está arriba. Siéntela. Responde con el
+                corazón.
+              </p>
+
+              <p className={`${righteous.className}  font-bold`}>
+                Escribe lo que salga. Tu verdad, sin juicios. Escribe sólo por
+                el placer de desahogarte.
+              </p>
+              <p>No hay nada que puedas hacer para hacerlo 'mal'.</p>
+            </div>
+          )}
+
+          <textarea
+            ref={textareaRef}
+            disabled={finished}
+            style={{
+              top: `${time > 10 && '0'}%`,
+              bottom: `${time > 10 && '0'}%`,
+              left: `${time > 10 && '0'}%`,
+              right: `${time > 10 && '0'}%`,
+              transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
+            }}
+            className={`${pacifico.className} ${time > 10 && 'absolute'} ${
+              time < 10 && 'md:w-3/5 md:aspect-video w-full h-square'
+            } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
+            value={text}
+            placeholder='Escribe acá...'
+            onChange={handleTextChange}
+          ></textarea>
+          {time > 10 && (
+            <div
+              className={`${
+                time > 0 && 'fade-in'
+              } flex flex-col justify-center items-center text-opacity-20 mb-4`}
+            >
+              <div className='text-9xl'>{time}</div>
+
+              {finished ? (
+                <div className='flex space-x-2'>
+                  {lives > 0 ? (
                     <Button
-                      buttonText='Start Again'
-                      buttonAction={startNewRun}
+                      buttonColor='bg-thegreenbtn'
+                      buttonAction={spendOneLifeAndGoBackToWriting}
+                      buttonText='Seguir Escribiendo (1 vida)'
                     />
-                  </div>
+                  ) : (
+                    <Button
+                      buttonColor='bg-theredbtn'
+                      buttonAction={() => alert('No the quedan vidas por hoy')}
+                      buttonText='No te quedan vidas.'
+                    />
+                  )}
+
+                  <Button
+                    buttonAction={saveRunToDb}
+                    buttonText={
+                      savingRound
+                        ? 'Guardando...'
+                        : `Guardar escritura ${
+                            address ? 'en mi perfil' : 'anónimamente'
+                          }`
+                    }
+                  />
                 </div>
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            {
-              <div
-                className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
-              >
-                <p
-                  className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
-                >
-                  {userPrompt}
-                </p>
-                {/* <p className='text-base text-gray-600 my-1'>
-                  My world will only open to those who prove themselves.
-                </p> */}
-                <p>If you stop writing for 1 second, you will fail.</p>
-                {/* <p className={`${righteous.className}  font-bold`}>
-                  The target is 180 seconds.
-                </p> */}
+              ) : (
                 <p className={`${righteous.className}  font-bold`}>
                   Write as if there was no tomorrow.
                 </p>
-                {/* <p className={`${righteous.className} font-bold`}>
-                  See you on the otherside.
-                </p> */}
-              </div>
-            }
-
-            <textarea
-              ref={textareaRef}
-              style={{
-                top: `${time > 10 ? '0' : '30'}%`,
-                bottom: `${time > 10 ? '0' : '30'}%`,
-                left: `${time > 10 ? '0' : '30'}%`,
-                right: `${time > 10 ? '0' : '30'}%`,
-                transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
-              }}
-              className={`${pacifico.className}  absolute p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
-              value={text}
-              onChange={handleTextChange}
-            ></textarea>
-            {time > 1 && (
-              <div
-                className={`${
-                  time > 0 && 'fade-in'
-                } flex flex-col justify-center items-center text-opacity-20 mb-4`}
-              >
-                <div className='text-9xl'>{time}</div>
-
-                <p className={`${righteous.className}  font-bold`}>
-                  Write as if there was no tomorrow.
-                </p>
-              </div>
-            )}
-          </>
-        )}
+              )}
+            </div>
+          )}
+        </>
       </div>
     </div>
   );
