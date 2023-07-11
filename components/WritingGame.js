@@ -223,7 +223,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-full px-2  mt-48 md:mt-2 md:w-1/2 lg:w-2/3'>
+      <div className='w-full px-2 mt-4 md:mt-48 md:w-1/2 lg:w-2/3'>
         <>
           {!finished && (
             <div
@@ -271,11 +271,13 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
                 time >= 10 && 'fade-in'
               } flex flex-col justify-center items-center text-opacity-20 mb-4`}
             >
-              <div className='text-9xl'>{time}</div>
+              <div className={`${time > 10 ? 'text-9xl' : 'text-2xl'}`}>
+                {time}
+              </div>
 
               {finished ? (
-                <div className='flex space-x-2'>
-                  {!runSubmitted ? (
+                <div className='flex flex-col md:flex-row space-x-2'>
+                  {runSubmitted ? (
                     <Button
                       buttonColor='bg-thegreenbtn'
                       buttonAction={startNewRun}
