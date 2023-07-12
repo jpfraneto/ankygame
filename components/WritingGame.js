@@ -223,7 +223,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-full px-2 mt-4 md:mt-48 md:w-1/2 lg:w-2/3'>
+      <div className='w-full px-2 mt-4 md:mt-24 md:w-1/2 lg:w-2/3'>
         <>
           {!finished && (
             <div
