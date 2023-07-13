@@ -25,7 +25,7 @@ const GamePage = () => {
       <WritingGame
         setLives={setLives}
         lives={lives}
-        userPrompt='Qué vas a crear hoy?'
+        userPrompt='Qué te hace enraizar en tu cuerpo e identidad?'
         setLifeBarLength={setLifeBarLength}
       />
     </>

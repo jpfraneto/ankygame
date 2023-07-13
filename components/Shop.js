@@ -19,6 +19,7 @@ const products = [
     description:
       'The Ankyverse woke up after an event that is called The Genesis.\n In it, 8.888 unique characters were generated. They are the first brave ones that will colonize this new world. \n They are the ones that started it all. \n Each one with its unique story. \n Each one with its unique set of personality traits.',
     image: '/store/genesis.png',
+    link: 'https://mint.anky.lat',
   },
   {
     name: 'Anky People NFT',
