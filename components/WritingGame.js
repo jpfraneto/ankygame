@@ -263,7 +263,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
               time <= 10 && 'md:w-3/5 md:aspect-video w-full h-square'
             } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
             value={text}
-            placeholder='Escribe acá...'
+            placeholder='write here...'
             onChange={handleTextChange}
           ></textarea>
           {time >= 1 && (
@@ -282,7 +282,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
                     <Button
                       buttonColor='bg-thegreenbtn'
                       buttonAction={startNewRun}
-                      buttonText='Jugar de nuevo (1 vida)'
+                      buttonText='play again (1 💚)'
                     />
                   ) : (
                     <>
@@ -290,15 +290,13 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
                         <Button
                           buttonColor='bg-thegreenbtn'
                           buttonAction={spendOneLifeAndGoBackToWriting}
-                          buttonText='Seguir Escribiendo (1 vida)'
+                          buttonText='continue writing (1 💚)'
                         />
                       ) : (
                         <Button
                           buttonColor='bg-theredbtn'
-                          buttonAction={() =>
-                            alert('No the quedan vidas por hoy')
-                          }
-                          buttonText='No te quedan vidas.'
+                          buttonAction={() => alert('You ran out of 💚')}
+                          buttonText='no more 💚.'
                         />
                       )}
                     </>
@@ -308,18 +306,16 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
                     buttonAction={saveRunToDb}
                     buttonText={
                       runSubmitted
-                        ? 'Guardada'
+                        ? 'Saved'
                         : savingRound
-                        ? 'Guardando...'
-                        : `Guardar escritura ${
-                            address ? 'en mi perfil' : 'anónimamente'
-                          }`
+                        ? 'saving...'
+                        : `save writing ${address ? 'on my profile' : 'anon'}`
                     }
                   />
                 </div>
               ) : (
                 <p className={`${righteous.className}  font-bold`}>
-                  Escribe como si no hubiera un mañana.
+                  Write as if there was no tomorrow.
                 </p>
               )}
             </div>
