@@ -25,7 +25,7 @@ const GamePage = () => {
       <WritingGame
         setLives={setLives}
         lives={lives}
-        userPrompt='Qué te hace enraizar en tu cuerpo e identidad?'
+        userPrompt='what is your core belief?'
         setLifeBarLength={setLifeBarLength}
       />
     </>

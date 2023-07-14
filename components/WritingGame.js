@@ -236,15 +236,16 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
               </p>
 
               <p>
-                Lee bien la pregunta que está arriba. Siéntela. Responde con el
-                corazón.
+                Feel the question. Read it with intention. Answer with your
+                heart.
               </p>
 
               <p className={`${righteous.className}  font-bold`}>
-                Escribe lo que salga. Tu verdad, sin juicios. Escribe sólo por
-                el placer de desahogarte.
+                Write whatever comes up. Your truth, without judgements. Write
+                only for the pleasure of bringing your voice out of your mind,
+                and into the world.
               </p>
-              <p>No hay nada que puedas hacer para hacerlo &apos;mal&apos;.</p>
+              <p>There is no way to do this &apos;wrong&apos;.</p>
             </div>
           )}
 
