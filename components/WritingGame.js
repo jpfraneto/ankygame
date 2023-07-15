@@ -235,17 +235,17 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
                 {userPrompt}
               </p>
 
-              <p>
-                Feel the question. Read it with intention. Answer with your
+              <p className={`${righteous.className}  font-bold`}>
+                Feel the inquiry. Read it with intention. Answer with your
                 heart.
               </p>
 
               <p className={`${righteous.className}  font-bold`}>
-                Write whatever comes up. Your truth, without judgements. Write
-                only for the pleasure of bringing your voice out of your mind,
-                and into the world.
+                Write whatever comes up. Your truth, without judgements.
               </p>
-              <p>There is no way to do this &apos;wrong&apos;.</p>
+              <p className={`${righteous.className}  font-bold`}>
+                Life is always watching.
+              </p>
             </div>
           )}
 
