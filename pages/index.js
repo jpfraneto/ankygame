@@ -25,7 +25,7 @@ const GamePage = () => {
       <WritingGame
         setLives={setLives}
         lives={lives}
-        userPrompt='tell me who you are'
+        userPrompt='what is compassion?'
         setLifeBarLength={setLifeBarLength}
       />
     </>
