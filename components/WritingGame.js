@@ -230,7 +230,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
               className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
             >
               <small className={`${righteous.className}  font-bold`}>
-                sojourn 1 - wink 5 - eleasis
+                sojourn 1 - wink 6 - voxlumis
               </small>
               <p
                 className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
