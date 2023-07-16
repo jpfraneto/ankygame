@@ -209,7 +209,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
 
   return (
     <div
-      className='text-thewhite relative  flex flex-col items-center py-16 justify-center w-full bg-cover bg-center'
+      className='text-thewhite relative  flex flex-col items-center py-8 justify-center w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 120px)',
