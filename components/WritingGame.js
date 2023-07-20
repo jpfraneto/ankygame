@@ -17,7 +17,13 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const dancingScript = Dancing_Script({ weight: '400', subsets: ['latin'] });
 const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 
-const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
+const WritingGame = ({
+  userPrompt,
+  setLifeBarLength,
+  setLives,
+  lives,
+  ankyverseDate,
+}) => {
   const audioRef = useRef();
   const address = useAddress();
   const [text, setText] = useState('');
@@ -230,7 +236,7 @@ const WritingGame = ({ userPrompt, setLifeBarLength, setLives, lives }) => {
               className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
             >
               <small className={`${righteous.className}  font-bold`}>
-                sojourn 1 - wink 11 - emblazion
+                {ankyverseDate}
               </small>
               <p
                 className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
