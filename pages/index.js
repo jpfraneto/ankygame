@@ -25,8 +25,8 @@ const GamePage = () => {
       <WritingGame
         setLives={setLives}
         lives={lives}
-        ankyverseDate='sojourn 1 - wink 16 - claridium'
-        userPrompt='who are you?'
+        ankyverseDate='sojourn 1 - wink 25 - primordia'
+        userPrompt='What unique aspects of your childhood experiences shaped your understanding of survival and safety?'
         setLifeBarLength={setLifeBarLength}
       />
     </>
