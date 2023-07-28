@@ -324,7 +324,7 @@ const WritingGame = ({
                 </div>
               ) : (
                 <p className={`${righteous.className}  font-bold`}>
-                  Write as if there was no tomorrow.
+                  {userPrompt}
                 </p>
               )}
             </div>
