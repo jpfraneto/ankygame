@@ -244,7 +244,7 @@ const WritingGame = ({
                 {userPrompt}
               </p>
 
-              <p className={`${righteous.className}  font-bold`}>
+              {/* <p className={`${righteous.className}  font-bold`}>
                 Feel the inquiry. Read it with intention. Answer with your
                 heart.
               </p>
@@ -254,7 +254,7 @@ const WritingGame = ({
               </p>
               <p className={`${righteous.className}  font-bold`}>
                 Life is always watching.
-              </p>
+              </p> */}
             </div>
           )}
 
@@ -269,7 +269,7 @@ const WritingGame = ({
               transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
             }}
             className={`${pacifico.className} ${time >= 10 && 'absolute'} ${
-              time <= 10 && 'md:w-3/5 md:aspect-video w-full h-square'
+              time < 10 && 'md:w-3/5 md:aspect-video w-full h-square'
             } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
             value={text}
             placeholder='write here...'
@@ -281,7 +281,7 @@ const WritingGame = ({
                 time >= 10 && 'fade-in'
               } flex flex-col justify-center items-center text-opacity-20 mb-4`}
             >
-              <div className={`${time > 10 ? 'text-9xl' : 'text-2xl'}`}>
+              <div className={`${time >= 10 ? 'text-9xl' : 'text-2xl'}`}>
                 {time}
               </div>
 
