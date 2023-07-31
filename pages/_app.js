@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
         />
       </Head>
       <ThirdwebProvider
-        activeChain='goerli'
+        activeChain={Ethereum}
         supportedChains={[Ethereum, Sepolia, Goerli]}
         supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
       >

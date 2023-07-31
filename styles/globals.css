@@ -292,7 +292,6 @@ html {
   font-family: 'Comic Neue', cursive;
 }
 
-
 html {
   font-family: 'Russo One', sans-serif;
 }
@@ -319,15 +318,14 @@ html::-webkit-scrollbar-track {
 
 html::-webkit-scrollbar {
   width: 12px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 html::-webkit-scrollbar-thumb {
   border-radius: 0px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #555;
 }
-
 
 @media only screen and (max-width: 600px) {
   .hero h2 {
@@ -343,4 +341,34 @@ html::-webkit-scrollbar-thumb {
     height: 175px;
     width: 350px;
   }
+}
+
+.hexagon {
+  position: relative;
+  width: 300px;
+  height: 173.21px;
+  background-size: auto 150%;
+  background-position: 50% 50%;
+  margin: 86.6px 0;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: '';
+  position: absolute;
+  width: 212.13px;
+  height: 212.13px;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background: inherit;
+  left: 43.93px;
+}
+
+.hexagon:before {
+  top: -106.07px;
+}
+
+.hexagon:after {
+  bottom: -106.07px;
 }
