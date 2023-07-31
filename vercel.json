@@ -2,7 +2,7 @@
   "regions": ["iad1"],
   "public": false,
   "functions": {
-    "api/newanky.js": {
+    "pages/api/newanky.js": {
       "maxDuration": 60
     }
   }
