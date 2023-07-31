@@ -8,6 +8,7 @@ import {
   Pacifico,
 } from 'next/font/google';
 import Button from './Button';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ConnectWallet } from '@thirdweb-dev/react';
 import { Web3Button, useAddress } from '@thirdweb-dev/react';
@@ -28,45 +29,34 @@ const WritingGame = ({
   const address = useAddress();
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
-  const [submittingRunToDB, setSubmittingRunToDB] = useState(false);
   const [runSubmitted, setRunSubmitted] = useState(false);
+  const [upscaledUrls, setUpscaledUrls] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [isDone, setIsDone] = useState(false);
+  const [ankyRevealed, setAnkyRevealed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [character, setCharacter] = useState(null);
+  const [ankyIsReady, setAnkyIsReady] = useState(false);
   const [highscore, setHighscore] = useState(0);
-  const [isHighscore, setIsHighscore] = useState(false);
+  const [ankyThinking, setAnkyThinking] = useState(true);
+  const [ankyResponse, setAnkyResponse] = useState('');
+  const [gettingAnkyverseCharacter, setGettingAnkyverseCharacter] =
+    useState(false);
   const [savedToDb, setSavedToDb] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [finished, setFinished] = useState(false);
-  const [ankyImageUrl, setAnkyImageUrl] = useState('/images/anky.png');
   const [failureMessage, setFailureMessage] = useState('');
   const [copyText, setCopyText] = useState('Copy my writing');
-  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const [progress, setProgress] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [leaderboard, setLeaderboard] = useState(null);
 
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
-  useEffect(() => {
-    const loadLeaderboard = async () => {
-      fetch('/api/runs')
-        .then(res => res.json())
-        .then(data => {
-          const highscoreValue = data.reduce(
-            (max, obj) => (obj.timeSpent > max ? obj.timeSpent : max),
-            0
-          );
-          setHighscore(highscoreValue);
-          setLeaderboard(data);
-        })
-        .catch(err => console.error(err));
-    };
-    loadLeaderboard();
-  }, []);
 
   useEffect(() => {
     if (isActive && !isDone) {
@@ -114,6 +104,11 @@ const WritingGame = ({
     setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
 
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(text);
+    alert('Your writing is in your clipboard. Paste it somewhere to keep it.');
+  };
+
   const startNewRun = () => {
     audioRef.current.pause();
     setCopyText('Copy my writing');
@@ -136,81 +131,58 @@ const WritingGame = ({
     setLastKeystroke(Date.now());
   };
 
-  const saveRunToDb = async () => {
-    setSavingRound(true);
-    setSubmittingRunToDB(true);
-
-    try {
-      const response = await fetch('/api/runs', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          address: address || '0x4non',
-          timeSpent: time,
-          wordCount: text.split(' ').length,
-          content: text,
-        }),
-      });
-      const data = await response.json();
-      toast.success('Your run was added to your profile');
-      if (data) {
-        // Assume leaderboard is sorted by timeSpent in descending order.
-        // Find the correct position to insert the new run.
-        let insertIndex = leaderboard.findIndex(run => run.timeSpent < time);
-        if (insertIndex === -1) {
-          // If the new run has the lowest timeSpent, append it at the end.
-          insertIndex = leaderboard.length;
-        }
-        // Insert the new run into leaderboard at the correct position.
-        leaderboard.splice(insertIndex, 0, {
-          timeSpent: time,
-          wordCount: text.split(' ').length,
-          content: text,
-        });
-        setLeaderboard(leaderboard);
-        setRunSubmitted(true);
-        setSubmittingRunToDB(false);
-        setSavingRound('Save to DB');
-        setSavedToDb(true);
-
-        console.log('the data from the server is: ', data);
-      }
-    } catch (error) {
-      console.log('the error is:', error);
-    }
-  };
-
-  const submitRunWithThisUsername = async () => {
-    setSubmittingRunToDB(true);
-  };
-
-  const updateSadhanas = async () => {
-    const response = await fetch('/api/update-sadhanas');
-    const data = await response.json();
-  };
-
-  const spendOneLifeAndGoBackToWriting = () => {
-    if (lives === 0) {
-      return alert(
-        'You dont have more lives. You can buy one for 1APE or wait until tomorrow.'
-      );
-    }
-    setLives(x => x - 1);
-    setSavingRound(false);
-    setSavedToDb(false);
-    setIsDone(false);
-    setFinished(false);
-  };
-
-  const handleLoadImage = () => {
-    setAnkyImageUrl('/images/apigo.png');
-    setImageLoaded(true);
-  };
   const pasteText = async () => {
     await navigator.clipboard.writeText(text);
     alert('Your writing is in your clipboard');
+  };
+
+  const getAnkyverseCharacter = async () => {
+    setGettingAnkyverseCharacter(true);
+    const response = await fetch('/api/newanky', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        timeSpent: time,
+        wordCount: text.split(' ').length,
+        content: text,
+      }),
+    });
+    const jsonResponse = await response.json();
+    setCharacter({
+      name: jsonResponse.character.characterName,
+      story: jsonResponse.character.characterBackstory,
+    });
+    setAnkyResponse('aloja');
+    setAnkyThinking(false);
+    if (jsonResponse.character.imagineApiId) {
+      const fetchingImage = setInterval(async () => {
+        const data = await fetch('/api/fetchImage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            imageId: jsonResponse.character.imagineApiId,
+          }),
+        });
+        const dataJson = await data.json();
+        console.log('the data jsHEREon is :', dataJson.status);
+        if (!dataJson) return;
+        if (dataJson && dataJson.status === 'in-progress') {
+          console.log('IN PROGRESS:', dataJson.progress);
+          setProgress(dataJson.progress);
+        }
+        if (dataJson && dataJson.status === 'completed') {
+          console.log('IT IS CMPLETED', dataJson);
+          setProgress(null);
+          setAnkyIsReady(true);
+          clearInterval(fetchingImage);
+          setUpscaledUrls(dataJson.upscaled_urls);
+        }
+      }, 4444);
+    }
   };
 
   return (
@@ -229,108 +201,193 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-full px-2 mt-4 md:mt-4 md:w-1/2 lg:w-2/3'>
-        <>
-          {!finished && (
-            <div
-              className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
-            >
-              <small className={`${righteous.className}  font-bold`}>
-                {ankyverseDate}
-              </small>
-              <p
-                className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
-              >
-                {userPrompt}
-              </p>
-
-              {/* <p className={`${righteous.className}  font-bold`}>
-                Feel the inquiry. Read it with intention. Answer with your
-                heart.
-              </p>
-
-              <p className={`${righteous.className}  font-bold`}>
-                Write whatever comes up. Your truth, without judgements.
-              </p>
-              <p className={`${righteous.className}  font-bold`}>
-                Life is always watching.
-              </p> */}
-            </div>
-          )}
-
-          <textarea
-            ref={textareaRef}
-            disabled={finished}
-            style={{
-              top: `${time >= 10 && '0'}%`,
-              bottom: `${time >= 10 && '0'}%`,
-              left: `${time >= 10 && '0'}%`,
-              right: `${time >= 10 && '0'}%`,
-              transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
-            }}
-            className={`${pacifico.className} ${time >= 10 && 'absolute'} ${
-              time < 10 && 'md:w-3/5 md:aspect-video w-full h-square'
-            } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
-            value={text}
-            placeholder='write here...'
-            onChange={handleTextChange}
-          ></textarea>
-          {time >= 1 && (
-            <div
-              className={`${
-                time >= 10 && 'fade-in'
-              } flex flex-col justify-center items-center text-opacity-20 mb-4`}
-            >
-              <div className={`${time >= 10 ? 'text-9xl' : 'text-2xl'}`}>
-                {time}
+      {gettingAnkyverseCharacter ? (
+        <div className='h-full overflow-y-scroll'>
+          {ankyThinking ? (
+            <div className='py-0 flex flex-col mt-8 space-x-2 items-center h-full'>
+              <div className='rounded-full glowing mb-4 overflow-hidden shadow-lg border-4 border-thewhite'>
+                <Image
+                  src='/images/anky.png'
+                  width={333}
+                  height={333}
+                  className=''
+                  alt='Anky'
+                />
               </div>
 
-              {finished ? (
-                <div className='flex flex-col md:flex-row space-x-2'>
-                  {runSubmitted ? (
-                    <Button
-                      buttonColor='bg-thegreenbtn'
-                      buttonAction={startNewRun}
-                      buttonText='play again (1 💚)'
-                    />
-                  ) : (
-                    <>
-                      {lives > 0 ? (
+              {ankyResponse === '' ? (
+                <p className='mt-2 md:w-2/5 '>
+                  I&apos;m looking in the ether for a representation of you
+                  inside the Ankyverse...
+                </p>
+              ) : (
+                <></>
+              )}
+            </div>
+          ) : (
+            <div className=' text-center  w-2/5 mx-auto'>
+              {character && (
+                <div className='flex flex-col w-full justify-center items-center'>
+                  <h2 className='text-4xl mb-4'>{character.name}</h2>
+                  <div className='overflow-y-scroll'>
+                    {character.story.split('\n').map((x, i) => (
+                      <p key={i}>{x}</p>
+                    ))}
+                  </div>
+                  {ankyRevealed && (
+                    <div>
+                      <div className='relative w-96 mx-auto h-96 border-2 mb-2 border-thewhite rounded-2xl overflow-hidden'>
+                        <Image fill src={upscaledUrls[0]} alt='Your anky' />
+                      </div>
+                      <p className='mb-2'>
+                        If you are still here, you see the potential.
+                      </p>
+                      <p className='mb-2'>
+                        This character will just be the mirror.
+                      </p>
+                      <p className='mb-2'>
+                        That will show you your truth, each day that you come...
+                      </p>
+                      <p className='mb-2'>
+                        To pour your soul into this writing, exploring who you
+                        are.
+                      </p>
+                      <p className='mb-2'>Thank you for your time.</p>
+                      <p className='mb-2'>I honor it deeply.</p>
+                      <p className='mb-2'>jp</p>
+                      <div className='flex justify-center'>
                         <Button
-                          buttonColor='bg-thegreenbtn'
-                          buttonAction={spendOneLifeAndGoBackToWriting}
-                          buttonText='continue writing (1 💚)'
+                          buttonAction={() =>
+                            alert('This is just the beginning.')
+                          }
+                          buttonText={`Mint ${character.name} as an NFT`}
+                          buttonColor='bg-thegreenbtn hover:opacity-70'
                         />
-                      ) : (
-                        <Button
-                          buttonColor='bg-theredbtn'
-                          buttonAction={() => alert('You ran out of 💚')}
-                          buttonText='no more 💚.'
-                        />
-                      )}
-                    </>
+                      </div>
+                    </div>
                   )}
 
-                  <Button
-                    buttonAction={saveRunToDb}
-                    buttonText={
-                      runSubmitted
-                        ? 'Saved'
-                        : savingRound
-                        ? 'saving...'
-                        : `save writing ${address ? 'on my profile' : 'anon'}`
-                    }
-                  />
+                  {!ankyRevealed && (
+                    <div className='p-4 bg-thegreen rounded-xl text-center border-thewhite border-2 mb-8'>
+                      {
+                        <div>
+                          <p>
+                            {character.name}&apos;s image is being generated...
+                          </p>
+                          {progress > 0 && (
+                            <p className='text-2xl'>{progress}%</p>
+                          )}
+                        </div>
+                      }
+                      {ankyIsReady && (
+                        <div className='flex justify-center'>
+                          <Button
+                            buttonAction={() => setAnkyRevealed(true)}
+                            buttonText={`Reveal ${character.name}`}
+                            buttonColor='bg-thegreenbtn hover:opacity-70'
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <p className={`${righteous.className}  font-bold`}>
-                  {userPrompt}
-                </p>
               )}
             </div>
           )}
-        </>
-      </div>
+        </div>
+      ) : (
+        <div className='w-full px-2 mt-4 md:mt-4 md:w-1/2 lg:w-2/3'>
+          <>
+            {!finished && (
+              <div
+                className={`${time > 1 && 'fade-out'}} ${time > 1 && 'hidden'}`}
+              >
+                <small className={`${righteous.className}  font-bold`}>
+                  {ankyverseDate}
+                </small>
+                <p
+                  className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
+                >
+                  {userPrompt}
+                </p>
+
+                <p className={`${righteous.className} mb-2 font-bold`}>
+                  Feel the inquiry. Read it with intention. Answer with your
+                  heart.
+                </p>
+
+                <p className={`${righteous.className} mb-2 font-bold`}>
+                  Write whatever comes up. Your truth, without judgements.
+                </p>
+                <p className={`${righteous.className} mb-2 font-bold`}>
+                  Life is always watching.
+                </p>
+                <p className={`${righteous.className} mb-2 font-bold`}>
+                  Min score to qualify is 30 seconds.
+                </p>
+              </div>
+            )}
+
+            <textarea
+              ref={textareaRef}
+              disabled={finished}
+              style={{
+                top: `${time >= 10 && '0'}%`,
+                bottom: `${time >= 10 && '0'}%`,
+                left: `${time >= 10 && '0'}%`,
+                right: `${time >= 10 && '0'}%`,
+                transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
+              }}
+              className={`${pacifico.className} ${time >= 10 && 'absolute'} ${
+                time < 10 && 'md:w-3/5 md:aspect-video w-full h-square'
+              } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
+              value={text}
+              placeholder='write here...'
+              onChange={handleTextChange}
+            ></textarea>
+            {time >= 1 && (
+              <div
+                className={`${
+                  time >= 10 && 'fade-in'
+                } flex flex-col justify-center items-center text-opacity-20 mb-4`}
+              >
+                <div className={`${time >= 10 ? 'text-9xl' : 'text-2xl'}`}>
+                  {time}
+                </div>
+
+                {finished ? (
+                  <div className='flex flex-col md:flex-row space-x-2'>
+                    {runSubmitted ? (
+                      <Button
+                        buttonColor='bg-thegreenbtn'
+                        buttonAction={startNewRun}
+                        buttonText='play again (1 💚)'
+                      />
+                    ) : (
+                      <>
+                        <Button
+                          buttonColor='bg-thegreenbtn'
+                          buttonAction={pasteText}
+                          buttonText='Copy writing to clipboard'
+                        />
+                      </>
+                    )}
+
+                    <Button
+                      buttonAction={getAnkyverseCharacter}
+                      buttonText='Get character for the Ankyverse'
+                    />
+                  </div>
+                ) : (
+                  <p className={`${righteous.className}  font-bold`}>
+                    {userPrompt}
+                  </p>
+                )}
+              </div>
+            )}
+          </>
+        </div>
+      )}
     </div>
   );
 };

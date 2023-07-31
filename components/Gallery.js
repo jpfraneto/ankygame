@@ -163,39 +163,31 @@ const Gallery = ({ userPrompt }) => {
     >
       <div className='h-fit md:h-full w-screen md:w-96 overflow-y-scroll px-9 pt-6 '>
         <h2 className={`${righteous.className}  text-3xl  `}>What is this?</h2>
-        <p className={`${righteous.className} mt-7 text-md `}>
+        <p className={`${righteous.className} mt-3 text-md `}>
           Anky is a special world that lives inside a game. But it&apos;s not
-          just any game. It&apos;s a magical place where you can meet characters
-          that are really a bit like you.
+          just any game. It&apos;s a magical place where each one of these
+          characters will serve as a mirror
         </p>
-        <p className={`${righteous.className} mt-7 text-md `}>
-          You see, each character that is part of this gallery has its unique
-          story. Each one was born from a person&apos;s story and tells us about
-          that person. It&apos;s as if they painted a picture using words and
-          their picture turned into these characters.
+        <p className={`${righteous.className} mt-3 text-md `}>
+          Anky will pose every day a new question, piercing through your
+          experience, and helping you dive deep into who you are.
         </p>
-        <p className={`${righteous.className} mt-7 text-md `}>
-          You can also make your own special character. All you have to do is
-          write at least 3 minutes about yourself. Then, like magic, you will
-          see a new character in the gallery. And guess what? That character is
-          you.
+        <p className={`${righteous.className} mt-3 text-md `}>
+          So that you can see what is hidden in plain sight.
         </p>
-        <p className={`${righteous.className} mt-7 text-md `}>
-          Anky is just starting to grow. It&apos;s like a tiny seed that has
-          just started to sprout. It might be a little confusing right now, just
-          like a puzzle when you&apos;ve only put a few pieces together. But as
-          more and more people create their own characters, the picture will
-          become clearer.
+        <p className={`${righteous.className} mt-3 text-md `}>
+          So that you can see yourself. As you are.
         </p>
-        <p className={`${righteous.className} mt-7 text-md `}>
-          And the best part is, each Anky character is like a magical car that
-          takes you on an adventure in this game. So let&apos;s start the
-          journey and grow this world together.
+        <p className={`${righteous.className} mt-3 text-md `}>
+          Treat what happens here as a meditation practice.
         </p>
-        <p className={`${righteous.className} mt-7 text-md `}>
+        <p className={`${righteous.className} mt-3 text-md `}>
+          The most important one of your life. Every day.
+        </p>
+        <p className={`${righteous.className} mt-3 text-md `}>
           Thank you for being here.
         </p>
-        <p className={`${righteous.className} mt-7 text-md `}>
+        <p className={`${righteous.className} mt-3 text-md `}>
           Thank you for being who you are.
         </p>
       </div>
@@ -222,11 +214,6 @@ const Gallery = ({ userPrompt }) => {
           })}
         </div>
       </div>
-      <AnkyGalleryModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        anky={chosenAnky}
-      ></AnkyGalleryModal>
     </div>
   );
 };

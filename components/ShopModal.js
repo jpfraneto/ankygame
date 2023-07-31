@@ -16,7 +16,7 @@ const ShopModal = ({ isOpen, onClose, children, product }) => {
         </div>
         <div className='flex flex-col px-9 w-full md:w-3/5 overflow-y-scroll h-full pb-2 items-start mb-auto pt-1 justify-start'>
           <h2 className={`${righteous.className} text-3xl `}>{product.name}</h2>
-          <small className='text-lg mb-2'>${product.price} APE</small>
+          <small className='text-lg mb-2'>${product.price} USD</small>
           <div className='text-left overflow-y-scroll h-full w-full'>
             {product.description.split('\n').map((x, i) => {
               return (
@@ -26,12 +26,23 @@ const ShopModal = ({ isOpen, onClose, children, product }) => {
               );
             })}
           </div>
-          <button
-            onClick={() => setBuyText(x => !x)}
-            className={`${righteous.className} text-3xl px-2 py-1 border border-2 rounded-xl hover:bg-thegreenbtn hover:text-theorange`}
-          >
-            {buyText ? 'Buy' : 'Patience is the master skill'}
-          </button>
+          {product.link ? (
+            <a
+              href={product.link}
+              className={`${righteous.className} text-3xl px-2 py-1 border border-2 rounded-xl hover:bg-thegreenbtn hover:text-theorange`}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              Buy
+            </a>
+          ) : (
+            <button
+              onClick={() => setBuyText(x => !x)}
+              className={`${righteous.className} text-3xl px-2 py-1 border border-2 rounded-xl hover:bg-thegreenbtn hover:text-theorange`}
+            >
+              {buyText ? 'Buy' : 'Patience is the master skill'}
+            </button>
+          )}
         </div>
 
         <button

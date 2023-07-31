@@ -32,8 +32,6 @@ const GetPFPGame = ({ userPrompt }) => {
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [isDone, setIsDone] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [highscore, setHighscore] = useState(0);
-  const [isHighscore, setIsHighscore] = useState(false);
   const [selectedRun, setSelectedRun] = useState(null);
   const [savedToDb, setSavedToDb] = useState(false);
   const [finishedText, setFinishedText] = useState(null);
@@ -53,22 +51,6 @@ const GetPFPGame = ({ userPrompt }) => {
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
-  useEffect(() => {
-    const loadLeaderboard = async () => {
-      fetch('/api/runs')
-        .then(res => res.json())
-        .then(data => {
-          const highscoreValue = data.reduce(
-            (max, obj) => (obj.timeSpent > max ? obj.timeSpent : max),
-            0
-          );
-          setHighscore(highscoreValue);
-          setLeaderboard(data);
-        })
-        .catch(err => console.error(err));
-    };
-    loadLeaderboard();
-  }, []);
 
   useEffect(() => {
     if (isActive && !isDone) {
@@ -104,13 +86,8 @@ const GetPFPGame = ({ userPrompt }) => {
     clearInterval(keystrokeIntervalRef.current);
     await navigator.clipboard.writeText(text);
     if (time < 8) return setMoreThanMinRound(false);
-    if (time > highscore) {
-      setIsHighscore(true);
-      setHighscore(time);
-    }
-    saveRunToDb();
+    // saveRunToDb();
     setMoreThanMinRound(true);
-    setFailureMessage(`You're done! This run lasted ${time}.}`);
   };
 
   const startNewRun = () => {
@@ -134,49 +111,49 @@ const GetPFPGame = ({ userPrompt }) => {
     setLastKeystroke(Date.now());
   };
 
-  const saveRunToDb = async () => {
-    setSavingRound(true);
-    setSubmittingRunToDB(true);
+  // const saveRunToDb = async () => {
+  //   setSavingRound(true);
+  //   setSubmittingRunToDB(true);
 
-    try {
-      const response = await fetch('/api/runs', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          address: address || '0x4non',
-          timeSpent: time,
-          wordCount: text.split(' ').length,
-          content: text,
-        }),
-      });
-      const data = await response.json();
-      toast.success('Your run was added to your profile');
-      if (data) {
-        // Assume leaderboard is sorted by timeSpent in descending order.
-        // Find the correct position to insert the new run.
-        let insertIndex = leaderboard.findIndex(run => run.timeSpent < time);
-        if (insertIndex === -1) {
-          // If the new run has the lowest timeSpent, append it at the end.
-          insertIndex = leaderboard.length;
-        }
-        // Insert the new run into leaderboard at the correct position.
-        leaderboard.splice(insertIndex, 0, {
-          timeSpent: time,
-          wordCount: text.split(' ').length,
-          content: text,
-        });
-        setLeaderboard(leaderboard);
-        setRunSubmitted(true);
-        setSubmittingRunToDB(false);
-        setSavingRound('Save to DB');
-        setSavedToDb(true);
-      }
-    } catch (error) {
-      console.log('the error is:', error);
-    }
-  };
+  //   try {
+  //     const response = await fetch('/api/runs', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         address: address || '0x4non',
+  //         timeSpent: time,
+  //         wordCount: text.split(' ').length,
+  //         content: text,
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     toast.success('Your run was added to your profile');
+  //     if (data) {
+  //       // Assume leaderboard is sorted by timeSpent in descending order.
+  //       // Find the correct position to insert the new run.
+  //       let insertIndex = leaderboard.findIndex(run => run.timeSpent < time);
+  //       if (insertIndex === -1) {
+  //         // If the new run has the lowest timeSpent, append it at the end.
+  //         insertIndex = leaderboard.length;
+  //       }
+  //       // Insert the new run into leaderboard at the correct position.
+  //       leaderboard.splice(insertIndex, 0, {
+  //         timeSpent: time,
+  //         wordCount: text.split(' ').length,
+  //         content: text,
+  //       });
+  //       setLeaderboard(leaderboard);
+  //       setRunSubmitted(true);
+  //       setSubmittingRunToDB(false);
+  //       setSavingRound('Save to DB');
+  //       setSavedToDb(true);
+  //     }
+  //   } catch (error) {
+  //     console.log('the error is:', error);
+  //   }
+  // };
 
   const submitRunWithThisUsername = async () => {
     setSubmittingRunToDB(true);
@@ -272,7 +249,7 @@ const GetPFPGame = ({ userPrompt }) => {
                   You are done. Your score is {time}. You need to try harder
                   next time.
                 </p>
-                <p>Min score to qualify is 161 seconds.</p>
+                <p>Min score to qualify is 30 seconds.</p>
                 <div className='flex justify-center space-x-2'>
                   <Button
                     buttonText={copyText}
@@ -303,7 +280,7 @@ const GetPFPGame = ({ userPrompt }) => {
                   {userPrompt}
                 </p>
                 <p className='text-base text-gray-600 my-1'>
-                  To get your own and unique image is simple.
+                  To get your own and unique avatar for the ankyverse is simple.
                 </p>
                 <p className='text-base text-gray-600 my-1'>
                   You just have to be yourself.
@@ -313,7 +290,7 @@ const GetPFPGame = ({ userPrompt }) => {
                   If you stop writing for 1 second, you will fail.
                 </p>
                 <p className='text-base text-gray-600 my-1'>
-                  The goal is 161 seconds.
+                  The goal is 30 seconds.
                 </p>
                 <p className={`${righteous.className}  font-bold`}>
                   Write as if there was no tomorrow.

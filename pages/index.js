@@ -18,15 +18,15 @@ const GamePage = () => {
             }}
           ></div>
         </div>
-        <div className='h-full w-3/12'>
-          <p>{lives} 💚</p>
+        <div className='h-full text-center flex items-center justify-center w-3/12'>
+          <span className='text-gray-800'>anky is you</span>
         </div>
       </div>
       <WritingGame
         setLives={setLives}
         lives={lives}
         ankyverseDate='sojourn 1 - wink 28 - poiesis'
-        userPrompt='Who are you?'
+        userPrompt='tell me who you are'
         setLifeBarLength={setLifeBarLength}
       />
     </>

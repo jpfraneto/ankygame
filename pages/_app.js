@@ -1,5 +1,8 @@
+import React, { useState } from 'react';
 import '@component/styles/globals.css';
 import Head from 'next/head';
+import { Righteous } from 'next/font/google';
+
 import {
   ThirdwebProvider,
   metamaskWallet,
@@ -9,7 +12,13 @@ import {
 import { Ethereum, Goerli, Sepolia } from '@thirdweb-dev/chains';
 import Navbar from '@component/components/Navbar';
 
+const righteous = Righteous({ subsets: ['latin'], weight: ['400'] });
+
 export default function App({ Component, pageProps }) {
+  const [password, setPassword] = useState('');
+  const correctPassword = 'hf0';
+  const isAuthorized = password === correctPassword;
+
   return (
     <>
       <Head>
@@ -22,16 +31,34 @@ export default function App({ Component, pageProps }) {
           content='Transform your life by vomiting all the words that you always wanted to say.'
         />
       </Head>
-      <ThirdwebProvider
-        activeChain={Ethereum}
-        supportedChains={[Ethereum, Sepolia, Goerli]}
-        supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
-      >
-        <div className='overflow-x-hidden'>
-          <Navbar />
-          <Component {...pageProps} />
+      {isAuthorized ? (
+        <ThirdwebProvider
+          activeChain={Ethereum}
+          supportedChains={[Ethereum]}
+          supportedWallets={[
+            metamaskWallet(),
+            coinbaseWallet(),
+            walletConnect(),
+          ]}
+        >
+          <div className={`${righteous.className} overflow-x-hidden`}>
+            <Navbar />
+            <Component {...pageProps} />
+          </div>
+        </ThirdwebProvider>
+      ) : (
+        <div
+          className={`${righteous.className} flex flex-col items-center justify-center h-screen overflow-x-hidden`}
+        >
+          <input
+            type='password'
+            placeholder='Enter password'
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className='px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600'
+          />
         </div>
-      </ThirdwebProvider>
+      )}
     </>
   );
 }
