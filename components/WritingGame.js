@@ -357,26 +357,23 @@ const WritingGame = ({
 
                 {finished ? (
                   <div className='flex flex-col md:flex-row space-x-2'>
-                    {runSubmitted ? (
+                    <Button
+                      buttonColor='bg-thegreenbtn'
+                      buttonAction={pasteText}
+                      buttonText='Copy writing to clipboard'
+                    />
+
+                    {time > 30 ? (
                       <Button
-                        buttonColor='bg-thegreenbtn'
-                        buttonAction={startNewRun}
-                        buttonText='play again (1 💚)'
+                        buttonAction={getAnkyverseCharacter}
+                        buttonText='Get character for the Ankyverse'
                       />
                     ) : (
-                      <>
-                        <Button
-                          buttonColor='bg-thegreenbtn'
-                          buttonAction={pasteText}
-                          buttonText='Copy writing to clipboard'
-                        />
-                      </>
+                      <Button
+                        buttonAction={startNewRun}
+                        buttonText='Try again (30s min)'
+                      />
                     )}
-
-                    <Button
-                      buttonAction={getAnkyverseCharacter}
-                      buttonText='Get character for the Ankyverse'
-                    />
                   </div>
                 ) : (
                   <p className={`${righteous.className}  font-bold`}>
