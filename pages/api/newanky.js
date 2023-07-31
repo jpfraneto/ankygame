@@ -1,12 +1,8 @@
 import { Configuration, OpenAIApi } from 'openai';
 import axios from 'axios';
-const configuration = new Configuration({
-  organization: 'org-jky0txWAU8ZrAAF5d14VR12J',
-  apiKey: process.env.OPENAI_API_KEY,
-});
+
 import { getNewRandomCharacter } from '../../lib/ankyGenerationMessagesForTraits';
 import { generateCharacterStory } from '../../lib/newGenesis';
-const openai = new OpenAIApi(configuration);
 
 export default async function (req, res) {
   if (req.method !== 'POST') {
