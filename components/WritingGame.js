@@ -306,9 +306,7 @@ const WritingGame = ({
 
                   {!ankyRevealed && (
                     <div
-                      className={`${
-                        progress > 0 && 'p-4'
-                      } bg-thegreen rounded-xl text-center border-thewhite border-2 mb-8`}
+                      className={`p-4 bg-thegreen rounded-xl text-center border-thewhite border-2 mb-8`}
                     >
                       {
                         <div>
