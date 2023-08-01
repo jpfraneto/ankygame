@@ -360,8 +360,8 @@ const WritingGame = ({
             {!finished && (
               <div
                 className={` ${text.length > 0 && 'fade-out'} mb-4 ${
-                  time > 2 && 'invisible'
-                } ${time > 10 && 'hidden'}`}
+                  time > 2 && 'hidden'
+                }`}
               >
                 <small className={`${righteous.className}  font-bold`}>
                   {ankyverseDate}
@@ -396,26 +396,26 @@ const WritingGame = ({
               ref={textareaRef}
               disabled={finished}
               style={{
-                top: `${time >= 10 && '0'}%`,
-                bottom: `${time >= 10 && '0'}%`,
-                left: `${time >= 10 && '0'}%`,
-                right: `${time >= 10 && '0'}%`,
+                top: `${text && '0'}%`,
+                bottom: `${text && '0'}%`,
+                left: `${text && '0'}%`,
+                right: `${text && '0'}%`,
                 transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
               }}
-              className={`${pacifico.className} ${time >= 10 && 'absolute'} ${
-                time < 10 && 'md:w-3/5 md:aspect-video w-full h-square'
+              className={`${pacifico.className} ${text && 'absolute'} ${
+                text ? 'md:aspect-video w-full h-full' : 'w-3/5 h-64'
               } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
               value={text}
               placeholder='write here...'
               onChange={handleTextChange}
             ></textarea>
-            {time >= 1 && (
+            {text && (
               <div
                 className={`${
-                  time >= 10 && 'fade-in'
+                  text && 'fade-in'
                 } flex flex-col justify-center items-center text-opacity-20 mb-4`}
               >
-                <div className={`${time >= 10 ? 'text-9xl' : 'text-2xl'}`}>
+                <div className={`${text ? 'text-9xl' : 'text-2xl'}`}>
                   {time}
                 </div>
 

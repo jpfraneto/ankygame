@@ -4,7 +4,7 @@ import WritingGame from '@component/components/WritingGame';
 import Head from 'next/head';
 
 const GamePage = ({ setLoadButtons, loadButtons }) => {
-  const [lifeBarLength, setLifeBarLength] = useState(100);
+  const [lifeBarLength, setLifeBarLength] = useState(0);
   const [lives, setLives] = useState(3);
 
   return (
@@ -12,7 +12,7 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
       <div className='text-thewhite w-full h-8 flex justify-between items-center px-2'>
         <div className='h-full w-9/12'>
           <div
-            className='h-full'
+            className='h-full opacity-50'
             style={{
               width: `${lifeBarLength}%`,
               backgroundColor: lifeBarLength > 30 ? 'green' : 'red',
