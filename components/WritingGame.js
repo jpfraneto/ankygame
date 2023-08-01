@@ -238,7 +238,7 @@ const WritingGame = ({
                   )}
                   {thirdLoading && (
                     <p className='mt-2 md:w-2/5 fade-in'>
-                      That is what this place is all about, anyway.
+                      That is what this place is all about.
                     </p>
                   )}
                 </div>

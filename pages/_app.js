@@ -60,7 +60,7 @@ export default function App({ Component, pageProps }) {
         <title>anky 🐒</title>
         <meta name='description' content='👽' key='desc' />
         <meta
-          http-equiv='Content-Security-Policy'
+          httpEquiv='Content-Security-Policy'
           content='upgrade-insecure-requests'
         />
         <meta property='og:description' content='🤖' />
