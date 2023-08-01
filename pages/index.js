@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import WritingGame from '@component/components/WritingGame';
+import Head from 'next/head';
 
 const GamePage = () => {
   const [lifeBarLength, setLifeBarLength] = useState(100);

@@ -224,7 +224,7 @@ const WritingGame = ({
               </div>
 
               {ankyResponse === '' ? (
-                <div>
+                <div className='flex flex-col justify-center items-center'>
                   <p className='mt-2 md:w-2/5 '>
                     I&apos;m looking in the ether for a representation of you
                     inside the Ankyverse...
@@ -285,6 +285,11 @@ const WritingGame = ({
                           buttonColor='bg-thegreenbtn hover:opacity-70'
                         />
                       </div>
+                      <small className='mb-2'>
+                        If, for some reason, the image didn&apos;t load, you can
+                        copy the URL here and check it out. Let me know and
+                        I&apos;ll fix it asap.
+                      </small>
                     </div>
                   )}
 

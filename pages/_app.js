@@ -59,6 +59,10 @@ export default function App({ Component, pageProps }) {
       <Head>
         <title>anky 🐒</title>
         <meta name='description' content='👽' key='desc' />
+        <meta
+          http-equiv='Content-Security-Policy'
+          content='upgrade-insecure-requests'
+        />
         <meta property='og:description' content='🤖' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <meta
