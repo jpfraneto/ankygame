@@ -48,6 +48,8 @@ const WritingGame = ({
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [finished, setFinished] = useState(false);
   const [failureMessage, setFailureMessage] = useState('');
+  const [secondLoading, setSecondLoading] = useState(false);
+  const [thirdLoading, setThirdLoading] = useState(false);
   const [copyText, setCopyText] = useState('Copy my writing');
 
   const [progress, setProgress] = useState(null);
@@ -150,6 +152,12 @@ const WritingGame = ({
       }),
     });
     const jsonResponse = await response.json();
+    setTimeout(() => {
+      setSecondLoading(true);
+    }, 2222);
+    setTimeout(() => {
+      setThirdLoading(true);
+    }, 5555);
     setCharacter({
       name: jsonResponse.character.characterName,
       story: jsonResponse.character.characterBackstory,
@@ -216,10 +224,23 @@ const WritingGame = ({
               </div>
 
               {ankyResponse === '' ? (
-                <p className='mt-2 md:w-2/5 '>
-                  I&apos;m looking in the ether for a representation of you
-                  inside the Ankyverse...
-                </p>
+                <div>
+                  <p className='mt-2 md:w-2/5 '>
+                    I&apos;m looking in the ether for a representation of you
+                    inside the Ankyverse...
+                  </p>
+                  {secondLoading && (
+                    <p className='mt-2 md:w-2/5 fade-in'>
+                      In the meantime, just relax and sync your breath with the
+                      white glow. It will help you tap deeper with yourself.
+                    </p>
+                  )}
+                  {thirdLoading && (
+                    <p className='mt-2 md:w-2/5 fade-in'>
+                      That is what this place is all about, anyway.
+                    </p>
+                  )}
+                </div>
               ) : (
                 <></>
               )}
@@ -300,7 +321,7 @@ const WritingGame = ({
           <>
             {!finished && (
               <div
-                className={`${time > 1 && 'fade-out'}} ${time > 1 && 'hidden'}`}
+                className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
               >
                 <small className={`${righteous.className}  font-bold`}>
                   {ankyverseDate}

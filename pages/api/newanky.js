@@ -8,15 +8,6 @@ export default async function (req, res) {
   if (req.method !== 'POST') {
     return res.status(401);
   }
-  if (!configuration.apiKey) {
-    res.status(500).json({
-      error: {
-        message:
-          'OpenAI API key not configured, please follow instructions in README.md',
-      },
-    });
-    return;
-  }
 
   try {
     const character = getNewRandomCharacter();

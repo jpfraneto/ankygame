@@ -25,8 +25,8 @@ export default function App({ Component, pageProps }) {
   const correctPassword = 'hf0';
 
   useEffect(() => {
+    const audio = new Audio('/assets/music/1.mp3');
     if (musicOn) {
-      const audio = new Audio('/assets/music/1.mp3');
       audio.play();
       const nextAudioFiles = [audio];
       for (let i = 2; i <= 5; i++) {

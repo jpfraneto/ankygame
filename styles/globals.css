@@ -270,7 +270,7 @@ footer {
 }
 
 .glowing {
-  animation: glowing 2s infinite;
+  animation: glowing 4s infinite;
 }
 
 @media (max-width: 768px) {
@@ -308,7 +308,7 @@ html {
 }
 
 .fade-out {
-  animation: fadeOut 1s ease-in-out;
+  animation: fadeOut 3s ease-in-out;
 }
 
 html::-webkit-scrollbar-track {
