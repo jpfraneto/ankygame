@@ -256,8 +256,8 @@ const WritingGame = ({
                 <div className='flex flex-col w-full justify-center items-center'>
                   <h2 className='text-4xl mb-4'>{character.name}</h2>
                   <div className='overflow-y-scroll'>
-                    {character.story.split('\n').map((x, i) => (
-                      <p key={i}>{x}</p>
+                    {character.story.split('\n').map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
                     ))}
                   </div>
                   {ankyRevealed && (
