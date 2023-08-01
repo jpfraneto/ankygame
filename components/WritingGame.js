@@ -32,6 +32,7 @@ const WritingGame = ({
   const [runSubmitted, setRunSubmitted] = useState(false);
   const [upscaledUrls, setUpscaledUrls] = useState([]);
   const [isActive, setIsActive] = useState(false);
+  const [chosenImageIndex, setChosenImageIndex] = useState(0);
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [isDone, setIsDone] = useState(false);
@@ -140,6 +141,12 @@ const WritingGame = ({
 
   const getAnkyverseCharacter = async () => {
     setGettingAnkyverseCharacter(true);
+    setTimeout(() => {
+      setSecondLoading(true);
+    }, 2222);
+    setTimeout(() => {
+      setThirdLoading(true);
+    }, 5555);
     const response = await fetch('/api/newanky', {
       method: 'POST',
       headers: {
@@ -152,12 +159,7 @@ const WritingGame = ({
       }),
     });
     const jsonResponse = await response.json();
-    setTimeout(() => {
-      setSecondLoading(true);
-    }, 2222);
-    setTimeout(() => {
-      setThirdLoading(true);
-    }, 5555);
+
     setCharacter({
       name: jsonResponse.character.characterName,
       story: jsonResponse.character.characterBackstory,
@@ -183,7 +185,6 @@ const WritingGame = ({
           setProgress(dataJson.progress);
         }
         if (dataJson && dataJson.status === 'completed') {
-          console.log('IT IS CMPLETED', dataJson);
           setProgress(null);
           setAnkyIsReady(true);
           clearInterval(fetchingImage);
@@ -258,7 +259,11 @@ const WritingGame = ({
                   {ankyRevealed && (
                     <div>
                       <div className='relative w-96 mx-auto h-96 border-2 mb-2 border-thewhite rounded-2xl overflow-hidden'>
-                        <Image fill src={upscaledUrls[0]} alt='Your anky' />
+                        <Image
+                          fill
+                          src={upscaledUrls[chosenImageIndex]}
+                          alt='Your anky'
+                        />
                       </div>
                       <p className='mb-2'>
                         If you are still here, you see the potential.
@@ -290,6 +295,7 @@ const WritingGame = ({
                         copy the URL here and check it out. Let me know and
                         I&apos;ll fix it asap.
                       </small>
+                      <small>{upscaledUrls[chosenImageIndex]}</small>
                     </div>
                   )}
 
@@ -301,7 +307,26 @@ const WritingGame = ({
                             {character.name}&apos;s image is being generated...
                           </p>
                           {progress > 0 && (
-                            <p className='text-2xl'>{progress}%</p>
+                            <div>
+                              <p className='text-2xl'>{progress}%</p>
+                              <div>
+                                <small>What number do you prefer?</small>
+                                <div className='flex flex-wrap space-x-2'>
+                                  {[0, 1, 2, 3].map((x, i) => (
+                                    <small
+                                      className={`text-thewhite ${
+                                        chosenImageIndex === x
+                                          ? 'text-lg'
+                                          : 'text-md'
+                                      }`}
+                                      onClick={() => setChosenImageIndex(x)}
+                                    >
+                                      {x}
+                                    </small>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
                           )}
                         </div>
                       }
