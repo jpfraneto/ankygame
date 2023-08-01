@@ -314,6 +314,7 @@ const WritingGame = ({
                                 <div className='flex flex-wrap space-x-2'>
                                   {[0, 1, 2, 3].map((x, i) => (
                                     <small
+                                      key={i}
                                       className={`text-thewhite ${
                                         chosenImageIndex === x
                                           ? 'text-lg'
