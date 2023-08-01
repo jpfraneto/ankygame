@@ -363,9 +363,9 @@ const WritingGame = ({
                   time > 2 && 'hidden'
                 }`}
               >
-                <small className={`${righteous.className}  font-bold`}>
+                {/* <small className={`${righteous.className}  font-bold`}>
                   {ankyverseDate}
-                </small>
+                </small> */}
                 <p
                   className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
                 >
@@ -380,9 +380,9 @@ const WritingGame = ({
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   Write whatever comes up. Your truth, without judgements.
                 </p>
-                <p className={`${righteous.className} mb-2 font-bold`}>
+                {/* <p className={`${righteous.className} mb-2 font-bold`}>
                   Life is always watching.
-                </p>
+                </p> */}
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   Min score to qualify is 30 seconds.
                 </p>
