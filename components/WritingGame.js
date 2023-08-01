@@ -251,7 +251,7 @@ const WritingGame = ({
               )}
             </div>
           ) : (
-            <div className='pt-8 text-center h-full w-2/5 mx-auto'>
+            <div className='pt-8 text-center h-full px-4 md:w-2/5 mx-auto'>
               {character && (
                 <div className='flex flex-col w-full justify-center items-center'>
                   <h2 className='text-4xl mb-4'>{character.name}</h2>
@@ -312,12 +312,11 @@ const WritingGame = ({
                     >
                       {
                         <div>
+                          <p>
+                            {character.name}&apos;s image is being generated...
+                          </p>
                           {progress > 0 && (
                             <div>
-                              <p>
-                                {character.name}&apos;s image is being
-                                generated...
-                              </p>
                               <p className='text-2xl'>{progress}%</p>
                               <div>
                                 <p>What number do you prefer?</p>
