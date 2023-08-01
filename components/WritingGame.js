@@ -229,21 +229,21 @@ const WritingGame = ({
               {ankyResponse === '' ? (
                 <div className='flex flex-col w-3/5 justify-center items-center'>
                   {true && (
-                    <small className='mt-2 fade-in'>
+                    <p className='mt-2 fade-in'>
                       I&apos;m looking in the ether for a representation of you
                       inside the Ankyverse...
-                    </small>
+                    </p>
                   )}
                   {secondLoading && (
-                    <small className='mt-2 fade-in'>
+                    <p className='mt-2 fade-in'>
                       In the meantime, just relax and sync your breath with the
                       white glow. It will help you tap deeper with yourself.
-                    </small>
+                    </p>
                   )}
                   {thirdLoading && (
-                    <small className='mt-2 fade-in'>
+                    <p className='mt-2 fade-in'>
                       That is what this place is all about.
-                    </small>
+                    </p>
                   )}
                 </div>
               ) : (
