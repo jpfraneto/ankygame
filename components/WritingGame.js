@@ -225,21 +225,21 @@ const WritingGame = ({
               </div>
 
               {ankyResponse === '' ? (
-                <div className='flex flex-col justify-center items-center'>
-                  <p className='mt-2 md:w-2/5 '>
+                <div className='flex flex-col md:w-2/5 justify-center items-center'>
+                  <small className='mt-2  '>
                     I&apos;m looking in the ether for a representation of you
                     inside the Ankyverse...
-                  </p>
+                  </small>
                   {secondLoading && (
-                    <p className='mt-2 md:w-2/5 fade-in'>
+                    <small className='mt-2 fade-in'>
                       In the meantime, just relax and sync your breath with the
                       white glow. It will help you tap deeper with yourself.
-                    </p>
+                    </small>
                   )}
                   {thirdLoading && (
-                    <p className='mt-2 md:w-2/5 fade-in'>
+                    <small className='mt-2 fade-in'>
                       That is what this place is all about.
-                    </p>
+                    </small>
                   )}
                 </div>
               ) : (
@@ -295,6 +295,7 @@ const WritingGame = ({
                         copy the URL here and check it out. Let me know and
                         I&apos;ll fix it asap.
                       </small>
+                      <br />
                       <small>{upscaledUrls[chosenImageIndex]}</small>
                     </div>
                   )}
