@@ -52,7 +52,7 @@ const WritingGame = ({
   const [failureMessage, setFailureMessage] = useState('');
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
-  const [copyText, setCopyText] = useState('Copy my writing');
+  const [copyText, setCopyText] = useState('Copy writing to clipboard');
 
   const [progress, setProgress] = useState(null);
   const [startTime, setStartTime] = useState(null);
@@ -137,7 +137,7 @@ const WritingGame = ({
 
   const pasteText = async () => {
     await navigator.clipboard.writeText(text);
-    alert('Your writing is in your clipboard');
+    setCopyText('Copied.');
   };
 
   const getAnkyverseCharacter = async () => {
@@ -198,10 +198,10 @@ const WritingGame = ({
 
   return (
     <div
-      className='text-thewhite relative  flex flex-col items-center py-8 justify-center w-full bg-cover bg-center'
+      className='text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
-        height: 'calc(100vh  - 120px)',
+        height: 'calc(100vh  - 90px)',
         backgroundImage:
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
         backgroundPosition: 'center center',
@@ -227,11 +227,13 @@ const WritingGame = ({
               </div>
 
               {ankyResponse === '' ? (
-                <div className='flex flex-col md:w-2/5 justify-center items-center'>
-                  <small className='mt-2'>
-                    I&apos;m looking in the ether for a representation of you
-                    inside the Ankyverse...
-                  </small>
+                <div className='flex flex-col w-3/5 justify-center items-center'>
+                  {true && (
+                    <small className='mt-2 fade-in'>
+                      I&apos;m looking in the ether for a representation of you
+                      inside the Ankyverse...
+                    </small>
+                  )}
                   {secondLoading && (
                     <small className='mt-2 fade-in'>
                       In the meantime, just relax and sync your breath with the
@@ -249,7 +251,7 @@ const WritingGame = ({
               )}
             </div>
           ) : (
-            <div className=' text-center h-full w-2/5 mx-auto'>
+            <div className='pt-8 text-center h-full w-2/5 mx-auto'>
               {character && (
                 <div className='flex flex-col w-full justify-center items-center'>
                   <h2 className='text-4xl mb-4'>{character.name}</h2>
@@ -259,7 +261,7 @@ const WritingGame = ({
                     ))}
                   </div>
                   {ankyRevealed && (
-                    <div className='h-full'>
+                    <div className='h-full pb-8'>
                       <div className='relative w-96 mx-auto h-96 border-2 mb-2 border-thewhite rounded-2xl overflow-hidden'>
                         <Image
                           fill
@@ -303,14 +305,19 @@ const WritingGame = ({
                   )}
 
                   {!ankyRevealed && (
-                    <div className='p-4 bg-thegreen rounded-xl text-center border-thewhite border-2 mb-8'>
+                    <div
+                      className={`${
+                        progress > 0 && p - 4
+                      } bg-thegreen rounded-xl text-center border-thewhite border-2 mb-8`}
+                    >
                       {
                         <div>
-                          <p>
-                            {character.name}&apos;s image is being generated...
-                          </p>
                           {progress > 0 && (
                             <div>
+                              <p>
+                                {character.name}&apos;s image is being
+                                generated...
+                              </p>
                               <p className='text-2xl'>{progress}%</p>
                               <div>
                                 <p>What number do you prefer?</p>
@@ -351,11 +358,13 @@ const WritingGame = ({
           )}
         </div>
       ) : (
-        <div className='w-full px-2 mt-4 md:mt-4 md:w-1/2 lg:w-2/3'>
+        <div className='w-full px-2 mt-4 md:w-1/2 lg:w-2/3'>
           <>
             {!finished && (
               <div
-                className={`${time > 0 && 'fade-out'}} ${time > 1 && 'hidden'}`}
+                className={` ${text.length > 0 && 'fade-out'} mb-4 ${
+                  time > 2 && 'invisible'
+                } ${time > 10 && 'hidden'}`}
               >
                 <small className={`${righteous.className}  font-bold`}>
                   {ankyverseDate}
@@ -380,6 +389,9 @@ const WritingGame = ({
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   Min score to qualify is 30 seconds.
                 </p>
+                <small className=''>
+                  (None of this will be saved anywhere)
+                </small>
               </div>
             )}
 
@@ -415,7 +427,7 @@ const WritingGame = ({
                     <Button
                       buttonColor='bg-thegreenbtn'
                       buttonAction={pasteText}
-                      buttonText='Copy writing to clipboard'
+                      buttonText={copyText}
                     />
 
                     {time > 30 ? (
