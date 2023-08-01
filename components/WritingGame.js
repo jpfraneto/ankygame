@@ -23,6 +23,7 @@ const WritingGame = ({
   setLifeBarLength,
   setLives,
   lives,
+  setLoadButtons,
   ankyverseDate,
 }) => {
   const audioRef = useRef();
@@ -188,6 +189,7 @@ const WritingGame = ({
           setProgress(null);
           setAnkyIsReady(true);
           clearInterval(fetchingImage);
+          setLoadButtons(true);
           setUpscaledUrls(dataJson.upscaled_urls);
         }
       }, 4444);
@@ -226,7 +228,7 @@ const WritingGame = ({
 
               {ankyResponse === '' ? (
                 <div className='flex flex-col md:w-2/5 justify-center items-center'>
-                  <small className='mt-2  '>
+                  <small className='mt-2'>
                     I&apos;m looking in the ether for a representation of you
                     inside the Ankyverse...
                   </small>
@@ -247,7 +249,7 @@ const WritingGame = ({
               )}
             </div>
           ) : (
-            <div className=' text-center  w-2/5 mx-auto'>
+            <div className=' text-center h-full w-2/5 mx-auto'>
               {character && (
                 <div className='flex flex-col w-full justify-center items-center'>
                   <h2 className='text-4xl mb-4'>{character.name}</h2>
@@ -257,7 +259,7 @@ const WritingGame = ({
                     ))}
                   </div>
                   {ankyRevealed && (
-                    <div>
+                    <div className='h-full'>
                       <div className='relative w-96 mx-auto h-96 border-2 mb-2 border-thewhite rounded-2xl overflow-hidden'>
                         <Image
                           fill
@@ -281,22 +283,22 @@ const WritingGame = ({
                       <p className='mb-2'>Thank you for your time.</p>
                       <p className='mb-2'>I honor it deeply.</p>
                       <p className='mb-2'>jp</p>
-                      <div className='flex justify-center'>
+                      <div className='flex justify-center flex-col items-center'>
                         <Button
                           buttonAction={() =>
                             alert('This is just the beginning.')
                           }
                           buttonText={`Mint ${character.name} as an NFT`}
-                          buttonColor='bg-thegreenbtn hover:opacity-70'
+                          buttonColor='bg-thegreenbtn hover:opacity-70 mb-2'
                         />
+                        <small className='mb-2'>
+                          If, for some reason, the image didn&apos;t load, you
+                          can copy the URL here and check it out. Let me know
+                          and I&apos;ll fix it asap.
+                        </small>
+
+                        <small>{upscaledUrls[chosenImageIndex]}</small>
                       </div>
-                      <small className='mb-2'>
-                        If, for some reason, the image didn&apos;t load, you can
-                        copy the URL here and check it out. Let me know and
-                        I&apos;ll fix it asap.
-                      </small>
-                      <br />
-                      <small>{upscaledUrls[chosenImageIndex]}</small>
                     </div>
                   )}
 
@@ -311,12 +313,12 @@ const WritingGame = ({
                             <div>
                               <p className='text-2xl'>{progress}%</p>
                               <div>
-                                <small>What number do you prefer?</small>
-                                <div className='flex flex-wrap space-x-2'>
+                                <p>What number do you prefer?</p>
+                                <div className='flex flex-wrap justify-center space-x-2'>
                                   {[0, 1, 2, 3].map((x, i) => (
-                                    <small
+                                    <p
                                       key={i}
-                                      className={`text-thewhite ${
+                                      className={`text-thewhite hover:cursor-pointer ${
                                         chosenImageIndex === x
                                           ? 'text-lg'
                                           : 'text-md'
@@ -324,7 +326,7 @@ const WritingGame = ({
                                       onClick={() => setChosenImageIndex(x)}
                                     >
                                       {x}
-                                    </small>
+                                    </p>
                                   ))}
                                 </div>
                               </div>

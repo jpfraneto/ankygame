@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import WritingGame from '@component/components/WritingGame';
 import Head from 'next/head';
 
-const GamePage = () => {
+const GamePage = ({ setLoadButtons, loadButtons }) => {
   const [lifeBarLength, setLifeBarLength] = useState(100);
   const [lives, setLives] = useState(3);
 
@@ -20,10 +20,17 @@ const GamePage = () => {
           ></div>
         </div>
         <div className='h-full text-center flex items-center justify-center w-3/12'>
-          <span className='text-gray-800'>anky is you</span>
+          <span
+            className={`${
+              loadButtons ? 'fade-in flex' : 'hidden'
+            } text-gray-800`}
+          >
+            anky is you
+          </span>
         </div>
       </div>
       <WritingGame
+        setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
         ankyverseDate='sojourn 1 - wink 28 - poiesis'

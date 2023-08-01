@@ -19,6 +19,7 @@ export default function App({ Component, pageProps }) {
   const [musicOn, setMusicOn] = useState(null);
   const [musicVolume, setMusicVolume] = useState(1.0);
   const [audioFiles, setAudioFiles] = useState([]);
+  const [loadButtons, setLoadButtons] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [musicActivated, setMusicActivated] = useState(false);
   const [pwMessage, setPwMessage] = useState('');
@@ -81,8 +82,8 @@ export default function App({ Component, pageProps }) {
           ]}
         >
           <div className={`${righteous.className} overflow-x-hidden`}>
-            <Navbar />
-            <Component {...pageProps} />
+            <Navbar loadButtons={loadButtons} />
+            <Component {...pageProps} setLoadButtons={setLoadButtons} />
           </div>
         </ThirdwebProvider>
       ) : (

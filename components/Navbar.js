@@ -8,7 +8,7 @@ import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
-const Navbar = () => {
+const Navbar = ({ loadButtons }) => {
   const router = useRouter();
   const address = useAddress();
   const [displayConnecters, setDisplayConnecters] = useState(false);
@@ -34,15 +34,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${righteous.className} relative text-theblack font-bold top-0 w-screen justify-between overflow-x-auto bg-theblack px-4 py-2 flex flex-row items-center`}
+      className={` relative text-theblack font-bold top-0 w-screen justify-between overflow-x-auto bg-theblack h-18 px-4 py-2 flex flex-row items-center`}
     >
       <span
         onMouseEnter={() => setDisplayHello(true)}
         onMouseLeave={() => setDisplayHello(false)}
         onClick={() => handleClickLink('/')}
-        className={`${righteous.className} hover:text-thegreenbtn text-lg sm:text-3xl hover:cursor-pointer navBtn`}
+        className={` hover:text-thegreenbtn w-32 text-lg sm:text-3xl hover:cursor-pointer text-thewhite`}
       >
-        {displayHello ? 'hello :)' : 'ANKY'}
+        {displayHello ? 'hello :)' : 'anky'}
       </span>
       <div className='sm:hidden block'>
         <button className='text-thewhite mt-4' onClick={handleToggleMenu}>
@@ -67,7 +67,9 @@ const Navbar = () => {
           onMouseEnter={() => setDisplayTheAnkyverse(true)}
           onMouseLeave={() => setDisplayTheAnkyverse(false)}
           onClick={() => handleClickLink('/ankyverse')}
-          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayTheAnkyverse ? '/ankyverse' : 'Ankyverse'}
         </span>
@@ -76,7 +78,9 @@ const Navbar = () => {
           onMouseEnter={() => setDisplayGallery(true)}
           onMouseLeave={() => setDisplayGallery(false)}
           onClick={() => handleClickLink('/gallery')}
-          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
@@ -84,15 +88,19 @@ const Navbar = () => {
           onMouseEnter={() => setDisplayMint(true)}
           onMouseLeave={() => setDisplayMint(false)}
           onClick={() => handleClickLink('/shop')}
-          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayMint ? '/shop' : 'Shop'}
         </span>
-        <ConnectWallet
-          auth={{
-            loginOptional: false,
-          }}
-        />
+        <span className={`${loadButtons ? 'fade-in flex' : 'hidden'}`}>
+          <ConnectWallet
+            auth={{
+              loginOptional: false,
+            }}
+          />
+        </span>
       </div>
     </nav>
   );
