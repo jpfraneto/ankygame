@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import WritingGameNEW from '@component/components/WritingGameNEW';
+import WritingGame from '@component/components/WritingGame';
 import Head from 'next/head';
 
 const GamePage = ({ setLoadButtons, loadButtons }) => {
@@ -29,7 +29,7 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
           </span>
         </div>
       </div>
-      <WritingGameNEW
+      <WritingGame
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}

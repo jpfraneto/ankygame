@@ -18,7 +18,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const dancingScript = Dancing_Script({ weight: '400', subsets: ['latin'] });
 const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 
-const WritingGameNEW = ({
+const WritingGame = ({
   userPrompt,
   setLifeBarLength,
   setLives,
@@ -36,9 +36,7 @@ const WritingGameNEW = ({
   const [chosenImageIndex, setChosenImageIndex] = useState(0);
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
-  const [recoveryPhrase, setRecoveryPhrase] = useState(true);
   const [isDone, setIsDone] = useState(false);
-  const [seedPhrase, setSeedPhrase] = useState(false);
   const [ankyRevealed, setAnkyRevealed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [character, setCharacter] = useState(null);
@@ -46,7 +44,6 @@ const WritingGameNEW = ({
   const [highscore, setHighscore] = useState(0);
   const [ankyThinking, setAnkyThinking] = useState(true);
   const [ankyResponse, setAnkyResponse] = useState('');
-  const [ankyThinkingOver, setAnkyThinkingOver] = useState(false);
   const [gettingAnkyverseCharacter, setGettingAnkyverseCharacter] =
     useState(false);
   const [savedToDb, setSavedToDb] = useState(false);
@@ -64,21 +61,6 @@ const WritingGameNEW = ({
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
-
-  let recoveryPhraseWords = [
-    'apple',
-    'zebra',
-    'carousel',
-    'dolphin',
-    'elephant',
-    'frost',
-    'garden',
-    'honey',
-    'icicle',
-    'joker',
-    'kaleidoscope',
-    'lemon',
-  ];
 
   useEffect(() => {
     if (isActive && !isDone) {
@@ -208,7 +190,10 @@ const WritingGameNEW = ({
           setAnkyIsReady(true);
           clearInterval(fetchingImage);
           setLoadButtons(true);
-          setUpscaledUrls(dataJson.upscaled_urls);
+          const upscaledUrlsLinks = dataJson.upscaled.map(
+            upscaledId => `https://88minutes.xyz/assets/${upscaledId}.png`
+          );
+          setUpscaledUrls(upscaledUrlsLinks);
         }
       }, 4444);
     }
@@ -232,77 +217,40 @@ const WritingGameNEW = ({
       </audio>
       {gettingAnkyverseCharacter ? (
         <div className='h-full overflow-y-scroll'>
-          {!ankyThinkingOver && ankyThinking ? (
+          {ankyThinking ? (
             <div className='py-0 flex flex-col mt-8 space-x-2 items-center h-full'>
-              {recoveryPhrase ? (
-                <div className='w-3/5 mx-auto flex flex-col items-center justify-center'>
-                  <p>These 12 words are your key to the ankyverse.</p>
-                  <p>Write them down and store that paper securely.</p>
-                  <div className='flex w-96 flex-nowrap justify-between mb-3'>
-                    {recoveryPhraseWords.map((x, i) => (
-                      <span
-                        key={i}
-                        className='px-2 py-1 rounded-xl bg-theorange border-2 border-thewhite m-2'
-                      >
-                        {x}
-                      </span>
-                    ))}
-                  </div>
-                  {seedPhrase ? (
-                    <Button
-                      buttonAction={() => {
-                        if (confirm('Which was the third word?')) {
-                          if (!ankyThinking) setAnkyThinkingOver(false);
-                          return setRecoveryPhrase(false);
-                        }
-                        setSeedPhrase(false);
-                      }}
-                      buttonText='Which was the third word?'
-                      buttonColor='bg-theredbtn'
-                    />
-                  ) : (
-                    <Button
-                      buttonAction={() => setSeedPhrase(true)}
-                      buttonText='Stored my 12 words'
-                    />
+              <div className='rounded-full glowing mb-4 overflow-hidden shadow-lg border-4 border-thewhite'>
+                <Image
+                  src='/images/anky.png'
+                  width={333}
+                  height={333}
+                  className=''
+                  alt='Anky'
+                />
+              </div>
+
+              {ankyResponse === '' ? (
+                <div className='flex flex-col w-3/5 justify-center items-center'>
+                  {true && (
+                    <p className='mt-2 fade-in'>
+                      I&apos;m looking in the ether for a representation of you
+                      inside the Ankyverse...
+                    </p>
+                  )}
+                  {secondLoading && (
+                    <p className='mt-2 fade-in'>
+                      In the meantime, just relax and sync your breath with the
+                      white glow. It will help you tap deeper with yourself.
+                    </p>
+                  )}
+                  {thirdLoading && (
+                    <p className='mt-2 fade-in'>
+                      That is what this place is all about.
+                    </p>
                   )}
                 </div>
               ) : (
-                <div className='flex flex-col items-center '>
-                  <div className='rounded-full w-fit mx-auto glowing mb-4 overflow-hidden shadow-lg border-4 border-thewhite'>
-                    <Image
-                      src='/images/anky.png'
-                      width={333}
-                      height={333}
-                      className=''
-                      alt='Anky'
-                    />
-                  </div>
-                  {ankyResponse === '' ? (
-                    <div className='flex flex-col w-3/5 justify-center items-center'>
-                      {true && (
-                        <p className='mt-2 fade-in'>
-                          I&apos;m looking in the ether for a representation of
-                          you inside the Ankyverse...
-                        </p>
-                      )}
-                      {secondLoading && (
-                        <p className='mt-2 fade-in'>
-                          In the meantime, just relax and sync your breath with
-                          the white glow. It will help you tap deeper with
-                          yourself.
-                        </p>
-                      )}
-                      {thirdLoading && (
-                        <p className='mt-2 fade-in'>
-                          That is what this place is all about.
-                        </p>
-                      )}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                </div>
+                <></>
               )}
             </div>
           ) : (
@@ -311,10 +259,9 @@ const WritingGameNEW = ({
                 <div className='flex flex-col w-full justify-center items-center'>
                   <h2 className='text-4xl mb-4'>{character.name}</h2>
                   <div className='overflow-y-scroll'>
-                    {character.story &&
-                      character.story
-                        .split('\n')
-                        .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+                    {character.story.split('\n').map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
                   </div>
                   {ankyRevealed && (
                     <div className='h-full pb-8'>
@@ -483,7 +430,7 @@ const WritingGameNEW = ({
                       buttonText={copyText}
                     />
 
-                    {time > 1 ? (
+                    {time > 30 ? (
                       <Button
                         buttonAction={getAnkyverseCharacter}
                         buttonText='Get character for the Ankyverse'
@@ -509,4 +456,4 @@ const WritingGameNEW = ({
   );
 };
 
-export default WritingGameNEW;
+export default WritingGame;
