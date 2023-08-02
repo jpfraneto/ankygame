@@ -14,6 +14,7 @@ import { ConnectWallet } from '@thirdweb-dev/react';
 import { Web3Button, useAddress } from '@thirdweb-dev/react';
 import { toast } from 'react-toastify';
 import WalletCreationComponent from './WalletCreationComponent';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 function sleep(ms) {
   return new Promise(resolve => {
@@ -261,7 +262,7 @@ const WritingGame = ({
               {characterIsReady ? (
                 <div className='flex flex-col w-full justify-center items-center'>
                   <h2 className='text-4xl mb-4'>{character.name}</h2>
-                  <div className='overflow-y-scroll'>
+                  <div className='overflow-y-scroll fade-in'>
                     {character.story &&
                       character.story
                         .split('\n')
@@ -298,7 +299,7 @@ const WritingGame = ({
                             alert('This is just the beginning.')
                           }
                           buttonText={`Mint ${character.name} as an NFT`}
-                          buttonColor='bg-thegreenbtn hover:opacity-70 mb-2'
+                          buttonColor='bg-thegreenbtn hover:opacity-70 mb-4'
                         />
                         <small className='mb-2'>
                           If, for some reason, the image didn&apos;t load, you
@@ -333,9 +334,9 @@ const WritingGame = ({
                                   {[0, 1, 2, 3].map((x, i) => (
                                     <p
                                       key={i}
-                                      className={`text-thewhite hover:cursor-pointer border border-thewhite rounded-xl p-2 ${
+                                      className={`text-thewhite hover:cursor-pointer border border-thewhite rounded-xl w-3 h-3 ${
                                         chosenImageIndex === x
-                                          ? 'text-lg bg-thegreenbtn'
+                                          ? 'text-xl bg-thegreenbtn'
                                           : 'text-md bg-theorange'
                                       }`}
                                       onClick={() => setChosenImageIndex(x)}
