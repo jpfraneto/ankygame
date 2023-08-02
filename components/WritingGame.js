@@ -324,28 +324,25 @@ const WritingGame = ({
                               generated...
                             </p>
                           )}
-
+                          <p>What number do you prefer?</p>
+                          <div className='flex flex-wrap justify-center space-x-2'>
+                            {[0, 1, 2, 3].map((x, i) => (
+                              <p
+                                key={i}
+                                className={`text-thewhite hover:cursor-pointer border flex justify-center items-center border-thewhite rounded-xl w-8 h-8 hover:opacity-70 ${
+                                  chosenImageIndex === x
+                                    ? 'text-xl bg-thegreenbtn'
+                                    : 'text-md bg-theorange'
+                                }`}
+                                onClick={() => setChosenImageIndex(x)}
+                              >
+                                {x}
+                              </p>
+                            ))}
+                          </div>
                           {progress > 0 && (
                             <div>
                               <p className='text-2xl'>{progress}%</p>
-                              <div>
-                                <p>What number do you prefer?</p>
-                                <div className='flex flex-wrap justify-center space-x-2'>
-                                  {[0, 1, 2, 3].map((x, i) => (
-                                    <p
-                                      key={i}
-                                      className={`text-thewhite hover:cursor-pointer border border-thewhite rounded-xl w-3 h-3 ${
-                                        chosenImageIndex === x
-                                          ? 'text-xl bg-thegreenbtn'
-                                          : 'text-md bg-theorange'
-                                      }`}
-                                      onClick={() => setChosenImageIndex(x)}
-                                    >
-                                      {x}
-                                    </p>
-                                  ))}
-                                </div>
-                              </div>
                             </div>
                           )}
                         </div>
