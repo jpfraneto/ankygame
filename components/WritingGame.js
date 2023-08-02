@@ -76,6 +76,7 @@ const WritingGame = ({
   const [savedToDb, setSavedToDb] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [finished, setFinished] = useState(false);
+  const [errorProblem, setErrorProblem] = useState(false);
   const [failureMessage, setFailureMessage] = useState('');
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
@@ -169,52 +170,58 @@ const WritingGame = ({
 
   async function fetchCharacterFromOpenAi() {
     console.log('before fetching the character');
-    const response = await fetch('/api/newanky', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        timeSpent: time,
-        wordCount: text.split(' ').length,
-        content: text,
-      }),
-    });
-    const jsonResponse = await response.json();
-    console.log('after fetching the character');
-    setCharacter({
-      name: jsonResponse.character.characterName,
-      story: jsonResponse.character.characterBackstory,
-    });
-    setCharacterIsReady(true);
-    if (jsonResponse.character.imagineApiId) {
-      const fetchingImage = setInterval(async () => {
-        const data = await fetch('/api/fetchImage', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            imageId: jsonResponse.character.imagineApiId,
-          }),
-        });
-        const dataJson = await data.json();
-        console.log('the data jsHEREon is :', dataJson.status);
-        if (!dataJson) return;
-        if (dataJson && dataJson.status === 'in-progress') {
-          setProgress(dataJson.progress);
-        }
-        if (dataJson && dataJson.status === 'completed') {
-          setProgress(null);
-          setAnkyIsReady(true);
-          clearInterval(fetchingImage);
-          setLoadButtons(true);
-          const upscaledUrlsLinks = dataJson.upscaled.map(
-            upscaledId => `https://88minutes.xyz/assets/${upscaledId}.png`
-          );
-          setUpscaledUrls(upscaledUrlsLinks);
-        }
-      }, 4444);
+    try {
+      const response = await fetch('/api/newanky', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          timeSpent: time,
+          wordCount: text.split(' ').length,
+          content: text,
+        }),
+      });
+      const jsonResponse = await response.json();
+      console.log('after fetching the character');
+      setCharacter({
+        name: jsonResponse.character.characterName,
+        story: jsonResponse.character.characterBackstory,
+      });
+      setCharacterIsReady(true);
+      if (jsonResponse.character.imagineApiId) {
+        const fetchingImage = setInterval(async () => {
+          const data = await fetch('/api/fetchImage', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              imageId: jsonResponse.character.imagineApiId,
+            }),
+          });
+          const dataJson = await data.json();
+          console.log('the data jsHEREon is :', dataJson.status);
+          if (!dataJson) return;
+          if (dataJson && dataJson.status === 'in-progress') {
+            setProgress(dataJson.progress);
+          }
+          if (dataJson && dataJson.status === 'completed') {
+            setProgress(null);
+            setAnkyIsReady(true);
+            clearInterval(fetchingImage);
+            setLoadButtons(true);
+            const upscaledUrlsLinks = dataJson.upscaled.map(
+              upscaledId => `https://88minutes.xyz/assets/${upscaledId}.png`
+            );
+            setUpscaledUrls(upscaledUrlsLinks);
+          }
+        }, 4444);
+      }
+    } catch (error) {
+      setCopyText('Copy my writing');
+      setErrorProblem(true);
+      console.log('the error was', error);
     }
   }
 
@@ -231,6 +238,32 @@ const WritingGame = ({
     const words = await getWords.json();
     setRecoveryPhraseWords(words);
   };
+
+  if (errorProblem)
+    return (
+      <div
+        className='text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center'
+        style={{
+          boxSizing: 'border-box',
+          height: 'calc(100vh  - 90px)',
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        <p>
+          There was an error. But you can always keep your writing if you want.
+        </p>
+        <p>I&apos;m sorry. I&apos;m doing my best to make this thing work.</p>
+        <Button
+          buttonColor='bg-thegreenbtn'
+          buttonAction={pasteText}
+          buttonText={copyText}
+        />
+      </div>
+    );
 
   return (
     <div
