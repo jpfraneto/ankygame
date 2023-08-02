@@ -62,17 +62,9 @@ export default async function (req, res) {
       messages: messages,
     });
 
-    const config = {
-      headers: { Authorization: `Bearer ${process.env.IMAGINE_API_KEY}` },
-    };
-
-    const bodyParameters = {
-      prompt: `https://s.mj.run/YLJMlMJbo70, The profile picture of a cartoon. ${completion.data.choices[0].message.content}`,
-    };
-
     // console.log('going to imagine api.');
     // const responseFromImagineApi = await axios.post(
-    //   'http://164.90.252.239:8055/items/images',
+    //   'http://146.190.131.28:8055/items/images',
     //   bodyParameters,
     //   config
     // );
@@ -103,7 +95,7 @@ export default async function (req, res) {
       //   const intervalId = setInterval(async () => {
       //     console.log('inside the interval');
       //     const gettingImageApiResponse = await axios.get(
-      //       `http://164.90.252.239:8055/items/images/${imagineApiID}`,
+      //       `http://146.190.131.28:8055/items/images/${imagineApiID}`,
       //       bodyParameters,
       //       config
       //     );

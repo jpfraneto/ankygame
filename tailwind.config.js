@@ -13,6 +13,14 @@ module.exports = {
   ],
   theme: {
     colors: {
+      primordia: '#EB1B21',
+      emblazion: '#FFA922',
+      chryseos: '#F4D843',
+      eleasis: '#60A973',
+      voxlumis: '#122F7D',
+      insightia: '#FB57E9',
+      claridium: '#CB31F7',
+      poiesis: '#FFFFFF',
       thegreen: '#329397',
       thegreener: '#3A6777',
       thered: '#673446',
@@ -31,7 +39,7 @@ module.exports = {
     extend: {
       extend: {
         animation: {
-          glowing: 'glowing 2s infinite',
+          glowing: 'glowing 4s infinite',
         },
       },
     },

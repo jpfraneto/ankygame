@@ -18,6 +18,7 @@ const Navbar = ({ loadButtons }) => {
   const [displayTheJourney, setDisplayTheJourney] = useState(false);
   const [displayTheAnkyverse, setDisplayTheAnkyverse] = useState(false);
   const [displayGallery, setDisplayGallery] = useState(false);
+  const [displayCalendar, setDisplayCalendar] = useState(false);
   const [displayProfile, setDisplayProfile] = useState(false);
   const [displayMint, setDisplayMint] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -55,12 +56,14 @@ const Navbar = ({ loadButtons }) => {
         } sm:static sm:bg-transparent sm:h-auto sm:flex-row sm:space-y-0 sm:translate-x-0 sm:space-x-4`}
       >
         {/* <span
-          onMouseEnter={() => setDisplayConnecters(true)}
-          onMouseLeave={() => setDisplayConnecters(false)}
-          onClick={() => handleClickLink('/ankyverse')}
-          className={`${righteous.className} hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          onMouseEnter={() => setDisplayCalendar(true)}
+          onMouseLeave={() => setDisplayCalendar(false)}
+          onClick={() => handleClickLink('/calendar')}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
-          {displayConnecters ? '@kithkui' : 'Twitter'}
+          {displayCalendar ? '/calendar' : 'Calendar'}
         </span> */}
 
         <span

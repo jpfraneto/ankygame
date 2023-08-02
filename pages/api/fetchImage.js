@@ -6,7 +6,7 @@ async function fetchImage(imageId) {
   };
   try {
     const response = await axios.get(
-      `http://164.90.252.239:8055/items/images/${imageId}`,
+      `http://146.190.131.28:8055/items/images/${imageId}`,
       config
     );
     console.log('Fetched from imagineAPI', response.data.data);
