@@ -55,7 +55,7 @@ const Navbar = ({ loadButtons }) => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } sm:static sm:bg-transparent sm:h-auto sm:flex-row sm:space-y-0 sm:translate-x-0 sm:space-x-4`}
       >
-        {/* <span
+        <span
           onMouseEnter={() => setDisplayCalendar(true)}
           onMouseLeave={() => setDisplayCalendar(false)}
           onClick={() => handleClickLink('/calendar')}
@@ -64,7 +64,7 @@ const Navbar = ({ loadButtons }) => {
           } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayCalendar ? '/calendar' : 'Calendar'}
-        </span> */}
+        </span>
 
         <span
           onMouseEnter={() => setDisplayTheAnkyverse(true)}

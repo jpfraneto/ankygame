@@ -160,6 +160,10 @@ footer {
   flex-shrink: 0;
 }
 
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -301,10 +305,6 @@ html {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-}
-
-.fade-in {
-  animation: fadeIn 1s ease-in-out;
 }
 
 .fade-out {
