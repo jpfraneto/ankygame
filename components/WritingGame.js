@@ -80,7 +80,7 @@ const WritingGame = ({
   const [failureMessage, setFailureMessage] = useState('');
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
-  const [copyText, setCopyText] = useState('Copiar lo que escribí');
+  const [copyText, setCopyText] = useState('Copy my writing');
 
   const [progress, setProgress] = useState(null);
   const [startTime, setStartTime] = useState(null);
@@ -124,6 +124,7 @@ const WritingGame = ({
 
   const finishRun = async () => {
     setLifeBarLength(0);
+    audioRef.current.volume = 0.1;
     audioRef.current.play();
     setFinished(true);
     setEndTime(Date.now());
@@ -138,12 +139,12 @@ const WritingGame = ({
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(text);
-    alert('Lo que escribiste está en el portapapeles. Pégalo donde quiras.');
+    alert('Your writing is on the clipboard');
   };
 
   const startNewRun = () => {
     audioRef.current.pause();
-    setCopyText('Copiar lo que escribí');
+    setCopyText('Copy my writing');
     setTime(0);
     setLifeBarLength(100);
     setText('');
@@ -398,20 +399,19 @@ const WritingGame = ({
                   <div className='flex flex-col w-3/5 justify-center items-center'>
                     {true && (
                       <p className='mt-2 fade-in'>
-                        Estoy buscando en el éter una representación tuya en el
-                        Ankyverso.
+                        I&apos;m looking into the ether for a representation of
+                        you inside the Ankyverse.
                       </p>
                     )}
                     {secondLoading && (
                       <p className='mt-2 fade-in'>
-                        Por mientras, relájate y sincroniza tu respiración con
-                        el brillo blanco. Concéntrate y siente lo que estás
-                        sintiendo.
+                        On the meantime, relax and sync your breath with the
+                        white glow. Focus and feel what you are feeling.
                       </p>
                     )}
                     {thirdLoading && (
                       <p className='mt-2 fade-in'>
-                        De eso se trata este lugar.
+                        That's what this place is about.
                       </p>
                     )}
                   </div>
@@ -450,9 +450,11 @@ const WritingGame = ({
                   Life is always watching.
                 </p> */}
                 <p className={`${righteous.className} mb-2 font-bold`}>
-                  The minimum time is 30 seconds
+                  If you stop writing for 3 seconds, you lose.
                 </p>
-                <small className=''>This won&apos;t be stored anywhere.</small>
+                <small className={`${righteous.className} mb-2 font-bold`}>
+                  (This won&apos;t be stored anywhere)
+                </small>
               </div>
             )}
 
@@ -484,24 +486,39 @@ const WritingGame = ({
                 </div>
 
                 {finished ? (
-                  <div className='flex flex-col md:flex-row space-x-2'>
-                    <Button
-                      buttonColor='bg-thegreenbtn'
-                      buttonAction={pasteText}
-                      buttonText={copyText}
-                    />
-
-                    {time > 1 ? (
-                      <Button
-                        buttonAction={getAnkyverseCharacter}
-                        buttonText='Quiero mi Anky'
-                      />
-                    ) : (
-                      <Button
-                        buttonAction={startNewRun}
-                        buttonText='Intentar de nuevo (mínimo 30s)'
-                      />
+                  <div>
+                    {time <= 30 && (
+                      <div>
+                        <p className={`${righteous.className} mb-2 font-bold`}>
+                          You lost. Remember that you have to keep writing, no
+                          matter what.
+                        </p>
+                        <p className={`${righteous.className} mb-2 font-bold`}>
+                          This game is designed to bring you into a meditative
+                          state, so just relax and let your being come forth
+                          through your words.
+                        </p>
+                      </div>
                     )}
+                    <div className='flex flex-col md:flex-row justify-center space-x-2'>
+                      <Button
+                        buttonColor='bg-thegreenbtn'
+                        buttonAction={pasteText}
+                        buttonText={copyText}
+                      />
+
+                      {time > 30 ? (
+                        <Button
+                          buttonAction={getAnkyverseCharacter}
+                          buttonText='Quiero mi Anky'
+                        />
+                      ) : (
+                        <Button
+                          buttonAction={startNewRun}
+                          buttonText='Start again'
+                        />
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <p className={`${righteous.className}  font-bold`}>
