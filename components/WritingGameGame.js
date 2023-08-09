@@ -311,7 +311,7 @@ const WritingGame = ({
                         />
                       </div>
                       <p className='mb-2'>
-                        If you are still here, you understand the potential.
+                        Si es que estás acá todavía, entiendes el potencial.
                       </p>
                       <p className='mb-2'>
                         Este personaje simplemente va a ser un espejo.
@@ -439,20 +439,22 @@ const WritingGame = ({
                 </p>
 
                 <p className={`${righteous.className} mb-2 font-bold`}>
-                  Feel the prompt. Read it with intention. Answer with the
-                  heart.
+                  Siente la pregunta. Léela con intención. Responde con el
+                  corazón.
                 </p>
 
                 <p className={`${righteous.className} mb-2 font-bold`}>
-                  Write what comes. Your truth, without judgements.
+                  Escribe lo que venga. Tu verdad, sin juicios.
                 </p>
                 {/* <p className={`${righteous.className} mb-2 font-bold`}>
                   Life is always watching.
                 </p> */}
                 <p className={`${righteous.className} mb-2 font-bold`}>
-                  The minimum time is 30 seconds
+                  El tiempo mínimo es 30 segundos.
                 </p>
-                <small className=''>This won't be stored anywhere.</small>
+                <small className=''>
+                  Nada de esto va a ser grabado en ningún lugar.
+                </small>
               </div>
             )}
 
@@ -470,7 +472,7 @@ const WritingGame = ({
                 text ? 'md:aspect-video w-full h-full' : 'w-3/5 h-64'
               } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
               value={text}
-              placeholder='write here...'
+              placeholder='escribe acá...'
               onChange={handleTextChange}
             ></textarea>
             {text && (

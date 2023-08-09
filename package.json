@@ -25,6 +25,7 @@
     "eslint-config-next": "13.3.0",
     "ethers": "^5.7.2",
     "flywheel-leaderboard": "^0.0.3",
+    "magic-sdk": "^19.0.0",
     "multer": "^1.4.5-lts.1",
     "next": "13.3.0",
     "next-auth": "^4.22.0",

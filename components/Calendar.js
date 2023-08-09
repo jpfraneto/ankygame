@@ -166,7 +166,7 @@ const Calendar = ({}) => {
 
   return (
     <div
-      className='text-thewhite relative flex md:flex-row flex-col overflow-y-scroll w-full bg-cover bg-center'
+      className='text-theblack relative flex md:flex-row flex-col bg-thewhite overflow-y-scroll w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
       }}

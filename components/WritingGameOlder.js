@@ -291,18 +291,11 @@ const WritingGame = ({
                       <div className='flex justify-center flex-col items-center'>
                         <Button
                           buttonAction={() =>
-                            alert('This is just the beginning.')
+                            alert('Este es sólo el comienzo...')
                           }
-                          buttonText={`Mint ${character.name} as an NFT`}
+                          buttonText={`Guardar a ${character.name} para siempre.`}
                           buttonColor='bg-thegreenbtn hover:opacity-70 mb-2'
                         />
-                        <small className='mb-2'>
-                          If, for some reason, the image didn&apos;t load, you
-                          can copy the URL here and check it out. Let me know
-                          and I&apos;ll fix it asap.
-                        </small>
-
-                        <small>{upscaledUrls[chosenImageIndex]}</small>
                       </div>
                     </div>
                   )}
@@ -314,13 +307,13 @@ const WritingGame = ({
                       {
                         <div>
                           <p>
-                            {character.name}&apos;s image is being generated...
+                            La imagen de {character.name} está siendo generada.
                           </p>
                           {progress > 0 && (
                             <div>
                               <p className='text-2xl'>{progress}%</p>
                               <div>
-                                <p>What number do you prefer?</p>
+                                <p>Qué número prefieres?</p>
                                 <div className='flex flex-wrap justify-center space-x-2'>
                                   {[0, 1, 2, 3].map((x, i) => (
                                     <p

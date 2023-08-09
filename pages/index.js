@@ -25,7 +25,7 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
               loadButtons ? 'fade-in flex' : 'hidden'
             } text-gray-800`}
           >
-            anky is you
+            anky eres tu
           </span>
         </div>
       </div>
@@ -33,8 +33,8 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
-        ankyverseDate='sojourn 1 - wink 28 - poiesis - vamos'
-        userPrompt='tell me who you are'
+        ankyverseDate='sojourn 1 - wink 2 - emblazion'
+        userPrompt='What is the biggest lie that you tell yourself?'
         setLifeBarLength={setLifeBarLength}
       />
     </>

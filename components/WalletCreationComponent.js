@@ -15,11 +15,11 @@ const WalletCreationComponent = ({ words, setWalletWasCreated }) => {
     <div className='w-full mx-auto flex flex-col items-center justify-center'>
       {walletCorrectlyStored ? (
         <div className='w-full flex flex-col items-center'>
-          <p>Good job.</p>
-          <p>Are you ready to meet your Anky?</p>
+          <p>Buen trabajo.</p>
+          <p>Estás list@ para conocer a tu Anky?</p>
           <div className='flex space-x-2'>
             <Button
-              buttonText='Nope, I need to check the words again.'
+              buttonText='No, necesito ver las palabras de nuevo'
               buttonAction={() => {
                 setSeedPhrase(false);
                 setWalletCorrectlyStored(false);
@@ -27,7 +27,7 @@ const WalletCreationComponent = ({ words, setWalletWasCreated }) => {
               buttonColor='bg-theorange'
             />
             <Button
-              buttonText='LFG'
+              buttonText='Démosle.'
               buttonAction={() => setWalletWasCreated(true)}
               buttonColor='bg-thegreenbtn'
             />
@@ -37,7 +37,7 @@ const WalletCreationComponent = ({ words, setWalletWasCreated }) => {
         <div>
           {seedPhrase ? (
             <div className='flex flex-col items-center justify-center'>
-              <p>Which was the word number {indexForChecking + 1}?</p>
+              <p>Cuál era la palabra número {indexForChecking + 1}?</p>
               <input
                 onChange={e => setWordForChecking(e.target.value)}
                 type='text'
@@ -48,12 +48,12 @@ const WalletCreationComponent = ({ words, setWalletWasCreated }) => {
                   buttonAction={() => {
                     checkWordI(2);
                   }}
-                  buttonText='Submit'
+                  buttonText='Avanzar'
                   buttonColor='bg-thegreenbtn'
                 />
                 <Button
                   buttonAction={() => setSeedPhrase(false)}
-                  buttonText='Go Back'
+                  buttonText='Atrás'
                   buttonColor='bg-theorange'
                 />
               </div>
@@ -61,16 +61,14 @@ const WalletCreationComponent = ({ words, setWalletWasCreated }) => {
           ) : (
             <div className='flex flex-col items-center'>
               <p className='mb-1'>
-                These 12 words are your key to the ankyverse.
+                Estas 12 palabras son tu llave del Ankyverso.
               </p>
+              <p className='mb-1'>Anótalas y guarda ese papel seguro.</p>
               <p className='mb-1'>
-                Write them down and store that paper securely.
-              </p>
-              <p className='mb-1'>
-                You won&apos;t be able to access this information ever again.
+                No vas a poder acceder a esta información nunca más.
               </p>
               <p className='mb-3'>
-                This is the only time you will see this key.
+                Esta es la única vez que vas a ver esta llave.
               </p>
               <div className='flex w-fit flex-wrap justify-between mb-3'>
                 {words.map((x, i) => (
@@ -89,7 +87,7 @@ const WalletCreationComponent = ({ words, setWalletWasCreated }) => {
                   setIndexForChecking(random);
                   setSeedPhrase(true);
                 }}
-                buttonText='I stored my 12 words'
+                buttonText='Guardé mis 12 palabras.'
               />
             </div>
           )}
