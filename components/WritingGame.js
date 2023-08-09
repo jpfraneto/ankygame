@@ -452,7 +452,7 @@ const WritingGame = ({
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   The minimum time is 30 seconds
                 </p>
-                <small className=''>This won't be stored anywhere.</small>
+                <small className=''>This won&apos;t be stored anywhere.</small>
               </div>
             )}
 

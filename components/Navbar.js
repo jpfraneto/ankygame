@@ -8,7 +8,7 @@ import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
-const Navbar = ({ ankyverseDate }) => {
+const Navbar = ({ loadButtons }) => {
   const router = useRouter();
   const address = useAddress();
   const [displayConnecters, setDisplayConnecters] = useState(false);
@@ -44,14 +44,13 @@ const Navbar = ({ ankyverseDate }) => {
         onClick={() => handleClickLink('/')}
         className={` hover:text-thegreenbtn w-32 text-lg sm:text-3xl hover:cursor-pointer text-thewhite`}
       >
-        anky
+        {displayHello ? 'hello :)' : 'anky'}
       </span>
       <div className='sm:hidden block'>
         <button className='text-thewhite mt-4' onClick={handleToggleMenu}>
           {isOpen ? <RiCloseLine size={30} /> : <RiMenu3Line size={30} />}
         </button>
       </div>
-
       <div
         className={`flex flex-col w-full sm:items-center sm:justify-end space-y-2 mt-2 pr-3 h-screen items-end bg-theblack fixed top-0 right-0 transform transition-transform duration-200 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
@@ -61,7 +60,9 @@ const Navbar = ({ ankyverseDate }) => {
           onMouseEnter={() => setDisplayCalendar(true)}
           onMouseLeave={() => setDisplayCalendar(false)}
           onClick={() => handleClickLink('/calendar')}
-          className={` hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayCalendar ? '/calendar' : 'Calendar'}
         </span>
@@ -70,7 +71,9 @@ const Navbar = ({ ankyverseDate }) => {
           onMouseEnter={() => setDisplayTheAnkyverse(true)}
           onMouseLeave={() => setDisplayTheAnkyverse(false)}
           onClick={() => handleClickLink('/ankyverse')}
-          className={`  hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayTheAnkyverse ? '/ankyverse' : 'Ankyverse'}
         </span>
@@ -79,7 +82,9 @@ const Navbar = ({ ankyverseDate }) => {
           onMouseEnter={() => setDisplayGallery(true)}
           onMouseLeave={() => setDisplayGallery(false)}
           onClick={() => handleClickLink('/gallery')}
-          className={` hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayGallery ? '/gallery' : 'Gallery'}
         </span>
@@ -87,11 +92,13 @@ const Navbar = ({ ankyverseDate }) => {
           onMouseEnter={() => setDisplayMint(true)}
           onMouseLeave={() => setDisplayMint(false)}
           onClick={() => handleClickLink('/shop')}
-          className={` hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
+          className={` ${
+            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayMint ? '/shop' : 'Shop'}
         </span>
-        <span>
+        <span className={`${loadButtons ? 'fade-in flex' : 'hidden'}`}>
           <ConnectWallet
             auth={{
               loginOptional: false,
