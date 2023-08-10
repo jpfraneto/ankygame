@@ -29,7 +29,7 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
           </span>
         </div>
       </div>
-      <WritingGame
+      <WritingGameEs
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
