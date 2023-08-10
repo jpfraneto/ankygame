@@ -98,7 +98,7 @@ const Navbar = ({ loadButtons }) => {
         >
           {displayMint ? '/shop' : 'Shop'}
         </span>
-        <span className={`${loadButtons ? 'fade-in flex' : 'hidden'}`}>
+        <span>
           <ConnectWallet
             auth={{
               loginOptional: false,
