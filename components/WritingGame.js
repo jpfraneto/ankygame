@@ -92,9 +92,11 @@ const WritingGame = ({
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
         const elapsedTime = Date.now() - lastKeystroke;
-
+        if (elapsedTime > 480000) {
+          audioRef.current.volume = 0.1;
+          audioRef.current.play();
+        }
         if (elapsedTime > 3000 && !isDone) {
-          // change 1000 to 3000 for 3 seconds
           finishRun();
         } else {
           // calculate life bar length
