@@ -26,7 +26,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const dancingScript = Dancing_Script({ weight: '400', subsets: ['latin'] });
 const pacifico = Pacifico({ weight: '400', subsets: ['latin'] });
 
-const WritingGame = ({
+const WritingGameEs = ({
   userPrompt,
   setLifeBarLength,
   setLives,
@@ -45,20 +45,7 @@ const WritingGame = ({
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [recoveryPhrase, setRecoveryPhrase] = useState(true);
-  const [recoveryPhraseWords, setRecoveryPhraseWords] = useState([
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-    'loading',
-  ]);
+
   const [characterIsReady, setCharacterIsReady] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [seedPhrase, setSeedPhrase] = useState(false);
@@ -80,7 +67,7 @@ const WritingGame = ({
   const [failureMessage, setFailureMessage] = useState('');
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
-  const [copyText, setCopyText] = useState('Copiar lo que escribí');
+  const [copyText, setCopyText] = useState('Copy my writing');
 
   const [progress, setProgress] = useState(null);
   const [startTime, setStartTime] = useState(null);
@@ -105,9 +92,11 @@ const WritingGame = ({
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
         const elapsedTime = Date.now() - lastKeystroke;
-
+        if (elapsedTime > 480000) {
+          audioRef.current.volume = 0.1;
+          audioRef.current.play();
+        }
         if (elapsedTime > 3000 && !isDone) {
-          // change 1000 to 3000 for 3 seconds
           finishRun();
         } else {
           // calculate life bar length
@@ -124,6 +113,7 @@ const WritingGame = ({
 
   const finishRun = async () => {
     setLifeBarLength(0);
+    audioRef.current.volume = 0.1;
     audioRef.current.play();
     setFinished(true);
     setEndTime(Date.now());
@@ -134,16 +124,19 @@ const WritingGame = ({
     await navigator.clipboard.writeText(text);
     setMoreThanMinRound(true);
     setFailureMessage(`You're done! This run lasted ${time}.}`);
+    if (time > 30) {
+      setLoadButtons(true);
+    }
   };
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(text);
-    alert('Lo que escribiste está en el portapapeles. Pégalo donde quiras.');
+    alert('Your writing is on the clipboard');
   };
 
   const startNewRun = () => {
     audioRef.current.pause();
-    setCopyText('Copiar lo que escribí');
+    setCopyText('Copy my writing');
     setTime(0);
     setLifeBarLength(100);
     setText('');
@@ -242,7 +235,7 @@ const WritingGame = ({
   if (errorProblem)
     return (
       <div
-        className='text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center'
+        className={`${righteous.className} text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center`}
         style={{
           boxSizing: 'border-box',
           height: 'calc(100vh  - 90px)',
@@ -267,7 +260,7 @@ const WritingGame = ({
 
   return (
     <div
-      className='text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center'
+      className={`${righteous.className} text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center`}
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 90px)',
@@ -281,144 +274,18 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      {gettingAnkyverseCharacter ? (
-        <div className='h-full w-full overflow-y-scroll'>
-          {!walletWasCreated ? (
-            <div className='py-0 flex flex-col mt-8 space-x-2 items-center h-full'>
-              <WalletCreationComponent
-                words={recoveryPhraseWords}
-                setWalletWasCreated={setWalletWasCreated}
-              />
-            </div>
-          ) : (
-            <div className='pt-8 text-center h-full px-4 md:w-2/5 mx-auto'>
-              {characterIsReady ? (
-                <div className='flex flex-col w-full justify-center items-center'>
-                  <h2 className='text-4xl mb-4'>{character.name}</h2>
-                  <div className='overflow-y-scroll fade-in'>
-                    {character.story &&
-                      character.story
-                        .split('\n')
-                        .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
-                  </div>
-                  {ankyRevealed && (
-                    <div className='h-full pb-8'>
-                      <div className='relative w-96 mx-auto h-96 border-2 mb-2 border-thewhite rounded-2xl overflow-hidden'>
-                        <Image
-                          fill
-                          src={upscaledUrls[chosenImageIndex]}
-                          alt='Your anky'
-                        />
-                      </div>
-                      <p className='mb-2'>
-                        Si es que estás acá todavía, entiendes el potencial.
-                      </p>
-                      <p className='mb-2'>
-                        Este personaje simplemente va a ser un espejo.
-                      </p>
-                      <p className='mb-2'>
-                        Que te va a mostrar tu verdad, cada día que vengas.
-                      </p>
-                      <p className='mb-2'>
-                        Para escribir con el alma, explorando quien eres.
-                      </p>
-                      <p className='mb-2'>Gracias por tu tiempo.</p>
-                      <p className='mb-2'>Lo honro profundamente.</p>
-                      <p className='mb-2'>jp</p>
-                      <div className='flex justify-center flex-col items-center'>
-                        <Button
-                          buttonAction={() =>
-                            alert('Este es sólo el comienzo.')
-                          }
-                          buttonText={`Guardar a ${character.name} para siempre`}
-                          buttonColor='bg-thegreenbtn hover:opacity-70 mb-4'
-                        />
-                      </div>
-                    </div>
-                  )}
+      {finished && time > 30 ? (
+        <div className='flex flex-col justify-center items-center'>
+          <p>Terminaste.</p>
 
-                  {!ankyRevealed && (
-                    <div
-                      className={`p-4 bg-thegreen rounded-xl text-center border-thewhite border-2 mb-8`}
-                    >
-                      {
-                        <div>
-                          {!ankyIsReady && (
-                            <p>
-                              La imagen de {character.name} está siendo
-                              generada...
-                            </p>
-                          )}
-                          <p>Qué número prefieres?</p>
-                          <div className='flex flex-wrap justify-center space-x-2'>
-                            {[0, 1, 2, 3].map((x, i) => (
-                              <p
-                                key={i}
-                                className={`text-thewhite hover:cursor-pointer border flex justify-center items-center border-thewhite rounded-xl w-8 h-8 hover:opacity-70 ${
-                                  chosenImageIndex === x
-                                    ? 'text-xl bg-thegreenbtn'
-                                    : 'text-md bg-theorange'
-                                }`}
-                                onClick={() => setChosenImageIndex(x)}
-                              >
-                                {x}
-                              </p>
-                            ))}
-                          </div>
-                          {progress > 0 && (
-                            <div>
-                              <p className='text-2xl'>{progress}%</p>
-                            </div>
-                          )}
-                        </div>
-                      }
-                      {ankyIsReady && (
-                        <div className='flex justify-center'>
-                          <Button
-                            buttonAction={() => setAnkyRevealed(true)}
-                            buttonText={`Conocer a ${character.name}`}
-                            buttonColor='bg-thegreenbtn hover:opacity-70'
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className='flex flex-col items-center '>
-                  <div className='rounded-full w-fit mx-auto glowing mb-4 overflow-hidden shadow-lg border-4 border-thewhite'>
-                    <Image
-                      src='/images/anky.png'
-                      width={333}
-                      height={333}
-                      className=''
-                      alt='Anky'
-                    />
-                  </div>
-                  <div className='flex flex-col w-3/5 justify-center items-center'>
-                    {true && (
-                      <p className='mt-2 fade-in'>
-                        Estoy buscando en el éter una representación tuya en el
-                        Ankyverso.
-                      </p>
-                    )}
-                    {secondLoading && (
-                      <p className='mt-2 fade-in'>
-                        Por mientras, relájate y sincroniza tu respiración con
-                        el brillo blanco. Concéntrate y siente lo que estás
-                        sintiendo.
-                      </p>
-                    )}
-                    {thirdLoading && (
-                      <p className='mt-2 fade-in'>
-                        De eso se trata este lugar.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+          <p>Todos los días la pregunta va a ser diferente.</p>
+          <p>Nos vemos mañana.</p>
+
+          <Button
+            buttonColor='bg-thegreenbtn'
+            buttonAction={pasteText}
+            buttonText={copyText}
+          />
         </div>
       ) : (
         <div className='w-full px-2 mt-4 md:w-1/2 lg:w-2/3'>
@@ -429,9 +296,9 @@ const WritingGame = ({
                   time > 2 && 'hidden'
                 }`}
               >
-                {/* <small className={`${righteous.className}  font-bold`}>
+                <small className={`${righteous.className}  font-bold`}>
                   {ankyverseDate}
-                </small> */}
+                </small>
                 <p
                   className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
                 >
@@ -439,7 +306,7 @@ const WritingGame = ({
                 </p>
 
                 <p className={`${righteous.className} mb-2 font-bold`}>
-                  Siente la pregunta. Léela con intención. Responde con el
+                  Siente la pregunta. Léela con inteción. Responde con el
                   corazón.
                 </p>
 
@@ -450,10 +317,10 @@ const WritingGame = ({
                   Life is always watching.
                 </p> */}
                 <p className={`${righteous.className} mb-2 font-bold`}>
-                  El tiempo mínimo es 30 segundos.
+                  Si es que dejas de escribir por 3 segundos, pierdes.
                 </p>
-                <small className=''>
-                  Nada de esto va a ser grabado en ningún lugar.
+                <small className={`${righteous.className} mb-2 font-bold`}>
+                  (Esto no va a ser guardado en ningún lado)
                 </small>
               </div>
             )}
@@ -486,24 +353,39 @@ const WritingGame = ({
                 </div>
 
                 {finished ? (
-                  <div className='flex flex-col md:flex-row space-x-2'>
-                    <Button
-                      buttonColor='bg-thegreenbtn'
-                      buttonAction={pasteText}
-                      buttonText={copyText}
-                    />
-
-                    {time > 1 ? (
-                      <Button
-                        buttonAction={getAnkyverseCharacter}
-                        buttonText='Quiero mi Anky'
-                      />
-                    ) : (
-                      <Button
-                        buttonAction={startNewRun}
-                        buttonText='Intentar de nuevo (mínimo 30s)'
-                      />
+                  <div>
+                    {time <= 30 && (
+                      <div>
+                        <p className={`${righteous.className} mb-2 font-bold`}>
+                          Perdiste. Recuerda que tienes que mantenerte
+                          escribiendo, no importa qué escribas.
+                        </p>
+                        <p className={`${righteous.className} mb-2 font-bold`}>
+                          Este juego fue diseñado para ayudarte a entrar en un
+                          estado meditativo, asi que relájate y permite que tu
+                          ser se manifieste a través de tus palabras.
+                        </p>
+                      </div>
                     )}
+                    <div className='flex flex-col md:flex-row justify-center space-x-2'>
+                      <Button
+                        buttonColor='bg-thegreenbtn'
+                        buttonAction={pasteText}
+                        buttonText={copyText}
+                      />
+
+                      {time > 30 ? (
+                        <Button
+                          buttonAction={getAnkyverseCharacter}
+                          buttonText='Quiero mi Anky'
+                        />
+                      ) : (
+                        <Button
+                          buttonAction={startNewRun}
+                          buttonText='Empezar de nuevo'
+                        />
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <p className={`${righteous.className}  font-bold`}>
@@ -519,4 +401,4 @@ const WritingGame = ({
   );
 };
 
-export default WritingGame;
+export default WritingGameEs;
