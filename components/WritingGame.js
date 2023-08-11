@@ -315,13 +315,6 @@ const WritingGame = ({
 
   if (loadingMetadata || loading)
     return <p className='text-thewhite'>Loading </p>;
-  if (!address)
-    return (
-      <div className='text-thewhite h-fullflex flex-col items-center justify-center'>
-        <p>You need to login first.</p>
-        <ConnectWallet />
-      </div>
-    );
 
   if (errorProblem)
     return (
@@ -365,11 +358,11 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      {metadata && (
+      {/* {metadata && (
         <div className='absolute right-8 top-8 w-96 h-96 rounded-3xl overflow-hidden'>
           <MediaRenderer src={metadata.image} />
         </div>
-      )}
+      )} */}
       {finished && time > 30 ? (
         <div className='flex flex-col justify-center items-center'>
           <p>You are done.</p>
