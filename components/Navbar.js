@@ -61,7 +61,7 @@ const Navbar = ({ loadButtons }) => {
           onMouseLeave={() => setDisplayCalendar(false)}
           onClick={() => handleClickLink('/calendar')}
           className={` ${
-            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+            true ? 'fade-in flex justify-center' : 'hidden'
           } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayCalendar ? '/calendar' : 'Calendar'}
@@ -72,7 +72,7 @@ const Navbar = ({ loadButtons }) => {
           onMouseLeave={() => setDisplayTheAnkyverse(false)}
           onClick={() => handleClickLink('/ankyverse')}
           className={` ${
-            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+            true ? 'fade-in flex justify-center' : 'hidden'
           } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayTheAnkyverse ? '/ankyverse' : 'Ankyverse'}
@@ -83,7 +83,7 @@ const Navbar = ({ loadButtons }) => {
           onMouseLeave={() => setDisplayGallery(false)}
           onClick={() => handleClickLink('/gallery')}
           className={` ${
-            loadButtons ? 'fade-in flex justify-center' : 'hidden'
+            true ? 'fade-in flex justify-center' : 'hidden'
           } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
         >
           {displayGallery ? '/gallery' : 'Gallery'}

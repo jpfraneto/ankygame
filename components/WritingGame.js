@@ -10,9 +10,19 @@ import {
 import Button from './Button';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ConnectWallet } from '@thirdweb-dev/react';
-import { Web3Button, useAddress } from '@thirdweb-dev/react';
+import {
+  ConnectWallet,
+  useSigner,
+  Web3Button,
+  useAddress,
+  MediaRenderer,
+} from '@thirdweb-dev/react';
+
+import { ethers, BigNumber } from 'ethers';
+
 import { toast } from 'react-toastify';
+import { ThirdwebSDK } from '@thirdweb-dev/sdk/evm';
+
 import WalletCreationComponent from './WalletCreationComponent';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -36,6 +46,8 @@ const WritingGame = ({
 }) => {
   const audioRef = useRef();
   const address = useAddress();
+  const signer = useSigner();
+
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
   const [runSubmitted, setRunSubmitted] = useState(false);
@@ -45,6 +57,12 @@ const WritingGame = ({
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [recoveryPhrase, setRecoveryPhrase] = useState(true);
+  const [loadingMetadata, setLoadingMetadata] = useState(false);
+  const [contract, setContract] = useState(null);
+  const [tokenId, setTokenId] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [alreadyMinted, setAlreadyMinted] = useState(false);
 
   const [characterIsReady, setCharacterIsReady] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -68,6 +86,7 @@ const WritingGame = ({
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
   const [copyText, setCopyText] = useState('Copy my writing');
+  const [metadata, setMetadata] = useState(null);
 
   const [progress, setProgress] = useState(null);
   const [startTime, setStartTime] = useState(null);
@@ -76,6 +95,68 @@ const WritingGame = ({
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
+
+  let sdk;
+  if (signer) {
+    sdk = ThirdwebSDK.fromSigner(signer);
+  }
+
+  useEffect(() => {
+    const loadSmartContract = async () => {
+      if (signer) {
+        console.log('insidere');
+        sdk = ThirdwebSDK.fromSigner(signer);
+      }
+      if (sdk) {
+        const contractResponse = await sdk.getContract(
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+        );
+        if (contractResponse) {
+          setContract(contractResponse);
+        }
+      }
+      setLoadingPage(false);
+    };
+    loadSmartContract();
+  }, [signer]);
+
+  useEffect(() => {
+    const checkIfMinted = async () => {
+      try {
+        if (contract && address) {
+          const data = await contract.call('tokenOfOwnerByIndex', [address, 0]);
+          const tokenOfAddress = BigNumber.from(data._hex).toString();
+          setAlreadyMinted(true);
+          setTokenId(tokenOfAddress);
+        }
+      } catch (error) {
+        console.log('the error is: ', error);
+      }
+      setLoading(false);
+    };
+    checkIfMinted();
+  }, [address, contract]);
+
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      try {
+        setLoadingMetadata(true);
+        const data = await fetch(
+          `https://ipfs.thirdwebstorage.com/ipfs/${process.env.NEXT_PUBLIC_METADATA_IPFS_CID}/${tokenId}`
+        );
+        const jsonResponse = await data.json();
+        setMetadata(jsonResponse);
+      } catch (error) {
+        console.log('There was an error fetching the metadata');
+      }
+      setLoadingMetadata(false);
+    };
+    if (tokenId) {
+      fetchMetadata();
+    } else {
+      setLoadingMetadata(false);
+    }
+  }, [tokenId]);
 
   useEffect(() => {
     if (isActive && !isDone) {
@@ -232,6 +313,16 @@ const WritingGame = ({
     setRecoveryPhraseWords(words);
   };
 
+  if (loadingMetadata || loading)
+    return <p className='text-thewhite'>Loading </p>;
+  if (!address)
+    return (
+      <div className='text-thewhite h-fullflex flex-col items-center justify-center'>
+        <p>You need to login first.</p>
+        <ConnectWallet />
+      </div>
+    );
+
   if (errorProblem)
     return (
       <div
@@ -260,7 +351,7 @@ const WritingGame = ({
 
   return (
     <div
-      className={`${righteous.className} text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center`}
+      className={`${righteous.className} text-thewhite relative  flex flex-col items-center justify-center w-full bg-cover bg-center`}
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 90px)',
@@ -274,6 +365,11 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
+      {metadata && (
+        <div className='absolute right-8 top-8 w-96 h-96 rounded-3xl overflow-hidden'>
+          <MediaRenderer src={metadata.image} />
+        </div>
+      )}
       {finished && time > 30 ? (
         <div className='flex flex-col justify-center items-center'>
           <p>You are done.</p>
@@ -318,9 +414,7 @@ const WritingGame = ({
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   Write what comes. Your truth, without judgements.
                 </p>
-                {/* <p className={`${righteous.className} mb-2 font-bold`}>
-                  Life is always watching.
-                </p> */}
+
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   If you stop writing for 3 seconds, you lose.
                 </p>
