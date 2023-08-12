@@ -57,12 +57,15 @@ const WritingGame = ({
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [recoveryPhrase, setRecoveryPhrase] = useState(true);
+  const [chosenUpscaledImage, setChosenUpscaledImage] = useState('');
   const [loadingMetadata, setLoadingMetadata] = useState(false);
   const [contract, setContract] = useState(null);
   const [tokenId, setTokenId] = useState(null);
   const [loadingPage, setLoadingPage] = useState(false);
   const [loading, setLoading] = useState(true);
   const [alreadyMinted, setAlreadyMinted] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState('');
+  const [loadingAnkyResponse, setLoadingAnkyResponse] = useState(false);
 
   const [characterIsReady, setCharacterIsReady] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -71,7 +74,7 @@ const WritingGame = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [character, setCharacter] = useState(null);
   const [ankyIsReady, setAnkyIsReady] = useState(false);
-  const [highscore, setHighscore] = useState(0);
+  const [ankyReflection, setAnkyReflection] = useState(null);
   const [ankyThinking, setAnkyThinking] = useState(true);
   const [ankyResponse, setAnkyResponse] = useState('');
   const [walletWasCreated, setWalletWasCreated] = useState(false);
@@ -313,6 +316,87 @@ const WritingGame = ({
     setRecoveryPhraseWords(words);
   };
 
+  const processWriting = async () => {
+    setLoadingAnkyResponse(true);
+    let ankyBio, ankyName;
+    if (metadata) {
+      console.log('the metadata is: ', metadata);
+      ankyBio = metadata.description;
+      ankyName = metadata.name;
+    } else {
+      return alert('You need an Anky to go through this process');
+    }
+    const data = await fetch('/api/ankysoul', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ankyBio,
+        writing: text,
+        ankyName,
+        questionOfToday: userPrompt,
+      }),
+    });
+    const dataJson = await data.json();
+    if (dataJson) {
+      setLoadingAnkyResponse(false);
+      setAnkyReflection(dataJson.mirroring);
+      if (dataJson.imagineApiId) {
+        const fetchingImage = setInterval(async () => {
+          const data = await fetch('/api/fetchImage', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              imageId: dataJson.imagineApiId,
+            }),
+          });
+          const imageDataJson = await data.json();
+          console.log('AAACA :', imageDataJson.status);
+          if (!imageDataJson) return;
+          if (imageDataJson && imageDataJson.status === 'in-progress') {
+            setProgress(imageDataJson.progress);
+          }
+          if (imageDataJson && imageDataJson.status === 'completed') {
+            console.log('inside the completed route');
+            console.log(imageDataJson);
+            setProgress(null);
+            clearInterval(fetchingImage);
+            setLoadButtons(true);
+            const upscaledUrlsLinks = imageDataJson.upscaled.map(
+              upscaledId => `https://88minutes.xyz/assets/${upscaledId}.png`
+            );
+            setGeneratedImages(upscaledUrlsLinks);
+          }
+        }, 4444);
+      }
+    }
+    console.log('the dataJson after the writing is: ', dataJson);
+  };
+
+  const mintChosenImage = async () => {
+    try {
+      const data = await fetch('/api/mintToPinata', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          upscaledImageUrl: chosenUpscaledImage,
+          userWriting: text,
+          ankyResponse: ankyReflection,
+        }),
+      });
+      const pinningResponse = await data.json();
+      console.log('The pinning response', pinningResponse);
+    } catch (error) {
+      console.log('There was an error here!');
+      console.log(error);
+    }
+  };
+
   if (loadingMetadata || loading)
     return <p className='text-thewhite'>Loading </p>;
 
@@ -358,28 +442,103 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      {/* {metadata && (
-        <div className='absolute right-8 top-8 w-96 h-96 rounded-3xl overflow-hidden'>
+      {metadata && (
+        <div className='absolute right-2 top-0 w-32 h-32 '>
           <MediaRenderer src={metadata.image} />
         </div>
-      )} */}
+      )}
       {finished && time > 30 ? (
-        <div className='flex flex-col justify-center items-center'>
-          <p>You are done.</p>
-          <p>
-            The mission is to enable you to be able to mint your writing as an
-            NFT.
-          </p>
-          <p>So that it stays forever on the blockchain.</p>
-          <p>Anon and public.</p>
-          <p>Each day that you come here the question will be different.</p>
-          <p>Stay tuned.</p>
+        <div className='h-full w-full '>
+          {ankyReflection ? (
+            <div className='w-full h-full py-4 overflow-y-scroll'>
+              <div className='w-2/5 mx-auto '>
+                {ankyReflection.split('\n').map((x, i) => (
+                  <p key={i}>{x}</p>
+                ))}
+              </div>
 
-          <Button
-            buttonColor='bg-thegreenbtn'
-            buttonAction={pasteText}
-            buttonText={copyText}
-          />
+              <div className='rounded-xl w-full mx-auto p-4'>
+                {!generatedImages && (
+                  <div>
+                    {' '}
+                    <p className='bg-theorange p-4 rounded-xl w-fit mx-auto'>
+                      Your images of today are loading...
+                    </p>{' '}
+                    {progress && <p>{progress}%</p>}
+                  </div>
+                )}
+                {generatedImages && (
+                  <div className='w-full flex flex-col '>
+                    <div className='w-full flex justify-around flex-wrap h-fit py-8'>
+                      {generatedImages.map((x, i) => (
+                        <div
+                          key={i}
+                          onClick={() => setChosenUpscaledImage(x)}
+                          className={`relative aspect-square hover:cursor-pointer w-1/5 ${
+                            chosenUpscaledImage === x &&
+                            'border-thewhite border-2'
+                          } overflow-hidden`}
+                        >
+                          <Image
+                            src={x}
+                            fill
+                            alt={`Upscaled image number ${i}`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    {chosenUpscaledImage ? (
+                      <div className='w-fit mx-auto'>
+                        <Button
+                          buttonAction={mintChosenImage}
+                          buttonText='Mint'
+                          buttonColor='bg-thegreenbtn'
+                        />
+                      </div>
+                    ) : (
+                      <p>Choose the image you want to mint</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className='flex flex-col h-full justify-center items-center'>
+              {loadingAnkyResponse ? (
+                <div>
+                  <p>Loading...</p>
+                </div>
+              ) : (
+                <div>
+                  <p>You are done.</p>
+                  <p>
+                    The mission is to enable you to be able to mint your writing
+                    as an NFT.
+                  </p>
+                  <p>So that it stays forever on the blockchain.</p>
+                  <p>Anon and public.</p>
+                  <p>
+                    Each day that you come here the question will be different.
+                  </p>
+                  <p>Stay tuned.</p>
+                  <div className='flex space-x-2 justify-center'>
+                    <Button
+                      buttonColor='bg-theorange'
+                      buttonAction={pasteText}
+                      buttonText={copyText}
+                    />
+                    {metadata && (
+                      <Button
+                        buttonColor='bg-thegreenbtn'
+                        buttonAction={processWriting}
+                        buttonText='Save writing'
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         <div className='w-full px-2 mt-4 md:w-1/2 lg:w-2/3'>
