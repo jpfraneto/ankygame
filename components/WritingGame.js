@@ -176,8 +176,8 @@ const WritingGame = ({
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
         const elapsedTime = Date.now() - lastKeystroke;
-        if (elapsedTime > 480000) {
-          audioRef.current.volume = 0.1;
+        console.log('time is: ', time);
+        if (time === 480) {
           audioRef.current.play();
         }
         if (elapsedTime > 3000 && !isDone) {
@@ -278,7 +278,6 @@ const WritingGame = ({
             }),
           });
           const dataJson = await data.json();
-          console.log('the data jsHEREon is :', dataJson.status);
           if (!dataJson) return;
           if (dataJson && dataJson.status === 'in-progress') {
             setProgress(dataJson.progress);
@@ -511,16 +510,27 @@ const WritingGame = ({
               ) : (
                 <div>
                   <p>You are done.</p>
-                  <p>
-                    The mission is to enable you to be able to mint your writing
-                    as an NFT.
-                  </p>
-                  <p>So that it stays forever on the blockchain.</p>
-                  <p>Anon and public.</p>
-                  <p>
-                    Each day that you come here the question will be different.
-                  </p>
-                  <p>Stay tuned.</p>
+
+                  {metadata ? (
+                    <div>
+                      <p>Do you want to get feedback from your Anky?</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <p>
+                        If you had an Anky Genesis NFT on your connected wallet,
+                        you would get feedback on what you wrote.
+                      </p>
+                      <p>Buy one here:</p>
+                      <a
+                        href='https://mint.anky.lat'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
+                        https://mint.anky.lat
+                      </a>
+                    </div>
+                  )}
                   <div className='flex space-x-2 justify-center'>
                     <Button
                       buttonColor='bg-theorange'
@@ -531,7 +541,7 @@ const WritingGame = ({
                       <Button
                         buttonColor='bg-thegreenbtn'
                         buttonAction={processWriting}
-                        buttonText='Save writing'
+                        buttonText='Get Feedback'
                       />
                     )}
                   </div>
