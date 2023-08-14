@@ -175,22 +175,22 @@ const WritingGameIkigai = ({
     if (isActive && !isDone) {
       intervalRef.current = setInterval(() => {
         setTime(time => time + 1);
-        if (time === 10 && ikigaiPromptIndex === 0) {
+        if (time === 120 && ikigaiPromptIndex === 0) {
           setText(x => x + '\n\n');
           audioRef.current.play();
           setIkigaiPromptIndex(1);
         }
-        if (time === 20 && ikigaiPromptIndex === 1) {
+        if (time === 240 && ikigaiPromptIndex === 1) {
           setText(x => x + '\n\n');
           audioRef.current.play();
           setIkigaiPromptIndex(2);
         }
-        if (time === 30 && ikigaiPromptIndex === 2) {
+        if (time === 360 && ikigaiPromptIndex === 2) {
           setText(x => x + '\n\n');
           audioRef.current.play();
           setIkigaiPromptIndex(3);
         }
-        if (time === 40) {
+        if (time === 480) {
           audioRef.current.play();
           finishRun();
         }
