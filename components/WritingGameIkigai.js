@@ -99,7 +99,7 @@ const WritingGameIkigai = ({
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
   const [copyText, setCopyText] = useState('Copy my writing');
-  const [copyText, setCopyText2] = useState('');
+  const [copyText2, setCopyText2] = useState('');
 
   const [metadata, setMetadata] = useState(null);
 
