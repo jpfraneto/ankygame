@@ -66,7 +66,9 @@ const CreateYourAnky = () => {
       {generatedImages && (
         <div>
           {generatedImages.map((x, i) => {
-            return <Image src={x} width={300} height={300} />;
+            return (
+              <Image key={i} alt='anky' src={x} width={300} height={300} />
+            );
           })}
         </div>
       )}
