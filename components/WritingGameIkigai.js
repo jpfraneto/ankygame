@@ -444,7 +444,7 @@ const WritingGameIkigai = ({
             {startIkigai && !finished ? (
               <div className='fade-in'>
                 <p
-                  className={`${righteous.className} mb-8 fade-in text-6xl font-bold`}
+                  className={`${righteous.className} mb-8 fade-in text-2xl md:text-6xl text-chryseos z-100 font-bold`}
                 >
                   {ikigaiQuestions[ikigaiPromptIndex]}
                 </p>
@@ -460,7 +460,7 @@ const WritingGameIkigai = ({
                   }}
                   className={`${pacifico.className}  ${text && 'absolute'} ${
                     text ? 'md:aspect-video w-full h-full' : 'w-3/5 h-64'
-                  } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
+                  } p-4 text-thewhite text-2xl border border-gray-300 rounded-md opacity-70 bg-opacity-50 bg-theblack`}
                   value={text}
                   placeholder='write here...'
                   onChange={handleTextChange}
