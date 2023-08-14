@@ -99,6 +99,8 @@ const WritingGameIkigai = ({
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
   const [copyText, setCopyText] = useState('Copy my writing');
+  const [copyText, setCopyText2] = useState('');
+
   const [metadata, setMetadata] = useState(null);
 
   const [progress, setProgress] = useState(null);
@@ -159,6 +161,7 @@ const WritingGameIkigai = ({
         );
         const jsonResponse = await data.json();
         setMetadata(jsonResponse);
+        setCopyText2(jsonResponse.name);
       } catch (error) {
         console.log('There was an error fetching the metadata');
       }
@@ -273,6 +276,11 @@ const WritingGameIkigai = ({
   const pasteText = async () => {
     await navigator.clipboard.writeText(text);
     setCopyText('Copied.');
+  };
+
+  const pasteTextAnky = async () => {
+    await navigator.clipboard.writeText(text);
+    setCopyText2('Copied.');
   };
 
   const processWriting = async () => {
@@ -403,6 +411,21 @@ const WritingGameIkigai = ({
                 {ankyReflection.split('\n').map((x, i) => (
                   <p key={i}>{x}</p>
                 ))}
+              </div>
+              <div className='absolute right-2 top-0 w-32 h-32 '>
+                <MediaRenderer src={metadata.image} />
+              </div>
+              <div className='flex space-x-2'>
+                <Button
+                  buttonColor='bg-thegreenbtn'
+                  buttonAction={pasteText}
+                  buttonText={copyText}
+                />
+                <Button
+                  buttonColor='bg-thegreenbtn'
+                  buttonAction={pasteTextAnky}
+                  buttonText={copyText2}
+                />
               </div>
             </div>
           ) : (
