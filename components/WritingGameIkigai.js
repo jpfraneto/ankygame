@@ -175,6 +175,25 @@ const WritingGameIkigai = ({
     if (isActive && !isDone) {
       intervalRef.current = setInterval(() => {
         setTime(time => time + 1);
+        if (time === 10 && ikigaiPromptIndex === 0) {
+          setText(x => x + '\n\n');
+          audioRef.current.play();
+          setIkigaiPromptIndex(1);
+        }
+        if (time === 20 && ikigaiPromptIndex === 1) {
+          setText(x => x + '\n\n');
+          audioRef.current.play();
+          setIkigaiPromptIndex(2);
+        }
+        if (time === 30 && ikigaiPromptIndex === 2) {
+          setText(x => x + '\n\n');
+          audioRef.current.play();
+          setIkigaiPromptIndex(3);
+        }
+        if (time === 40) {
+          audioRef.current.play();
+          finishRun();
+        }
       }, 1000);
     } else if (!isActive && !isDone) {
       clearInterval(intervalRef.current);
@@ -186,25 +205,7 @@ const WritingGameIkigai = ({
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
         const elapsedTime = Date.now() - lastKeystroke;
-        if (time === 120 && ikigaiPromptIndex === 0) {
-          setText(x => x + '\n\n');
-          audioRef.current.play();
-          setIkigaiPromptIndex(1);
-        }
-        if (time === 240 && ikigaiPromptIndex === 1) {
-          setText(x => x + '\n\n');
-          audioRef.current.play();
-          setIkigaiPromptIndex(2);
-        }
-        if (time === 360 && ikigaiPromptIndex === 2) {
-          setText(x => x + '\n\n');
-          audioRef.current.play();
-          setIkigaiPromptIndex(3);
-        }
-        if (time === 480) {
-          audioRef.current.play();
-          finishRun();
-        }
+
         if (elapsedTime > 3000 && !isDone) {
           finishRun();
         } else {
@@ -381,9 +382,11 @@ const WritingGameIkigai = ({
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <small className={`${righteous.className}  absolute top-0 font-bold`}>
-        {ankyverseDate}
-      </small>
+      {!ankyReflection && (
+        <small className={`${righteous.className}  absolute top-0 font-bold`}>
+          {ankyverseDate}
+        </small>
+      )}
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
@@ -393,7 +396,7 @@ const WritingGameIkigai = ({
         </div>
       )}
       {finished && time > 30 ? (
-        <div className='h-full w-full '>
+        <div className='h-full w-full pt-4'>
           {ankyReflection ? (
             <div className='w-full h-full py-4 overflow-y-scroll'>
               <div className='w-2/5 mx-auto '>
@@ -436,7 +439,7 @@ const WritingGameIkigai = ({
           )}
         </div>
       ) : (
-        <div className='w-full px-2 mt-4 md:w-1/2 lg:w-2/3'>
+        <div className='w-full px-2 -mt-16 md:w-1/2 lg:w-2/3'>
           <>
             {startIkigai && !finished ? (
               <div className='fade-in'>
