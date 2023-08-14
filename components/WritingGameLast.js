@@ -10,9 +10,19 @@ import {
 import Button from './Button';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ConnectWallet } from '@thirdweb-dev/react';
-import { Web3Button, useAddress } from '@thirdweb-dev/react';
+import {
+  ConnectWallet,
+  useSigner,
+  Web3Button,
+  useAddress,
+  MediaRenderer,
+} from '@thirdweb-dev/react';
+
+import { ethers, BigNumber } from 'ethers';
+
 import { toast } from 'react-toastify';
+import { ThirdwebSDK } from '@thirdweb-dev/sdk/evm';
+
 import WalletCreationComponent from './WalletCreationComponent';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -36,6 +46,8 @@ const WritingGame = ({
 }) => {
   const audioRef = useRef();
   const address = useAddress();
+  const signer = useSigner();
+
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
   const [runSubmitted, setRunSubmitted] = useState(false);
@@ -45,6 +57,15 @@ const WritingGame = ({
   const [savingRound, setSavingRound] = useState(false);
   const [moreThanMinRun, setMoreThanMinRound] = useState(null);
   const [recoveryPhrase, setRecoveryPhrase] = useState(true);
+  const [chosenUpscaledImage, setChosenUpscaledImage] = useState('');
+  const [loadingMetadata, setLoadingMetadata] = useState(false);
+  const [contract, setContract] = useState(null);
+  const [tokenId, setTokenId] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [alreadyMinted, setAlreadyMinted] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState('');
+  const [loadingAnkyResponse, setLoadingAnkyResponse] = useState(false);
 
   const [characterIsReady, setCharacterIsReady] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -53,7 +74,7 @@ const WritingGame = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [character, setCharacter] = useState(null);
   const [ankyIsReady, setAnkyIsReady] = useState(false);
-  const [highscore, setHighscore] = useState(0);
+  const [ankyReflection, setAnkyReflection] = useState(null);
   const [ankyThinking, setAnkyThinking] = useState(true);
   const [ankyResponse, setAnkyResponse] = useState('');
   const [walletWasCreated, setWalletWasCreated] = useState(false);
@@ -68,6 +89,7 @@ const WritingGame = ({
   const [secondLoading, setSecondLoading] = useState(false);
   const [thirdLoading, setThirdLoading] = useState(false);
   const [copyText, setCopyText] = useState('Copy my writing');
+  const [metadata, setMetadata] = useState(null);
 
   const [progress, setProgress] = useState(null);
   const [startTime, setStartTime] = useState(null);
@@ -76,6 +98,68 @@ const WritingGame = ({
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
+
+  let sdk;
+  if (signer) {
+    sdk = ThirdwebSDK.fromSigner(signer);
+  }
+
+  useEffect(() => {
+    const loadSmartContract = async () => {
+      if (signer) {
+        console.log('insidere');
+        sdk = ThirdwebSDK.fromSigner(signer);
+      }
+      if (sdk) {
+        const contractResponse = await sdk.getContract(
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+        );
+        if (contractResponse) {
+          setContract(contractResponse);
+        }
+      }
+      setLoadingPage(false);
+    };
+    loadSmartContract();
+  }, [signer]);
+
+  useEffect(() => {
+    const checkIfMinted = async () => {
+      try {
+        if (contract && address) {
+          const data = await contract.call('tokenOfOwnerByIndex', [address, 0]);
+          const tokenOfAddress = BigNumber.from(data._hex).toString();
+          setAlreadyMinted(true);
+          setTokenId(tokenOfAddress);
+        }
+      } catch (error) {
+        console.log('the error is: ', error);
+      }
+      setLoading(false);
+    };
+    checkIfMinted();
+  }, [address, contract]);
+
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      try {
+        setLoadingMetadata(true);
+        const data = await fetch(
+          `https://ipfs.thirdwebstorage.com/ipfs/${process.env.NEXT_PUBLIC_METADATA_IPFS_CID}/${tokenId}`
+        );
+        const jsonResponse = await data.json();
+        setMetadata(jsonResponse);
+      } catch (error) {
+        console.log('There was an error fetching the metadata');
+      }
+      setLoadingMetadata(false);
+    };
+    if (tokenId) {
+      fetchMetadata();
+    } else {
+      setLoadingMetadata(false);
+    }
+  }, [tokenId]);
 
   useEffect(() => {
     if (isActive && !isDone) {
@@ -92,8 +176,8 @@ const WritingGame = ({
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
         const elapsedTime = Date.now() - lastKeystroke;
-        if (elapsedTime > 480000) {
-          audioRef.current.volume = 0.1;
+        console.log('time is: ', time);
+        if (time === 480) {
           audioRef.current.play();
         }
         if (elapsedTime > 3000 && !isDone) {
@@ -194,7 +278,6 @@ const WritingGame = ({
             }),
           });
           const dataJson = await data.json();
-          console.log('the data jsHEREon is :', dataJson.status);
           if (!dataJson) return;
           if (dataJson && dataJson.status === 'in-progress') {
             setProgress(dataJson.progress);
@@ -232,6 +315,90 @@ const WritingGame = ({
     setRecoveryPhraseWords(words);
   };
 
+  const processWriting = async () => {
+    setLoadingAnkyResponse(true);
+    let ankyBio, ankyName;
+    if (metadata) {
+      console.log('the metadata is: ', metadata);
+      ankyBio = metadata.description;
+      ankyName = metadata.name;
+    } else {
+      return alert('You need an Anky to go through this process');
+    }
+    const data = await fetch('/api/ankysoul', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ankyBio,
+        writing: text,
+        ankyName,
+        questionOfToday: userPrompt,
+      }),
+    });
+    const dataJson = await data.json();
+    if (dataJson) {
+      setLoadingAnkyResponse(false);
+      setAnkyReflection(dataJson.mirroring);
+      if (dataJson.imagineApiId) {
+        const fetchingImage = setInterval(async () => {
+          const data = await fetch('/api/fetchImage', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              imageId: dataJson.imagineApiId,
+            }),
+          });
+          const imageDataJson = await data.json();
+          console.log('AAACA :', imageDataJson.status);
+          if (!imageDataJson) return;
+          if (imageDataJson && imageDataJson.status === 'in-progress') {
+            setProgress(imageDataJson.progress);
+          }
+          if (imageDataJson && imageDataJson.status === 'completed') {
+            console.log('inside the completed route');
+            console.log(imageDataJson);
+            setProgress(null);
+            clearInterval(fetchingImage);
+            setLoadButtons(true);
+            const upscaledUrlsLinks = imageDataJson.upscaled.map(
+              upscaledId => `https://88minutes.xyz/assets/${upscaledId}.png`
+            );
+            setGeneratedImages(upscaledUrlsLinks);
+          }
+        }, 4444);
+      }
+    }
+    console.log('the dataJson after the writing is: ', dataJson);
+  };
+
+  const mintChosenImage = async () => {
+    try {
+      const data = await fetch('/api/mintToPinata', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          upscaledImageUrl: chosenUpscaledImage,
+          userWriting: text,
+          ankyResponse: ankyReflection,
+        }),
+      });
+      const pinningResponse = await data.json();
+      console.log('The pinning response', pinningResponse);
+    } catch (error) {
+      console.log('There was an error here!');
+      console.log(error);
+    }
+  };
+
+  if (loadingMetadata || loading)
+    return <p className='text-thewhite'>Loading </p>;
+
   if (errorProblem)
     return (
       <div
@@ -260,7 +427,7 @@ const WritingGame = ({
 
   return (
     <div
-      className={`${righteous.className} text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center`}
+      className={`${righteous.className} text-thewhite relative  flex flex-col items-center justify-center w-full bg-cover bg-center`}
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 90px)',
@@ -274,23 +441,114 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
+      {metadata && (
+        <div className='absolute right-2 top-0 w-32 h-32 '>
+          <MediaRenderer src={metadata.image} />
+        </div>
+      )}
       {finished && time > 30 ? (
-        <div className='flex flex-col justify-center items-center'>
-          <p>You are done.</p>
-          <p>
-            The mission is to enable you to be able to mint your writing as an
-            NFT.
-          </p>
-          <p>So that it stays forever on the blockchain.</p>
-          <p>Anon and public.</p>
-          <p>Each day that you come here the question will be different.</p>
-          <p>Stay tuned.</p>
+        <div className='h-full w-full '>
+          {ankyReflection ? (
+            <div className='w-full h-full py-4 overflow-y-scroll'>
+              <div className='w-2/5 mx-auto '>
+                {ankyReflection.split('\n').map((x, i) => (
+                  <p key={i}>{x}</p>
+                ))}
+              </div>
 
-          <Button
-            buttonColor='bg-thegreenbtn'
-            buttonAction={pasteText}
-            buttonText={copyText}
-          />
+              <div className='rounded-xl w-full mx-auto p-4'>
+                {!generatedImages && (
+                  <div>
+                    {' '}
+                    <p className='bg-theorange p-4 rounded-xl w-fit mx-auto'>
+                      Your images of today are loading...
+                    </p>{' '}
+                    {progress && <p>{progress}%</p>}
+                  </div>
+                )}
+                {generatedImages && (
+                  <div className='w-full flex flex-col '>
+                    <div className='w-full flex justify-around flex-wrap h-fit py-8'>
+                      {generatedImages.map((x, i) => (
+                        <div
+                          key={i}
+                          onClick={() => setChosenUpscaledImage(x)}
+                          className={`relative aspect-square hover:cursor-pointer w-1/5 ${
+                            chosenUpscaledImage === x &&
+                            'border-thewhite border-2'
+                          } overflow-hidden`}
+                        >
+                          <Image
+                            src={x}
+                            fill
+                            alt={`Upscaled image number ${i}`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    {chosenUpscaledImage ? (
+                      <div className='w-fit mx-auto'>
+                        <Button
+                          buttonAction={mintChosenImage}
+                          buttonText='Mint'
+                          buttonColor='bg-thegreenbtn'
+                        />
+                      </div>
+                    ) : (
+                      <p>Choose the image you want to mint</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className='flex flex-col h-full justify-center items-center'>
+              {loadingAnkyResponse ? (
+                <div>
+                  <p>Loading...</p>
+                </div>
+              ) : (
+                <div>
+                  <p>You are done.</p>
+
+                  {metadata ? (
+                    <div>
+                      <p>Do you want to get feedback from your Anky?</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <p>
+                        If you had an Anky Genesis NFT on your connected wallet,
+                        you would get feedback on what you wrote.
+                      </p>
+                      <p>Buy one here:</p>
+                      <a
+                        href='https://mint.anky.lat'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
+                        https://mint.anky.lat
+                      </a>
+                    </div>
+                  )}
+                  <div className='flex space-x-2 justify-center'>
+                    <Button
+                      buttonColor='bg-theorange'
+                      buttonAction={pasteText}
+                      buttonText={copyText}
+                    />
+                    {metadata && (
+                      <Button
+                        buttonColor='bg-thegreenbtn'
+                        buttonAction={processWriting}
+                        buttonText='Get Feedback'
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         <div className='w-full px-2 mt-4 md:w-1/2 lg:w-2/3'>
@@ -318,9 +576,7 @@ const WritingGame = ({
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   Write what comes. Your truth, without judgements.
                 </p>
-                {/* <p className={`${righteous.className} mb-2 font-bold`}>
-                  Life is always watching.
-                </p> */}
+
                 <p className={`${righteous.className} mb-2 font-bold`}>
                   If you stop writing for 3 seconds, you lose.
                 </p>
