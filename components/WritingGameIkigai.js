@@ -174,7 +174,6 @@ const WritingGameIkigai = ({
   useEffect(() => {
     if (isActive && !isDone) {
       intervalRef.current = setInterval(() => {
-        setTime(time => time + 1);
         if (time === 120 && ikigaiPromptIndex === 0) {
           setText(x => x + '\n\n');
           audioRef.current.play();
@@ -194,6 +193,7 @@ const WritingGameIkigai = ({
           audioRef.current.play();
           finishRun();
         }
+        setTime(time => time + 1);
       }, 1000);
     } else if (!isActive && !isDone) {
       clearInterval(intervalRef.current);
