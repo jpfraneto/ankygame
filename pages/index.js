@@ -34,7 +34,7 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
         setLives={setLives}
         lives={lives}
         ankyverseDate='sojourn 1 - wink 6 - insightia'
-        userPrompt='who are you?'
+        userPrompt='What was a significant moment where you relied on your intuition?'
         setLifeBarLength={setLifeBarLength}
       />
     </>
