@@ -25,7 +25,7 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
               loadButtons ? 'fade-in flex' : 'hidden'
             } text-gray-800`}
           >
-            anky eres tu
+            anky eres tú
           </span>
         </div>
       </div>
