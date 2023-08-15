@@ -3,7 +3,7 @@
   "public": false,
   "functions": {
     "pages/api/newanky.js": {
-      "maxDuration": 60
+      "maxDuration": 10
     }
   }
 }
