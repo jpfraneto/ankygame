@@ -442,8 +442,9 @@ const WritingGame = ({
         <source src='/sounds/bell.mp3' />
       </audio>
       {metadata && (
-        <div className='absolute right-2 top-0 w-32 h-32 '>
+        <div className='absolute flex flex-col items-center right-2 top-0 w-32 h-32 '>
           <MediaRenderer src={metadata.image} />
+          <p>gm</p>
         </div>
       )}
       {finished && time > 30 ? (
