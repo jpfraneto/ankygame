@@ -33,8 +33,8 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
-        ankyverseDate='sojourn 1 - wink 7 - claridium'
-        userPrompt='Describe a moment when you felt a profound sense of connection to the universe.'
+        ankyverseDate='sojourn 1 - wink 8 - poiesis'
+        userPrompt='Can you remember the first time you created something that truly expressed who you were?'
         setLifeBarLength={setLifeBarLength}
       />
     </>
