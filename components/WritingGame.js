@@ -90,6 +90,8 @@ const WritingGame = ({
   const [thirdLoading, setThirdLoading] = useState(false);
   const [copyText, setCopyText] = useState('Copy my writing');
   const [metadata, setMetadata] = useState(null);
+  const [writingSaved, setWritingSaved] = useState(false);
+  const [writingSavingLoading, setWritingSavingLoading] = useState(false);
 
   const [progress, setProgress] = useState(null);
   const [startTime, setStartTime] = useState(null);
@@ -216,6 +218,28 @@ const WritingGame = ({
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(text);
     alert('Your writing is on the clipboard');
+  };
+
+  const saveWritingAnon = async () => {
+    setWritingSavingLoading(true);
+    try {
+      const response = await fetch('/api/writings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          timeSpent: time,
+          content: text,
+        }),
+      });
+      const data = await response.json();
+      setWritingSavingLoading(false);
+      setWritingSaved(true);
+      console.log('After saving the writing, the data is: ', data);
+    } catch (error) {
+      console.log('There was an error adding the writing');
+    }
   };
 
   const startNewRun = () => {
@@ -506,11 +530,36 @@ const WritingGame = ({
             <div className='flex flex-col h-full justify-center items-center'>
               {loadingAnkyResponse ? (
                 <div>
-                  <p>Loading...</p>
+                  <p>
+                    Right now this feature is not working, but I&apos;m getting
+                    there.
+                  </p>
                 </div>
               ) : (
                 <div>
                   <p>You are done.</p>
+                  {writingSaved ? (
+                    <p>Thank you. This place gets more fun with your help.</p>
+                  ) : (
+                    <div className='flex flex-col space-y-2 mx-auto w-96'>
+                      <p>
+                        It would be of immense value of you save your writing so
+                        that I can use it to explore how to design this dPwapp.
+                      </p>
+                      <p>
+                        You can click this button for this to be saved anon.
+                      </p>
+                      <div className='w-fit mx-auto'>
+                        <Button
+                          buttonAction={saveWritingAnon}
+                          buttonText={
+                            writingSavingLoading ? 'Saving...' : 'Save Writing'
+                          }
+                          buttonColor='bg-thegreenbtn'
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   {metadata ? (
                     <div>
@@ -522,7 +571,7 @@ const WritingGame = ({
                         If you had an Anky Genesis NFT on your connected wallet,
                         you would get feedback on what you wrote.
                       </p>
-                      <p>Buy one here:</p>
+                      <p className='mb-2'>Buy one here:</p>
                       <a
                         href='https://mint.anky.lat'
                         target='_blank'
