@@ -178,7 +178,6 @@ const WritingGame = ({
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
         const elapsedTime = Date.now() - lastKeystroke;
-        console.log('time is: ', time);
         if (time === 480) {
           audioRef.current.play();
         }
@@ -541,7 +540,7 @@ const WritingGame = ({
                   {writingSaved ? (
                     <p>Thank you. This place gets more fun with your help.</p>
                   ) : (
-                    <div className='flex flex-col space-y-2 mx-auto w-96'>
+                    <div className='flex flex-col space-y-1 mx-auto w-96'>
                       <p>
                         It would be of immense value of you save your writing so
                         that I can use it to explore how to design this dPwapp.
@@ -562,11 +561,11 @@ const WritingGame = ({
                   )}
 
                   {metadata ? (
-                    <div>
+                    <div className='mt-2'>
                       <p>Do you want to get feedback from your Anky?</p>
                     </div>
                   ) : (
-                    <div>
+                    <div className='mt-2 w-96'>
                       <p>
                         If you had an Anky Genesis NFT on your connected wallet,
                         you would get feedback on what you wrote.
