@@ -33,8 +33,8 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
-        ankyverseDate='sojourn 1 - wink 10 - emblazion'
-        userPrompt='¿Qué significa la transformación personal para tí, y cómo la has perseguido en tu vida?'
+        ankyverseDate='sojourn 1 - wink 12 - eleasis'
+        userPrompt='¿Cuándo has dado o recibido amor realmente incondicional?'
         setLifeBarLength={setLifeBarLength}
       />
     </>
