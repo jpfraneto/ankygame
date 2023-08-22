@@ -537,28 +537,6 @@ const WritingGame = ({
               ) : (
                 <div>
                   <p>You are done.</p>
-                  {writingSaved ? (
-                    <p>Thank you. This place gets more fun with your help.</p>
-                  ) : (
-                    <div className='flex flex-col space-y-1 mx-auto w-96'>
-                      <p>
-                        It would be of immense value of you save your writing so
-                        that I can use it to explore how to design this dPwapp.
-                      </p>
-                      <p>
-                        You can click this button for this to be saved anon.
-                      </p>
-                      <div className='w-fit mx-auto'>
-                        <Button
-                          buttonAction={saveWritingAnon}
-                          buttonText={
-                            writingSavingLoading ? 'Saving...' : 'Save Writing'
-                          }
-                          buttonColor='bg-thegreenbtn'
-                        />
-                      </div>
-                    </div>
-                  )}
 
                   {metadata ? (
                     <div className='mt-2'>
