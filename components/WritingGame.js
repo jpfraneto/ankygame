@@ -72,6 +72,7 @@ const WritingGame = ({
   const [seedPhrase, setSeedPhrase] = useState(false);
   const [ankyRevealed, setAnkyRevealed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [audioFiles, setAudioFiles] = useState([]);
   const [character, setCharacter] = useState(null);
   const [ankyIsReady, setAnkyIsReady] = useState(false);
   const [ankyReflection, setAnkyReflection] = useState(null);
@@ -81,6 +82,7 @@ const WritingGame = ({
   const [ankyThinkingOver, setAnkyThinkingOver] = useState(false);
   const [gettingAnkyverseCharacter, setGettingAnkyverseCharacter] =
     useState(false);
+  const [musicOn, setMusicOn] = useState(true);
   const [savedToDb, setSavedToDb] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [finished, setFinished] = useState(false);
@@ -105,6 +107,25 @@ const WritingGame = ({
   if (signer) {
     sdk = ThirdwebSDK.fromSigner(signer);
   }
+
+  useEffect(() => {
+    if (musicOn) {
+      const audio = new Audio('/assets/inlakesh/1.mp3');
+      audio.play();
+      const nextAudioFiles = [audio];
+      for (let i = 2; i <= 5; i++) {
+        const nextAudio = new Audio(`/assets/inlakesh/${i}.mp3`);
+        nextAudioFiles.push(nextAudio);
+        nextAudioFiles[i - 2].addEventListener('ended', function () {
+          nextAudioFiles[i - 1].play();
+        });
+      }
+      setAudioFiles(nextAudioFiles);
+    } else if (audioFiles.length) {
+      audioFiles.forEach(audio => audio.pause());
+      setAudioFiles([]);
+    }
+  }, [musicOn]);
 
   useEffect(() => {
     const loadSmartContract = async () => {
