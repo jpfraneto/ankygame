@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import '@component/styles/globals.css';
 import Head from 'next/head';
 import { Righteous } from 'next/font/google';
-
 import {
   ThirdwebProvider,
   metamaskWallet,

@@ -98,13 +98,6 @@ const Navbar = ({ loadButtons }) => {
         >
           {displayMint ? '/shop' : 'Shop'}
         </span>
-        <span>
-          <ConnectWallet
-            auth={{
-              loginOptional: false,
-            }}
-          />
-        </span>
       </div>
     </nav>
   );

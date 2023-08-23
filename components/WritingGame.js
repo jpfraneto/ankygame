@@ -425,12 +425,11 @@ const WritingGame = ({
   if (errorProblem)
     return (
       <div
-        className={`${righteous.className} text-thewhite relative  flex flex-col items-center  justify-center w-full bg-cover bg-center`}
+        className={`${righteous.className} text-thewhite relative  flex flex-col items-center justify-center w-full bg-cover bg-center`}
         style={{
           boxSizing: 'border-box',
           height: 'calc(100vh  - 90px)',
-          backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
+          backgroundImage: "url('/images/the-monumental-game.jpeg')",
           backgroundPosition: 'center center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
@@ -450,12 +449,11 @@ const WritingGame = ({
 
   return (
     <div
-      className={`${righteous.className} text-thewhite relative  flex flex-col items-center justify-center w-full bg-cover bg-center`}
+      className={`${righteous.className} text-theblack relative  flex flex-col items-center  w-full bg-cover bg-center`}
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 90px)',
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
+        backgroundImage: " url('/images/the-monumental-game.jpeg')",
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -578,7 +576,7 @@ const WritingGame = ({
           )}
         </div>
       ) : (
-        <div className='w-full px-2 mt-4 md:w-1/2 lg:w-2/3'>
+        <div className='w-full px-2 md:w-1/2 lg:w-2/3'>
           <>
             {!finished && (
               <div
@@ -590,23 +588,11 @@ const WritingGame = ({
                   {ankyverseDate}
                 </small>
                 <p
-                  className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
+                  className={`${righteous.className} text-5xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  mb-0 font-bold text-center`}
                 >
                   {userPrompt}
                 </p>
 
-                <p className={`${righteous.className} mb-2 font-bold`}>
-                  Feel the prompt. Read it with intention. Answer with the
-                  heart.
-                </p>
-
-                <p className={`${righteous.className} mb-2 font-bold`}>
-                  Write what comes. Your truth, without judgements.
-                </p>
-
-                <p className={`${righteous.className} mb-2 font-bold`}>
-                  If you stop writing for 3 seconds, you lose.
-                </p>
                 <small className={`${righteous.className} mb-2 font-bold`}>
                   (This won&apos;t be stored anywhere)
                 </small>
@@ -625,7 +611,7 @@ const WritingGame = ({
               }}
               className={`${pacifico.className} ${text && 'absolute'} ${
                 text ? 'md:aspect-video w-full h-full' : 'w-3/5 h-64'
-              } p-4 text-thewhite text-2xl border border-gray-300 rounded-md  bg-opacity-50 bg-theblack`}
+              } p-4 text-theblack placeholder-theblack  text-2xl border border-black rounded-md  bg-opacity-10 bg-theblack`}
               value={text}
               placeholder='write here...'
               onChange={handleTextChange}
@@ -636,7 +622,13 @@ const WritingGame = ({
                   text && 'fade-in'
                 } flex flex-col justify-center items-center text-opacity-20 mb-4`}
               >
-                <div className={`${text ? 'text-9xl' : 'text-2xl'}`}>
+                <div
+                  className={`${
+                    text
+                      ? 'text-6xl z-50 text-thewhite drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
+                      : 'text-2xl'
+                  }`}
+                >
                   {time}
                 </div>
 
@@ -644,14 +636,25 @@ const WritingGame = ({
                   <div>
                     {time <= 30 && (
                       <div>
-                        <p className={`${righteous.className} mb-2 font-bold`}>
-                          You lost. Remember that you have to keep writing, no
-                          matter what.
+                        <p
+                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
+                        >
+                          You lost.
                         </p>
-                        <p className={`${righteous.className} mb-2 font-bold`}>
-                          This game is designed to bring you into a meditative
-                          state, so just relax and let your being come forth
-                          through your words.
+                        <p
+                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
+                        >
+                          Did you?
+                        </p>
+                        <p
+                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
+                        >
+                          Who wins the game?
+                        </p>
+                        <p
+                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
+                        >
+                          The answer is closer than close.
                         </p>
                       </div>
                     )}
@@ -662,21 +665,16 @@ const WritingGame = ({
                         buttonText={copyText}
                       />
 
-                      {time > 30 ? (
-                        <Button
-                          buttonAction={getAnkyverseCharacter}
-                          buttonText='I want my Anky'
-                        />
-                      ) : (
-                        <Button
-                          buttonAction={startNewRun}
-                          buttonText='Start again'
-                        />
-                      )}
+                      <Button
+                        buttonAction={startNewRun}
+                        buttonText='Start again'
+                      />
                     </div>
                   </div>
                 ) : (
-                  <p className={`${righteous.className}  font-bold`}>
+                  <p
+                    className={`${righteous.className} drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  font-bold`}
+                  >
                     {userPrompt}
                   </p>
                 )}
