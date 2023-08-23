@@ -55,7 +55,6 @@ export default function App({ Component, pageProps }) {
         supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
       >
         <div className={`${righteous.className} overflow-x-hidden`}>
-          <Navbar loadButtons={loadButtons} />
           <Component {...pageProps} setLoadButtons={setLoadButtons} />
         </div>
       </ThirdwebProvider>
