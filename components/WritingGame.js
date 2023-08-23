@@ -102,6 +102,7 @@ const WritingGame = ({
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
+  const audioFilesRef = useRef([]);
 
   let sdk;
   if (signer) {
@@ -110,20 +111,30 @@ const WritingGame = ({
 
   useEffect(() => {
     if (musicOn) {
-      const audio = new Audio('/assets/inlakesh/1.mp3');
-      audio.play();
-      const nextAudioFiles = [audio];
-      for (let i = 2; i <= 5; i++) {
-        const nextAudio = new Audio(`/assets/inlakesh/${i}.mp3`);
-        nextAudioFiles.push(nextAudio);
-        nextAudioFiles[i - 2].addEventListener('ended', function () {
-          nextAudioFiles[i - 1].play();
-        });
+      // If audioFilesRef is empty, initialize the audio files.
+      if (audioFilesRef.current.length === 0) {
+        for (let i = 1; i <= 5; i++) {
+          const audio = new Audio(`/assets/inlakesh/${i}.mp3`);
+          audioFilesRef.current.push(audio);
+          if (i < 5) {
+            audio.addEventListener('ended', function () {
+              audioFilesRef.current[i].play();
+            });
+          }
+        }
       }
-      setAudioFiles(nextAudioFiles);
-    } else if (audioFiles.length) {
-      audioFiles.forEach(audio => audio.pause());
-      setAudioFiles([]);
+
+      // Play the first audio.
+      audioFilesRef.current[0].play();
+    } else {
+      // Pause all audios
+      audioFilesRef.current.forEach(audio => {
+        if (!audio.paused) {
+          audio.pause();
+          // You might also want to reset the playback position if desired
+          // audio.currentTime = 0;
+        }
+      });
     }
   }, [musicOn]);
 
@@ -480,6 +491,17 @@ const WritingGame = ({
         backgroundRepeat: 'no-repeat',
       }}
     >
+      {!text.length > 0 && (
+        <div
+          className={`absolute top-0 right-0 hover:cursor-pointer pr-2 ${
+            !musicOn && 'line-through'
+          }`}
+          onClick={() => setMusicOn(x => !x)}
+        >
+          music
+        </div>
+      )}
+
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
