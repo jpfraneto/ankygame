@@ -49,15 +49,9 @@ export default function App({ Component, pageProps }) {
           content='Transform your life by vomiting all the words that you always wanted to say.'
         />
       </Head>
-      <ThirdwebProvider
-        activeChain={Ethereum}
-        supportedChains={[Ethereum]}
-        supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect()]}
-      >
-        <div className={`${righteous.className} overflow-x-hidden`}>
-          <Component {...pageProps} setLoadButtons={setLoadButtons} />
-        </div>
-      </ThirdwebProvider>
+      <div className={`${righteous.className} overflow-x-hidden`}>
+        <Component {...pageProps} setLoadButtons={setLoadButtons} />
+      </div>
     </>
   );
 }

@@ -473,7 +473,7 @@ const WritingGame = ({
       className={`${righteous.className} text-theblack relative  flex flex-col items-center  w-full bg-cover bg-center`}
       style={{
         boxSizing: 'border-box',
-        height: 'calc(100vh  - 90px)',
+        height: 'calc(100vh - 33px)',
         backgroundImage: " url('/images/the-monumental-game.jpeg')",
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
