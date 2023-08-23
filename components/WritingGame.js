@@ -23,9 +23,6 @@ import { ethers, BigNumber } from 'ethers';
 import { toast } from 'react-toastify';
 import { ThirdwebSDK } from '@thirdweb-dev/sdk/evm';
 
-import WalletCreationComponent from './WalletCreationComponent';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-
 function sleep(ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms);
@@ -522,8 +519,15 @@ const WritingGame = ({
                 {userPrompt}
               </p>
 
-              <small className={`${righteous.className} mb-2 font-bold`}>
+              <small
+                className={`${righteous.className} hidden md:flex mb-2 font-bold`}
+              >
                 (This won&apos;t be stored anywhere)
+              </small>
+              <small
+                className={`${righteous.className} md:hidden mb-2 font-bold`}
+              >
+                (This website is optimized for desktop)
               </small>
             </div>
           )}
@@ -539,7 +543,7 @@ const WritingGame = ({
               transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
             }}
             className={`${pacifico.className} ${text && 'absolute'} ${
-              text ? 'md:aspect-video w-full h-full' : 'w-3/5 h-64'
+              text ? 'md:aspect-video md:flex w-full h-full' : 'w-3/5 h-64'
             } p-4 text-theblack ${
               time > 2 && 'opacity-30'
             } placeholder-theblack  text-2xl border border-black rounded-md  bg-opacity-10 bg-theblack`}
