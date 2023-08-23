@@ -543,30 +543,28 @@ const WritingGame = ({
 
               {finished ? (
                 <div>
-                  {time <= 30 && (
-                    <div>
-                      <p
-                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
-                      >
-                        You lost.
-                      </p>
-                      <p
-                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
-                      >
-                        Did you?
-                      </p>
-                      <p
-                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
-                      >
-                        Who wins the game?
-                      </p>
-                      <p
-                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
-                      >
-                        The answer is closer than close.
-                      </p>
-                    </div>
-                  )}
+                  <div>
+                    <p
+                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
+                    >
+                      You lost.
+                    </p>
+                    <p
+                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
+                    >
+                      Did you?
+                    </p>
+                    <p
+                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
+                    >
+                      Who wins the game?
+                    </p>
+                    <p
+                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
+                    >
+                      The answer is closer than close.
+                    </p>
+                  </div>
                   <div className='flex flex-col md:flex-row justify-center space-x-2'>
                     <Button
                       buttonColor='bg-thegreenbtn'
