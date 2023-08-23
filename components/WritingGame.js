@@ -462,227 +462,114 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      {metadata && (
-        <div className='absolute flex flex-col items-center right-2 top-0 w-32 h-32 '>
-          <MediaRenderer src={metadata.image} />
-          <p>gm</p>
-        </div>
-      )}
-      {finished && time > 30 ? (
-        <div className='h-full w-full '>
-          {ankyReflection ? (
-            <div className='w-full h-full py-4 overflow-y-scroll'>
-              <div className='w-2/5 mx-auto '>
-                {ankyReflection.split('\n').map((x, i) => (
-                  <p key={i}>{x}</p>
-                ))}
-              </div>
+      <div className='w-full px-2 md:w-1/2 lg:w-2/3'>
+        <div>
+          {!finished && (
+            <div
+              className={` ${text.length > 0 && 'fade-out'} mb-4 ${
+                time > 2 && 'hidden'
+              }`}
+            >
+              <small className={`${righteous.className}  font-bold`}>
+                {ankyverseDate}
+              </small>
+              <p
+                className={`${righteous.className} text-5xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  mb-0 font-bold text-center`}
+              >
+                {userPrompt}
+              </p>
 
-              <div className='rounded-xl w-full mx-auto p-4'>
-                {!generatedImages && (
-                  <div>
-                    {' '}
-                    <p className='bg-theorange p-4 rounded-xl w-fit mx-auto'>
-                      Your images of today are loading...
-                    </p>{' '}
-                    {progress && <p>{progress}%</p>}
-                  </div>
-                )}
-                {generatedImages && (
-                  <div className='w-full flex flex-col '>
-                    <div className='w-full flex justify-around flex-wrap h-fit py-8'>
-                      {generatedImages.map((x, i) => (
-                        <div
-                          key={i}
-                          onClick={() => setChosenUpscaledImage(x)}
-                          className={`relative aspect-square hover:cursor-pointer w-1/5 ${
-                            chosenUpscaledImage === x &&
-                            'border-thewhite border-2'
-                          } overflow-hidden`}
-                        >
-                          <Image
-                            src={x}
-                            fill
-                            alt={`Upscaled image number ${i}`}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    {chosenUpscaledImage ? (
-                      <div className='w-fit mx-auto'>
-                        <Button
-                          buttonAction={mintChosenImage}
-                          buttonText='Mint'
-                          buttonColor='bg-thegreenbtn'
-                        />
-                      </div>
-                    ) : (
-                      <p>Choose the image you want to mint</p>
-                    )}
-                  </div>
-                )}
-              </div>
+              <small className={`${righteous.className} mb-2 font-bold`}>
+                (This won&apos;t be stored anywhere)
+              </small>
             </div>
-          ) : (
-            <div className='flex flex-col h-full justify-center items-center'>
-              {loadingAnkyResponse ? (
-                <div>
-                  <p>
-                    Right now this feature is not working, but I&apos;m getting
-                    there.
-                  </p>
-                </div>
-              ) : (
-                <div>
-                  <p>You are done.</p>
+          )}
 
-                  {metadata ? (
-                    <div className='mt-2'>
-                      <p>Do you want to get feedback from your Anky?</p>
-                    </div>
-                  ) : (
-                    <div className='mt-2 w-96'>
-                      <p>
-                        If you had an Anky Genesis NFT on your connected wallet,
-                        you would get feedback on what you wrote.
-                      </p>
-                      <p className='mb-2'>Buy one here:</p>
-                      <a
-                        href='https://mint.anky.lat'
-                        target='_blank'
-                        rel='noopener noreferrer'
+          <textarea
+            ref={textareaRef}
+            disabled={finished}
+            style={{
+              top: `${text && '0'}%`,
+              bottom: `${text && '0'}%`,
+              left: `${text && '0'}%`,
+              right: `${text && '0'}%`,
+              transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
+            }}
+            className={`${pacifico.className} ${text && 'absolute'} ${
+              text ? 'md:aspect-video w-full h-full' : 'w-3/5 h-64'
+            } p-4 text-theblack ${
+              time > 2 && 'opacity-30'
+            } placeholder-theblack  text-2xl border border-black rounded-md  bg-opacity-10 bg-theblack`}
+            value={text}
+            placeholder='write here...'
+            onChange={handleTextChange}
+          ></textarea>
+          {text && (
+            <div
+              className={`${
+                text && 'fade-in'
+              } flex flex-col justify-center items-center text-opacity-20 mb-4`}
+            >
+              <div
+                className={`${
+                  text
+                    ? 'text-6xl z-50 text-thewhite drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
+                    : 'text-2xl'
+                }`}
+              >
+                {time}
+              </div>
+
+              {finished ? (
+                <div>
+                  {time <= 30 && (
+                    <div>
+                      <p
+                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
                       >
-                        https://mint.anky.lat
-                      </a>
+                        You lost.
+                      </p>
+                      <p
+                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
+                      >
+                        Did you?
+                      </p>
+                      <p
+                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
+                      >
+                        Who wins the game?
+                      </p>
+                      <p
+                        className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
+                      >
+                        The answer is closer than close.
+                      </p>
                     </div>
                   )}
-                  <div className='flex space-x-2 justify-center'>
+                  <div className='flex flex-col md:flex-row justify-center space-x-2'>
                     <Button
-                      buttonColor='bg-theorange'
+                      buttonColor='bg-thegreenbtn'
                       buttonAction={pasteText}
                       buttonText={copyText}
                     />
-                    {metadata && (
-                      <Button
-                        buttonColor='bg-thegreenbtn'
-                        buttonAction={processWriting}
-                        buttonText='Get Feedback'
-                      />
-                    )}
+
+                    <Button
+                      buttonAction={startNewRun}
+                      buttonText='Start again'
+                    />
                   </div>
                 </div>
+              ) : (
+                <p
+                  className={`${righteous.className} drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  font-bold`}
+                >
+                  {userPrompt}
+                </p>
               )}
             </div>
           )}
         </div>
-      ) : (
-        <div className='w-full px-2 md:w-1/2 lg:w-2/3'>
-          <>
-            {!finished && (
-              <div
-                className={` ${text.length > 0 && 'fade-out'} mb-4 ${
-                  time > 2 && 'hidden'
-                }`}
-              >
-                <small className={`${righteous.className}  font-bold`}>
-                  {ankyverseDate}
-                </small>
-                <p
-                  className={`${righteous.className} text-5xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  mb-0 font-bold text-center`}
-                >
-                  {userPrompt}
-                </p>
-
-                <small className={`${righteous.className} mb-2 font-bold`}>
-                  (This won&apos;t be stored anywhere)
-                </small>
-              </div>
-            )}
-
-            <textarea
-              ref={textareaRef}
-              disabled={finished}
-              style={{
-                top: `${text && '0'}%`,
-                bottom: `${text && '0'}%`,
-                left: `${text && '0'}%`,
-                right: `${text && '0'}%`,
-                transition: 'top 1s, bottom 1s, left 1s, right 1s', // smooth transition over 1 second
-              }}
-              className={`${pacifico.className} ${text && 'absolute'} ${
-                text ? 'md:aspect-video w-full h-full' : 'w-3/5 h-64'
-              } p-4 text-theblack placeholder-theblack  text-2xl border border-black rounded-md  bg-opacity-10 bg-theblack`}
-              value={text}
-              placeholder='write here...'
-              onChange={handleTextChange}
-            ></textarea>
-            {text && (
-              <div
-                className={`${
-                  text && 'fade-in'
-                } flex flex-col justify-center items-center text-opacity-20 mb-4`}
-              >
-                <div
-                  className={`${
-                    text
-                      ? 'text-6xl z-50 text-thewhite drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
-                      : 'text-2xl'
-                  }`}
-                >
-                  {time}
-                </div>
-
-                {finished ? (
-                  <div>
-                    {time <= 30 && (
-                      <div>
-                        <p
-                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
-                        >
-                          You lost.
-                        </p>
-                        <p
-                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
-                        >
-                          Did you?
-                        </p>
-                        <p
-                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
-                        >
-                          Who wins the game?
-                        </p>
-                        <p
-                          className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
-                        >
-                          The answer is closer than close.
-                        </p>
-                      </div>
-                    )}
-                    <div className='flex flex-col md:flex-row justify-center space-x-2'>
-                      <Button
-                        buttonColor='bg-thegreenbtn'
-                        buttonAction={pasteText}
-                        buttonText={copyText}
-                      />
-
-                      <Button
-                        buttonAction={startNewRun}
-                        buttonText='Start again'
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <p
-                    className={`${righteous.className} drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  font-bold`}
-                  >
-                    {userPrompt}
-                  </p>
-                )}
-              </div>
-            )}
-          </>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
