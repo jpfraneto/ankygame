@@ -66,38 +66,6 @@ const Navbar = ({ loadButtons }) => {
         >
           {displayCalendar ? '/calendar' : 'Calendar'}
         </span> */}
-
-        <span
-          onMouseEnter={() => setDisplayTheAnkyverse(true)}
-          onMouseLeave={() => setDisplayTheAnkyverse(false)}
-          onClick={() => handleClickLink('/ankyverse')}
-          className={` ${
-            true ? 'fade-in flex justify-center' : 'hidden'
-          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
-        >
-          {displayTheAnkyverse ? '/ankyverse' : 'Ankyverse'}
-        </span>
-
-        <span
-          onMouseEnter={() => setDisplayGallery(true)}
-          onMouseLeave={() => setDisplayGallery(false)}
-          onClick={() => handleClickLink('/gallery')}
-          className={` ${
-            true ? 'fade-in flex justify-center' : 'hidden'
-          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
-        >
-          {displayGallery ? '/gallery' : 'Gallery'}
-        </span>
-        <span
-          onMouseEnter={() => setDisplayMint(true)}
-          onMouseLeave={() => setDisplayMint(false)}
-          onClick={() => handleClickLink('/shop')}
-          className={` ${
-            true ? 'fade-in flex justify-center' : 'hidden'
-          } hover:text-thegreenbtn text-sm sm:text-xl hover:cursor-pointer navBtn`}
-        >
-          {displayMint ? '/shop' : 'Shop'}
-        </span>
       </div>
     </nav>
   );

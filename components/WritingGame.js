@@ -483,7 +483,7 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='w-full px-2 md:w-1/2 lg:w-2/3'>
+      <div className='md:block w-full px-2 md:w-1/2 lg:w-2/3'>
         <div>
           {!finished && (
             <div
