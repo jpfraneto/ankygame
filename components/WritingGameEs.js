@@ -27,7 +27,6 @@ const WritingGameEs = ({
   ankyverseDate,
 }) => {
   const audioRef = useRef();
-  const address = useAddress();
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
   const [runSubmitted, setRunSubmitted] = useState(false);
