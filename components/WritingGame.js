@@ -482,7 +482,7 @@ const WritingGame = ({
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh - 33px)',
-        backgroundImage: " url('/images/observation.png')",
+        backgroundImage: " url('/images/the-monumental-game.jpeg')",
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
