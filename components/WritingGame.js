@@ -514,13 +514,13 @@ const WritingGame = ({
                 {ankyverseDate}
               </small>
               <p
-                className={`${righteous.className} text-5xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  mb-0 font-bold text-center`}
+                className={`${righteous.className} text-2xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  mb-0 font-bold text-center`}
               >
                 {userPrompt}
               </p>
 
               <small
-                className={`${righteous.className} hidden md:flex mb-2 font-bold`}
+                className={`${righteous.className} hidden text-center md:flex md:justify-center mb-2 font-bold`}
               >
                 (This won&apos;t be stored anywhere)
               </small>
