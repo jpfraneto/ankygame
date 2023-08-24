@@ -33,8 +33,8 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
-        ankyverseDate='sojourn 1 - wink 13 - voxlumis'
-        userPrompt='¿Puedes recordar una ocasión en que tu comunicación o expresión personal fue malentendida?'
+        ankyverseDate='sojourn 1 - wink 15 - claridium'
+        userPrompt='¿Cómo cultivas una conexión con el universo, dios... Básicamente con la vida?'
         setLifeBarLength={setLifeBarLength}
       />
     </>

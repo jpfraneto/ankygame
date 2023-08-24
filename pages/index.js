@@ -24,8 +24,8 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
-        ankyverseDate='sojourn 1 - wink 14 - insightia'
-        userPrompt='What do you see?'
+        ankyverseDate='sojourn 1 - wink 15 - claridium'
+        userPrompt='How do you cultivate a connection with the universe or a higher power?'
         setLifeBarLength={setLifeBarLength}
       />
     </>
