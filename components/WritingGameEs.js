@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import StepsForGettingImage from '@component/components/StepsForGettingImage';
 import {
   Inter,
   Righteous,
@@ -8,13 +7,6 @@ import {
   Pacifico,
 } from 'next/font/google';
 import Button from './Button';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { ConnectWallet } from '@thirdweb-dev/react';
-import { Web3Button, useAddress } from '@thirdweb-dev/react';
-import { toast } from 'react-toastify';
-import WalletCreationComponent from './WalletCreationComponent';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 function sleep(ms) {
   return new Promise(resolve => {
