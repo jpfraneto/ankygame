@@ -50,7 +50,7 @@ const NavbarComponent = ({ setModalOpen, highscore, lives, router }) => {
             </div>
             <div className='flex space-x-1 hover:cursor-pointer'>
               <Link className='hover:text-theblack' href={`/settings`}>
-                Settingz
+                Settings
               </Link>
             </div>
             <div className='flex space-x-1 hover:cursor-pointer'>
