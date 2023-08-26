@@ -482,7 +482,8 @@ const WritingGame = ({
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh - 33px)',
-        backgroundImage: " url('/images/mintbg.jpg')",
+        backgroundImage:
+          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -502,7 +503,7 @@ const WritingGame = ({
       <audio ref={audioRef}>
         <source src='/sounds/bell.mp3' />
       </audio>
-      <div className='md:block w-full px-2 md:w-1/2 lg:w-2/3'>
+      <div className='md:block text-thewhite w-full px-2 md:w-1/2 lg:w-2/3'>
         <div>
           {!finished && (
             <div
@@ -544,9 +545,9 @@ const WritingGame = ({
             }}
             className={`${pacifico.className} ${text && 'absolute'} ${
               text ? 'md:aspect-video md:flex w-full h-full' : 'w-3/5 h-64'
-            } p-4 text-theblack ${
-              time > 2 && 'opacity-30'
-            } placeholder-theblack  text-2xl border border-black rounded-md  bg-opacity-10 bg-theblack`}
+            } p-4 text-thewhite ${
+              time > 2 && 'opacity-80'
+            } placeholder-thewhite  text-2xl border border-black rounded-md  bg-opacity-10 bg-theblack`}
             value={text}
             placeholder='write here...'
             onChange={handleTextChange}
