@@ -2,25 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import '@component/styles/globals.css';
 import Head from 'next/head';
 import { Righteous } from 'next/font/google';
-import {
-  ThirdwebProvider,
-  metamaskWallet,
-  coinbaseWallet,
-  useAddress,
-  ConnectWallet,
-  Web3Button,
-  useContract,
-  useNFTBalance,
-  useContractWrite,
-  useSigner,
-  walletConnect,
-} from '@thirdweb-dev/react';
-import { ThirdwebSDK } from '@thirdweb-dev/sdk/evm';
+import { PrivyProvider } from '@privy-io/react-auth';
 import { ethers, BigNumber } from 'ethers';
 import { Ethereum, Goerli, Sepolia } from '@thirdweb-dev/chains';
 import Navbar from '@component/components/Navbar';
 
 const righteous = Righteous({ subsets: ['latin'], weight: ['400'] });
+
+const handleLogin = user => {
+  console.log(`User ${user.id} logged in!`);
+};
 
 export default function App({ Component, pageProps }) {
   const [password, setPassword] = useState('');
@@ -49,9 +40,22 @@ export default function App({ Component, pageProps }) {
           content='Transform your life by vomiting all the words that you always wanted to say.'
         />
       </Head>
-      <div className={`${righteous.className} overflow-x-hidden`}>
-        <Component {...pageProps} setLoadButtons={setLoadButtons} />
-      </div>
+      <PrivyProvider
+        appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+        onSuccess={handleLogin}
+        config={{
+          loginMethods: ['email'],
+          appearance: {
+            theme: 'light',
+            accentColor: '#676FFF',
+            logo: '',
+          },
+        }}
+      >
+        <div className={`${righteous.className} overflow-x-hidden`}>
+          <Component {...pageProps} setLoadButtons={setLoadButtons} />
+        </div>
+      </PrivyProvider>
     </>
   );
 }

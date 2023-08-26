@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Righteous } from 'next/font/google';
 import Button from './Button';
 import { useRouter } from 'next/router';
-import { ConnectWallet } from '@thirdweb-dev/react';
-import { Web3Button, useAddress } from '@thirdweb-dev/react';
 import { toast } from 'react-toastify';
 import { worlds } from '@component/lib/newCharacterGenerator';
 import { MdNavigateBefore, MdOutlineNavigateNext } from 'react-icons/md';

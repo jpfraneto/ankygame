@@ -3,8 +3,6 @@ import StepsForGettingImage from '@component/components/StepsForGettingImage';
 import { Righteous } from 'next/font/google';
 import Button from './Button';
 import { useRouter } from 'next/router';
-import { ConnectWallet } from '@thirdweb-dev/react';
-import { Web3Button, useAddress } from '@thirdweb-dev/react';
 import { toast } from 'react-toastify';
 import AnkyGeneratedGalleryModal from './AnkyGeneratedGalleryModal';
 import Image from 'next/image';

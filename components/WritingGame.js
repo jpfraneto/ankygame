@@ -9,19 +9,14 @@ import {
 } from 'next/font/google';
 import Button from './Button';
 import Image from 'next/image';
+import LoggedInUser from './LoggedInUser';
 import { useRouter } from 'next/router';
-import {
-  ConnectWallet,
-  useSigner,
-  Web3Button,
-  useAddress,
-  MediaRenderer,
-} from '@thirdweb-dev/react';
+
+import { usePrivy } from '@privy-io/react-auth';
 
 import { ethers, BigNumber } from 'ethers';
 
 import { toast } from 'react-toastify';
-import { ThirdwebSDK } from '@thirdweb-dev/sdk/evm';
 
 function sleep(ms) {
   return new Promise(resolve => {
@@ -41,9 +36,8 @@ const WritingGame = ({
   setLoadButtons,
   ankyverseDate,
 }) => {
+  const { login, authenticated, user } = usePrivy();
   const audioRef = useRef();
-  const address = useAddress();
-  const signer = useSigner();
 
   const [text, setText] = useState('');
   const [time, setTime] = useState(0);
@@ -79,7 +73,7 @@ const WritingGame = ({
   const [ankyThinkingOver, setAnkyThinkingOver] = useState(false);
   const [gettingAnkyverseCharacter, setGettingAnkyverseCharacter] =
     useState(false);
-  const [musicOn, setMusicOn] = useState(true);
+  const [musicOn, setMusicOn] = useState(false);
   const [savedToDb, setSavedToDb] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [finished, setFinished] = useState(false);
@@ -100,11 +94,6 @@ const WritingGame = ({
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
   const audioFilesRef = useRef([]);
-
-  let sdk;
-  if (signer) {
-    sdk = ThirdwebSDK.fromSigner(signer);
-  }
 
   useEffect(() => {
     if (musicOn) {
@@ -134,63 +123,6 @@ const WritingGame = ({
       });
     }
   }, [musicOn]);
-
-  useEffect(() => {
-    const loadSmartContract = async () => {
-      if (signer) {
-        console.log('insidere');
-        sdk = ThirdwebSDK.fromSigner(signer);
-      }
-      if (sdk) {
-        const contractResponse = await sdk.getContract(
-          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
-        );
-        if (contractResponse) {
-          setContract(contractResponse);
-        }
-      }
-      setLoadingPage(false);
-    };
-    loadSmartContract();
-  }, [signer]);
-
-  useEffect(() => {
-    const checkIfMinted = async () => {
-      try {
-        if (contract && address) {
-          const data = await contract.call('tokenOfOwnerByIndex', [address, 0]);
-          const tokenOfAddress = BigNumber.from(data._hex).toString();
-          setAlreadyMinted(true);
-          setTokenId(tokenOfAddress);
-        }
-      } catch (error) {
-        console.log('the error is: ', error);
-      }
-      setLoading(false);
-    };
-    checkIfMinted();
-  }, [address, contract]);
-
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      try {
-        setLoadingMetadata(true);
-        const data = await fetch(
-          `https://ipfs.thirdwebstorage.com/ipfs/${process.env.NEXT_PUBLIC_METADATA_IPFS_CID}/${tokenId}`
-        );
-        const jsonResponse = await data.json();
-        setMetadata(jsonResponse);
-      } catch (error) {
-        console.log('There was an error fetching the metadata');
-      }
-      setLoadingMetadata(false);
-    };
-    if (tokenId) {
-      fetchMetadata();
-    } else {
-      setLoadingMetadata(false);
-    }
-  }, [tokenId]);
 
   useEffect(() => {
     if (isActive && !isDone) {
@@ -290,6 +222,10 @@ const WritingGame = ({
       setStartTime(Date.now());
     }
     setLastKeystroke(Date.now());
+  };
+
+  const activateUserAccount = async () => {
+    const response = await login();
   };
 
   const pasteText = async () => {
@@ -448,9 +384,6 @@ const WritingGame = ({
     }
   };
 
-  if (loadingMetadata || loading)
-    return <p className='text-thewhite'>Loading </p>;
-
   if (errorProblem)
     return (
       <div
@@ -491,7 +424,7 @@ const WritingGame = ({
     >
       {!text.length > 0 && (
         <div
-          className={`absolute top-0 right-0 hover:cursor-pointer pr-2 ${
+          className={`absolute top-0 text-thewhite text-xl right-0 hover:cursor-pointer pr-2 ${
             !musicOn && 'line-through'
           }`}
           onClick={() => setMusicOn(x => !x)}
@@ -515,9 +448,20 @@ const WritingGame = ({
                 {ankyverseDate}
               </small>
               <p
-                className={`${righteous.className} text-2xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  mb-0 font-bold text-center`}
+                className={`${righteous.className} text-4xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]   mb-4 font-bold text-center`}
               >
                 {userPrompt}
+              </p>
+              <p className={`${righteous.className} mb-2 font-bold`}>
+                Feel the prompt. Read it with intention. Answer with the heart.
+              </p>
+
+              <p className={`${righteous.className} mb-2 font-bold`}>
+                Write what comes. Your truth, without judgements.
+              </p>
+
+              <p className={`${righteous.className} mb-2 font-bold`}>
+                If you stop writing for 3 seconds, you lose.
               </p>
 
               <small
@@ -569,46 +513,77 @@ const WritingGame = ({
               </div>
 
               {finished ? (
-                <div>
-                  <div>
-                    <p
-                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
-                    >
-                      You lost.
-                    </p>
-                    <p
-                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(255,255,255, 0.9)] font-bold`}
-                    >
-                      Did you?
-                    </p>
-                    <p
-                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
-                    >
-                      Who wins the game?
-                    </p>
-                    <p
-                      className={`${righteous.className} mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite font-bold`}
-                    >
-                      The answer is closer than close.
-                    </p>
-                  </div>
-                  <div className='flex flex-col md:flex-row justify-center space-x-2'>
-                    <Button
-                      buttonColor='bg-thegreenbtn'
-                      buttonAction={pasteText}
-                      buttonText={copyText}
-                    />
+                <>
+                  {authenticated ? (
+                    <>
+                      <LoggedInUser copyWriting={copyToClipboard} />
+                    </>
+                  ) : (
+                    <div>
+                      {time <= 3 ? (
+                        <div>
+                          <p
+                            className={`${righteous.className} mb-2 font-bold`}
+                          >
+                            You lost. You have to keep writing, no matter what.
+                          </p>
+                          <p
+                            className={`${righteous.className} mb-2 font-bold`}
+                          >
+                            This game is designed to bring you into a meditative
+                            state.
+                          </p>
+                          <p
+                            className={`${righteous.className} mb-2 font-bold`}
+                          >
+                            Just relax and let your being come forth through
+                            your words.
+                          </p>
+                          <p
+                            className={`${righteous.className} mb-2 font-bold`}
+                          >
+                            Min score to qualify is 30 seconds.
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <p
+                            className={`${righteous.className} mb-2 font-bold`}
+                          >
+                            Great job.
+                          </p>
+                          <p
+                            className={`${righteous.className} mb-2 font-bold`}
+                          >
+                            You can now login anonymously to store your writings
+                            forever.
+                          </p>
+                        </div>
+                      )}
+                      <div className='flex flex-col md:flex-row justify-center space-x-2'>
+                        <Button
+                          buttonColor='bg-thegreenbtn'
+                          buttonAction={pasteText}
+                          buttonText={copyText}
+                        />
 
-                    <Button
-                      buttonAction={startNewRun}
-                      buttonText='Start again'
-                    />
-                  </div>
-                </div>
+                        {time > 3 ? (
+                          <Button
+                            buttonAction={login}
+                            buttonText='Create account / login'
+                          />
+                        ) : (
+                          <Button
+                            buttonAction={startNewRun}
+                            buttonText='Start again'
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
               ) : (
-                <p
-                  className={`${righteous.className} drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-thewhite  font-bold`}
-                >
+                <p className={`${righteous.className}  font-bold`}>
                   {userPrompt}
                 </p>
               )}
