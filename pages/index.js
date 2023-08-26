@@ -24,8 +24,8 @@ const GamePage = ({ setLoadButtons, loadButtons }) => {
         setLoadButtons={setLoadButtons}
         setLives={setLives}
         lives={lives}
-        ankyverseDate='sojourn 1 - wink 16 - poiesis'
-        userPrompt='How has your capacity for expressing yourself creatively evolved over time?'
+        ankyverseDate='sojourn 1 - wink 17 - primordia'
+        userPrompt='How do your childhood survival instincts still impact you today?'
         setLifeBarLength={setLifeBarLength}
       />
     </>
